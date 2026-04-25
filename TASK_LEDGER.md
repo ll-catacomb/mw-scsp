@@ -143,6 +143,20 @@ to callers — only the OpenAI SDK call site changed. Authorized by Madeleine.
   judge_id so downstream code sees a stable shape. Worth flagging if the pipeline starts
   caring about call ordering for some non-behavioral reason (e.g. retry budget).
 
+### From `feature/ui` Tier 2
+
+Tier-2 work shipped: `src/ui/run_loader.py` (list_runs / load_run); `src/ui/streamlit_app.py` rewired to read from `data/runs/` + `data/memory.db`; `src/ui/fixtures.py` reshaped to mirror real schemas; `src/ui/streamlit_proto.py` flagged as the alternative design.
+
+Real-vs-mock shape findings (worth knowing if pipeline worktree iterates on artifact writers):
+
+- **`manifest.json` carries no `totals` / `completed_at` / `status` / `artifacts` fields.** Those come from the `runs` table (status, completed_at) and from summing `llm_calls` (totals: llm_calls / input_tokens / output_tokens / cost_usd). `run_loader.load_run()` synthesizes them onto the manifest so the UI's audit panel doesn't have to know the difference. If the orchestrator ever writes `totals` directly, the loader keeps the orchestrator's value; remove the `setdefault` if you want to force loader-computed totals.
+- **`clusters.json` (Tier-1 shape) is `{cluster_assignments, cluster_themes}` — the raw clustering, not the Cartographer's narration.** The richer ConvergenceNarration (`convergence_summary`, `clusters[{cluster_id, theme, member_move_ids, representative_actions}]`, `notable_absences[{absence, why_it_might_be_proposed, why_the_ensemble_missed_it}]`, `cross_run_observations[]`) is what the UI's Section 3 actually wants. The loader looks for `convergence.json` first (preferred Tier-2 artifact name) and falls back to building a minimal narration from the raw clustering. **Suggestion for `feature/pipeline`:** wire `narrate_convergence()` into the orchestrator and dump the parsed dict to `data/runs/{run_id}/convergence.json`. Optional `convergence.md` for prose rendering is also read.
+- **`notable_absences` is a list of objects, not strings.** UI handles both; pipeline writers should produce the object shape. `cross_run_observations` is also a list, not a single string — the UI iterates.
+- **`candidates.json` + `judgments.json` are joined inside the loader** (`run_loader._menu_from_artifacts`) into the per-proposal `menu` shape the UI consumes. Expected candidate-row keys: `proposal_id`, `move_title`, `summary`, `which_convergence_pattern_it_breaks`, optional `actions/intended_effect/risks_red_accepts`. Expected judgment-row keys mirror the SQLite `judgments` table: `proposal_id`, `judge_id`, `plausibility`, `would_have_generated`, `rationale`. Survival is recomputed from ratings if not pre-set on the candidate.
+- **Live re-run button** imports `src.pipeline.adversarial.generate_off_distribution` lazily and shows a clean error message if Stage 4 isn't on the branch yet — so the UI ships before the pipeline worktree's adversarial.py lands.
+- **`streamlit_proto.py` kept** for reference; not the demo. Header comment names it as the alternative. Both `streamlit_app.py` and `streamlit_proto.py` import the same `fixtures.py`, so the proto's render functions were lightly patched to consume the new ConvergenceNarration shape (cluster_labels lookup built from `clusters[]`, notable_absences treated as objects, cross_run_observations as a list).
+- **Data symlinks for cross-worktree testing.** `data/runs` and `data/memory.db` are gitignored; the feature/ui worktree symlinks both into the main worktree's `data/` so the UI can be smoke-tested against the actual Tier-1 run without copying. Symlinks are local-only and not committed.
+
 ### From `feature/doctrine` Tier 1
 
 Authored 24 new passages on top of the 9 Tier-0 exemplars (33 total: 6 jp3-0 + 5 jp5-0 + 8 pla + 5 me + 4 jp3-0 existing + 4 jp5-0 existing + 1 pla existing). Validation clean (no warnings). All four smoke tests in `tests/test_doctrine_index.py` pass.

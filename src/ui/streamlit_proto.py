@@ -1,8 +1,12 @@
-"""Throwaway proto — menu-first, U.S.-Graphics-CMX-7500-style instrument panel.
+"""ALTERNATIVE design — menu-first, U.S.-Graphics-CMX-7500-style instrument panel.
 
-Iterating on the look. The committed Tier 1 shell (streamlit_app.py) is
-untouched. When the aesthetic is locked in, fold the chosen pieces back
-into streamlit_app.py.
+NOT THE DEMO. The canonical demo is `src/ui/streamlit_app.py` per
+PROJECT_SPEC.md §13. Kept here as a reference design / alternative register.
+This file still reads the Tier-1 mock fixtures and has not been wired to the
+real run loader; see `streamlit_app.py` for the Tier-2 implementation.
+
+Run with:
+    uv run streamlit run src/ui/streamlit_proto.py
 """
 
 from __future__ import annotations
@@ -985,6 +989,11 @@ def render_convergence() -> None:
 
     with col_left:
         panel_open("CONVERGENCE MAP", "8 CALLS · 3 CLUSTERS")
+        # Build cluster_labels lookup from the new fixtures shape (clusters list).
+        cluster_labels = {
+            int(c["cluster_id"]): c.get("theme") or f"Cluster {c['cluster_id']}"
+            for c in MOCK_CONVERGENCE.get("clusters", [])
+        }
         rows = []
         for m in MOCK_MODAL_MOVES:
             x, y = m["xy"]
@@ -992,7 +1001,7 @@ def render_convergence() -> None:
                 {
                     "x": x,
                     "y": y,
-                    "cluster": MOCK_CONVERGENCE["cluster_labels"][m["cluster"]],
+                    "cluster": cluster_labels.get(m["cluster"], f"Cluster {m['cluster']}"),
                     "move": m["move_title"],
                     "provider": m["provider"],
                 }
@@ -1034,20 +1043,26 @@ def render_convergence() -> None:
     with col_right:
         panel_open("NOTABLE ABSENCES", f"{len(MOCK_CONVERGENCE['notable_absences']):02d} GAPS")
         for absence in MOCK_CONVERGENCE["notable_absences"]:
+            text = absence if isinstance(absence, str) else absence.get("absence", "")
             st.markdown(
                 f'<div style="font-size:0.86rem; margin-bottom:0.65rem;">'
-                f'<span style="color:var(--accent); margin-right:0.4rem;">▸</span>{absence}</div>',
+                f'<span style="color:var(--accent); margin-right:0.4rem;">▸</span>{text}</div>',
                 unsafe_allow_html=True,
             )
         panel_close()
 
     # Cross-run callout — full width below
+    cross_run = MOCK_CONVERGENCE.get("cross_run_observations") or []
+    if isinstance(cross_run, str):
+        cross_run_text = cross_run
+    else:
+        cross_run_text = " ".join(cross_run) if cross_run else ""
     st.markdown(
         f"""
 <div class="callout">
   <div class="label">CROSS-RUN OBSERVATION · CARTOGRAPHER MEMORY</div>
   <div class="body">
-    <span class="triangles">▲▲▲</span>{MOCK_CONVERGENCE['cross_run_observations']}
+    <span class="triangles">▲▲▲</span>{cross_run_text}
   </div>
 </div>
 """,
