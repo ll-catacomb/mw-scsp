@@ -29,7 +29,9 @@ AGENT_ROLE = "Convergence Cartographer for adversarial-distribution red team"
 class _Cluster(BaseModel):
     cluster_id: int
     theme: str
-    member_move_ids: list[Any] = Field(default_factory=list)
+    # `list[Any]` does not translate to Anthropic's strict JSON-schema (no `type` resolves);
+    # member ids are UUID strings from modal_moves.move_id.
+    member_move_ids: list[str] = Field(default_factory=list)
     representative_actions: list[str] = Field(default_factory=list)
 
 
@@ -98,7 +100,7 @@ class ConvergenceCartographer(GenerativeAgent):
             system=system,
             user=user,
             temperature=0.4,
-            max_tokens=2048,
+            max_tokens=4096,
             prompt_path=path,
             response_format=ConvergenceNarration,
         )

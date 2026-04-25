@@ -40,3 +40,35 @@ class ModalMoveSchema(BaseModel):
     intended_effect: str
     risks_red_accepts: list[str] = Field(default_factory=list)
     doctrine_cited: list[str] = Field(default_factory=list)
+
+
+class OffDistributionProposal(BaseModel):
+    """One off-distribution move from Stage 4. Mirrors the schema in off_distribution.md."""
+
+    move_title: str
+    summary: str
+    actions: list[ModalAction] = Field(default_factory=list)
+    intended_effect: str
+    which_convergence_pattern_it_breaks: str
+    why_a_red_planner_could_justify_this: str
+    risks_red_accepts: list[str] = Field(default_factory=list)
+
+
+class OffDistributionBatch(BaseModel):
+    """Wrapper schema — the LLM returns a JSON object with a `proposals` array."""
+
+    proposals: list[OffDistributionProposal]
+
+
+class PlausibilityRating(BaseModel):
+    """Per judge_plausibility.md — one judge's rating + rationale."""
+
+    plausibility: int = Field(ge=1, le=5)
+    rationale: str
+
+
+class WouldHaveGenerated(BaseModel):
+    """Per judge_off_dist_check.md — boolean + rationale, fresh context."""
+
+    would_have_generated: bool
+    rationale: str
