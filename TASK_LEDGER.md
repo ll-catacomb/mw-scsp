@@ -62,8 +62,19 @@ Read this before editing shared files. Update by hand at tier boundaries.
 
 - (none currently)
 
-## Open questions surfaced during Tier 0
+## RA outputs incorporated (post-Tier-0 reconciliation)
 
-- RA-6 needs to confirm current `litellm` model identifiers and per-token pricing for cost computation. Until then, `_extract_cost()` may return `None` for some providers; that's logged as `NULL` in `cost_usd` and won't trip the cap.
+- **RA-6** — adopted: dropped LiteLLM, wrapper now uses `AsyncAnthropic` + `AsyncOpenAI` directly with per-provider semaphores (Anthropic=8, OpenAI=16), vendored `PRICE_TABLE` for cost computation, RUN_COST_CAP_USD lowered to $1.10. Model defaults updated to `claude-sonnet-4-6` / `claude-opus-4-7` / `claude-haiku-4-5-20251001` / `gpt-5.5` / `gpt-5`.
+- **RA-5** — adopted: README rephrased as hypothesis-generator register; "external validity" bullet added; "documented, reproducible, auditable" inserted into the audit-trail bullet. **Do not name-check Wong in the demo.**
+- **RA-4** — adopted: `scenarios/israel_me_cascade_2026.yaml` populated with the trigger, capability blocks, historical analogies, and source anchors. Status flipped from WIP to ready.
+- **RA-2** + **RA-1** — partially adopted: 9 sample passages on disk under `data/doctrine/passages/`. Tier 1 `feature/doctrine` authors ~20 more.
+- **RA-7** — historical; produced under the original Chroma plan, now superseded by the markdown-corpus pivot. Only useful finding salvaged: BGE query prefix `"Represent this sentence for searching relevant passages: "` (used in memory layer, see `worktree-prompts/memory.md`).
+- **RA-8** — confirms "build custom, no framework"; reuse Park et al. retrieval formula (already in spec). DSPy reserved for Tier 3 prompt optimization (out of scope for Tier 0/1).
+- **RA-3** — sample passages-from list; informs Tier 1 corpus authoring on the off-distribution side.
+
+## Open questions
+
 - The off-distribution generator does NOT do doctrine retrieval (PROJECT_SPEC.md §5). Pipeline wiring must enforce this — no doctrine block in its prompt template.
-- RA-7 (`_context/agent-output/ra7-chroma-rag.md`) was produced under the original Chroma plan and is now historical. Don't follow its implementation guidance; treat it as background only.
+- Move clustering: KMeans needs embeddings, but doctrine no longer ships sentence-transformers for that purpose. Two options in `worktree-prompts/pipeline.md`; pipeline worktree picks one in Tier 1.
+- `data/doctrine/passages/SCHEMA.md` allows topic vocabulary growth; new tags trigger warnings only (use `--strict` to make them errors). Decide in Tier 1 whether to lock the topic vocabulary at the end of corpus authoring.
+- Snapshot pinning: only `claude-haiku-4-5-20251001` exposes a snapshot string; Opus 4.7, Sonnet 4.6, GPT-5.5 are floating aliases. Run-manifest records the alias; reproducibility across alias rolls is not guaranteed by us.

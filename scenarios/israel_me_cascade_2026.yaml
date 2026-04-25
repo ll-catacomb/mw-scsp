@@ -1,55 +1,126 @@
 scenario_id: israel_me_cascade_2026
-title: Middle East Regional Cascade Scenario, 2026
-status: WIP   # Final framing populated from RA-4 output. Mark WIP in UI.
+title: Hypothesized Israeli regional kinetic action and Iran-aligned coalition response
+status: ready  # Populated from _context/agent-output/ra4-me-cascade-corpus.md
 red_force: >
-  Distributed regional actors (Iran, Hezbollah, Houthi, Iranian-aligned
-  militias in Iraq and Syria) responding to a triggering Israeli action
-blue_force: Israel + US CENTCOM
+  Distributed regional actors — Iran (IRGC-Aerospace Force, IRGC-Quds Force,
+  Artesh, Supreme National Security Council); Lebanese Hezbollah (degraded /
+  recovering post-2024); Ansar Allah ("Houthi") movement; Iran-aligned Iraqi
+  militias under the Islamic Resistance in Iraq umbrella (Kataib Hezbollah,
+  Asaib Ahl al-Haq, Harakat Hezbollah al-Nujaba); Iran-aligned Syrian militias /
+  IRGC-Quds Force formations in Syria.
+blue_force: Israel + US CENTCOM (with adjacent partners — KSA, UAE, Jordan, Egypt — non-belligerent)
 note_on_framing: >
-  This is a research wargaming exercise constructed from publicly available
+  This is a research wargaming exercise built from publicly available
   open-source analysis. It is not commentary on any specific real-world
-  decision-maker or ongoing operational situation. Scenario parameters are
-  generic enough to exercise the system; specific framing populated from
-  RA-4 output.
+  decision-maker, ongoing operation, current military deployment, or
+  political position. The triggering event is generic and is selected
+  for its ability to drive a coalition-cascade pipeline run, not as a
+  forecast or recommendation. All capability figures are open-source.
+  All actor framings are descriptive, not endorsed. Scenario parameters
+  drawn from _context/agent-output/ra4-me-cascade-corpus.md.
 
 timeframe:
-  decision_horizon_days: 14
+  decision_horizon_days: 4   # 96 hours per RA-4
   rationale: >
-    Cascade dynamics in the region historically resolve or escalate within
-    a 1–2 week window before either de-escalation pressure or wider war
-    becomes the dominant trajectory.
+    Coalition coordination, target-list approval, and visible kinetic
+    responses cluster in the first 96 hours per open-source analysis of
+    the April-2024 and October-2024 exchanges (CSIS, "Iran's Calibrated
+    Strike on Israel," Apr 2024; Brookings, "Iran's October 1 Missile
+    Attack," Oct 2024).
 
 situation: >
-  Trigger: an Israeli kinetic action of sufficient scope to compel
-  responses from multiple regional actors simultaneously. Specific trigger
-  populated from RA-4. Red consists of a coalition of state and non-state
-  actors with different command structures, different risk tolerances, and
-  only partial coordination.
+  Trigger: a short-warning Israeli combined air and stand-off strike package
+  against a set of Iranian dual-use facilities (open-source analysts
+  variously list nuclear-related infrastructure at Natanz, Fordow, Isfahan,
+  and Parchin; ballistic-missile production at Khojir and the Parchin area;
+  senior IRGC-Quds Force C2 nodes). The strike is sized so that Iranian
+  leadership cannot frame it as a contained tit-for-tat exchange of the
+  April-2024 / October-2024 type, and so that it triggers the doctrine of
+  *coordinated multi-front response* across the "Axis of Resistance."
+  The trigger is deliberately under-specified on attribution-of-intent
+  (preventive vs. preemptive vs. retaliatory) so that proposed responses
+  must be robust to that ambiguity.
 
 red_strategic_goals:
   - Impose costs on Israel sufficient to deter repetition
   - Avoid full state-level war between Iran and Israel/US where possible
-  - Preserve the deterrent value of the "axis of resistance" coalition
+  - Preserve the deterrent value of the "Axis of Resistance" coalition
   - Avoid US-aligned Sunni states consolidating against the coalition
+  - Manage internal Iranian factional politics (IRGC vs Artesh) and
+    proxy autonomy (Hezbollah reconstitution; Houthi independence)
 
 red_resources_and_constraints:
   capability_summary: >
-    Iran: ballistic and cruise missile inventory, drones, regional proxy
-    network; Hezbollah: substantial rocket and missile inventory targeting
-    Israeli population centers; Houthi: long-range strike on Red Sea
-    shipping and Saudi/UAE territory; Iraqi/Syrian militias: short-range
-    strikes on US bases in Iraq and Syria.
+    IRAN — Largest ballistic missile force in the Middle East per IISS
+    Military Balance 2024 and CSIS Missile Threat. SRBM/MRBM types include
+    Shahab-3 family, Ghadr-1, Emad, Sejjil-2, Khorramshahr, Khaibar Shekan,
+    and Fattah-1/2 (hypersonic claim debated). Cruise: Soumar, Hoveyzeh,
+    Paveh. OWA-UAS: Shahed-136, Shahed-238, Arash-2. Demonstrated salvo
+    capacity: April 13–14, 2024 attack used ~120 ballistic + ~30 cruise +
+    ~170 OWA-UAS; October 1, 2024 used ~180–200 ballistic. Production
+    has been rebuilding for ~24 months post the October 26, 2024 Israeli
+    strikes on Khojir/Parchin and partial S-300 degradation.
+    HEZBOLLAH — Pre-2024-war anchor was ~150,000 rockets and missiles
+    (CSIS / FDD-LWJ / IISS convergence). Post-2024-war: substantially
+    degraded long-range and PGM inventory; senior leadership lost
+    (Nasrallah Sep 2024; Safieddine Oct 2024); Radwan force degraded.
+    Open-source consensus by late 2026: short-range rocket inventory
+    sufficient for a concentrated salvo against northern Israel for
+    several weeks; long-range / PGM capability recovering but suppressed.
+    HOUTHI — Quds-1/2/3/4 cruise family, Toofan, Burkan-3 ballistic;
+    Asef and Mandeb-2 ASBM; Samad and Wa'id OWA-UAS. Demonstrated
+    long-range strike on Israel from 2023; persistent Bab al-Mandeb
+    interdiction since November 2023; precedent of strikes against
+    Saudi/UAE territory (2019 Abqaiq class) prior to the post-2022
+    Riyadh-Sanaa truce.
+    IRAQI / SYRIAN MILITIAS — Standard 107mm/122mm rockets, Iranian
+    OWA-UAS family, Quds-1 cruise. Demonstrated targets at Al-Asad and
+    Erbil (Iraq), Al-Tanf and Conoco/Green Village (Syria), Tower 22
+    (Jordan, January 28, 2024).
   constraints:
-    - Coalition coordination is partial; defection risk is real
-    - Domestic political costs of war for Iran are significant
-    - Houthi and Hezbollah operate on different strategic clocks
+    - Coalition coordination is partial; intra-coalition friction is real
+      (Tower 22 reportedly took Iran by surprise; Kataib Hezbollah
+      subsequently announced a suspension of operations).
+    - Iran's domestic political cost of full war is significant; IRGC vs.
+      Artesh factional competition gates the response calculus.
+    - Houthi and Hezbollah operate on different strategic clocks; Hezbollah
+      reconstitution timeline argues for restraint, Houthi tempo does not.
+    - Hezbollah's post-2024 Lebanese internal political constraint is
+      higher than pre-2024.
+    - Iraqi militias face PMF-vs-state tensions inside the Iraqi political
+      system; strikes on US positions can backfire on the host government.
 
 blue_posture: >
-  Israel: full mobilization, missile defense at high readiness, air force
-  forward; US: CENTCOM force posture per current open-source reporting,
-  carrier presence in region, regional basing access varying by host.
+  Israel: full mobilization, integrated air and missile defense at high
+  readiness (Iron Dome, David's Sling, Arrow, THAAD), air force forward.
+  US CENTCOM: ~40,000–50,000 personnel in the AOR; major fixed sites at
+  Al-Udeid (Qatar, CAOC), Al-Dhafra (UAE), Prince Sultan AB (KSA), Ali
+  Al-Salem (Kuwait), Naval Support Activity Bahrain (5th Fleet).
+  Maritime: typical CSG + ARG/MEU posture; Aegis-equipped DDGs with
+  SM-3 / SM-6 / SM-2 BMD inventory. Patriot batteries across the Gulf;
+  THAAD in UAE and (post-2024 deployment) in Israel. Operation Prosperity
+  Guardian (US/UK) and EUNAVFOR Aspides active in the Red Sea. Adjacent
+  partners (KSA, UAE, Jordan, Egypt) non-belligerent with active air
+  defenses; Jordan overflight-permissive but politically exposed; Egypt
+  Suez-chokepoint relevant. US domestic constraint: AUMF / War Powers
+  Congressional response window during the cascade.
+
+historical_analogies_to_flag:
+  - April 13–14, 2024 Iranian attack on Israel (likely over-cited)
+  - October 1, 2024 Iranian missile attack on Israel (likely over-cited)
+  - 2006 Lebanon War (Hezbollah / Israel) (likely over-cited)
+  - January 28, 2024 Tower 22 attack (correctly central to attribution analysis)
+  - 2019 Abqaiq strikes on Saudi Aramco (off-distribution analog; Houthi independent action)
+historical_analogies_to_exclude:
+  - 1973 Yom Kippur War (genre-incorrect; state-on-state symmetric conflict)
+  - 1991 Gulf War (genre-incorrect; coalition conventional ground campaign)
 
 red_team_question: >
-  Propose Red's coordinated response in the first 72 hours. Be specific
+  Propose Red's coordinated response in the first 96 hours. Be specific
   about which actor takes which action, in what sequence, with what
-  intended effect. Account for coalition coordination friction.
+  intended effect. Account for coalition coordination friction
+  (Hezbollah reconstitution constraint, Houthi independence, intra-Iraqi
+  PMF-state tension, Iranian factional politics). Cite the doctrine
+  passages that informed your choice.
+
+ra_corpus_pointer: _context/agent-output/ra4-me-cascade-corpus.md

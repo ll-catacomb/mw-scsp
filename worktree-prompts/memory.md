@@ -46,8 +46,10 @@ You are working in the `feature/memory` worktree of the Adversarial-Distribution
 
 3. **`GenerativeAgent` base** in `src/agents/base.py`:
    - constructor takes `agent_id`, `agent_role`, embedding callable, `MemoryStore`.
-   - `observe(description, source_run_id)` — calls importance-score prompt via `logged_completion`, embeds, persists.
-   - `recall(query, k=8)` — embeds query, calls `MemoryStore.retrieve`, returns memories.
+   - **Embedding model** for memory: `os.environ["MEMORY_EMBEDDING_MODEL"]` (default `BAAI/bge-base-en-v1.5`). Per RA-7, BGE-v1.5 wants the asymmetric query prefix `os.environ["MEMORY_QUERY_PREFIX"]` (default `"Represent this sentence for searching relevant passages: "`) prepended to *queries* but NOT to stored memory descriptions. The embedding callable should handle this distinction — e.g., `embedder.encode(text, is_query=True)` vs `is_query=False`.
+   - **NOTE on the doctrine pivot:** doctrine no longer uses embeddings (PROJECT_SPEC.md §5 — markdown corpus + frontmatter index). Memory still does. The two layers do not share an embedder; memory's is the only sentence-transformers consumer in the project.
+   - `observe(description, source_run_id)` — calls importance-score prompt via `logged_completion`, embeds (no query prefix), persists.
+   - `recall(query, k=8)` — embeds query (with the prefix), calls `MemoryStore.retrieve`, returns memories.
    - `summary_paragraph(query)` — pulls cached row from `agent_summary` table; placeholder regenerator hook (Tier 2 fills in).
    - `reflect()` — placeholder method that raises `NotImplementedError("Tier 2")`.
 
