@@ -2,6 +2,22 @@
 
 Read this before editing shared files. Update by hand at tier boundaries.
 
+## Tier 2 in progress on `feature/pipeline`
+
+End-to-end pipeline shipped: Stage 3 (Cartographer narration) → Stage 4 (off-distribution proposals, K configurable via `OFF_DIST_K`) → Stage 5 (5-judge pool with two questions per move). Survival filter: `median_plausibility >= 3 AND would_have_gen_count < ceil(N_judges/2)`. Orchestrator writes the full artifact set: `manifest.json`, `modal_moves.json`, `convergence.md`, `clusters.json`, `candidates.json`, `judgments.json`, `menu.md`, `menu.json`. New tests at `tests/test_pipeline_dry_run.py` (cartographer shape with stub completion + stub embedder; survival math; AST check that `adversarial.py` imports nothing from `src.doctrine`). All 27 tests green.
+
+**Cross-worktree footprint** (read this when squash-merging Tier 2):
+
+- `feature/memory`'s `OffDistributionGenerator` and `JudgePool` were stubs at the start of Tier 2; pipeline's end-to-end depends on them. Bridge implementations were authored in `feature/pipeline` so the run could land. Interfaces match `worktree-prompts/memory.md` exactly (`propose(convergence_summary, scenario, run_id, k)` and `pool.judge(proposal, scenario, run_id, proposal_index)`). When `feature/memory`'s Tier 2 lands, take their version on conflict — they own these files. Pipeline-side callers need no changes.
+- Authorized `wrapper.py` patches (parallel to the Tier 1 OpenAI `max_completion_tokens` patch):
+  1. `_ANTHROPIC_NO_TEMPERATURE = {"claude-opus-4-7"}` — Opus 4.7 rejects `temperature` ("400: temperature is deprecated for this model"), same shape as GPT-5/o-series. Wrapper now skips the param for models in the set. Add new reasoning-mode models to the set as they ship.
+  2. Added `APIConnectionError` (both providers) to the retryable types. Long pipelines see transient connection drops; the existing retry list only had RateLimit + Timeout + APIStatusError, leaving connection drops to bubble up uncaught after a single attempt.
+- `convergence_cartographer.py`: `_Cluster.member_move_ids: list[Any]` → `list[str]` (Anthropic strict JSON schema rejects `Any`); narration `max_tokens` 2048 → 4096 (real outputs hit the cap mid-JSON). Both are bug fixes exposed by the first real Cartographer call.
+
+**Tier 2 environment notes:**
+- Bumping `RUN_COST_CAP_USD` to ~2.50 for the run is necessary; default 1.10 is below the spec's expected ~$1.00–1.50 plus headroom.
+- `default_embedder()` lives in `orchestrator.py`; lazy-loads `BAAI/bge-base-en-v1.5` and applies the BGE asymmetric query prefix only for `is_query=True`. Override the model id via `MEMORY_EMBEDDING_MODEL`.
+
 ## Current Tier: 2 (Tier 1 squash-merged: memory 504e3b3, doctrine fdcefe6, pipeline 66c72d7, ui 73eb290)
 
 Tier 1 shipped a working end-to-end pipeline through Stage 3 clustering. Live smoke test on Taiwan scenario completed in 50s for $0.436 (8 modal moves, 1 doctrine-router fallback; full audit trail in `data/runs/f2b0eb4c-6306-4876-b4db-46466b7c186e/`). The modal ensemble exhibited clean convergence (4/4 Claude on Dongsha-seizure variants; 4/4 GPT on quarantine + Pratas-seizure) — exactly the failure mode Tier 2 is built to expose.

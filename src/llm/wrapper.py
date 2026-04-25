@@ -34,9 +34,11 @@ from pathlib import Path
 from typing import Any, Literal
 
 from anthropic import AsyncAnthropic
+from anthropic import APIConnectionError as AnthropicAPIConnectionError
 from anthropic import APIStatusError as AnthropicAPIStatusError
 from anthropic import APITimeoutError as AnthropicAPITimeoutError
 from anthropic import RateLimitError as AnthropicRateLimitError
+from openai import APIConnectionError as OpenAIAPIConnectionError
 from openai import APIStatusError as OpenAIAPIStatusError
 from openai import APITimeoutError as OpenAIAPITimeoutError
 from openai import AsyncOpenAI
@@ -182,10 +184,12 @@ def _check_cost_cap(conn: sqlite3.Connection, run_id: str) -> None:
 _ANTHROPIC_RETRYABLE = (
     AnthropicRateLimitError,
     AnthropicAPITimeoutError,
+    AnthropicAPIConnectionError,
 )
 _OPENAI_RETRYABLE = (
     OpenAIRateLimitError,
     OpenAIAPITimeoutError,
+    OpenAIAPIConnectionError,
 )
 _RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504, 529})
 
@@ -196,6 +200,18 @@ def _is_retryable_status(exc: Exception) -> bool:
     if isinstance(code, int) and code in _RETRYABLE_STATUS:
         return True
     return False
+
+
+# Anthropic reasoning models reject `temperature` ("400: temperature is deprecated for
+# this model.") — same shape as the OpenAI GPT-5 / o-series constraint. Tier-2 authorized
+# patch (Tier 1 patched the OpenAI side: max_tokens → max_completion_tokens).
+_ANTHROPIC_NO_TEMPERATURE = frozenset({
+    "claude-opus-4-7",
+})
+
+
+def _anthropic_accepts_temperature(model: str) -> bool:
+    return model not in _ANTHROPIC_NO_TEMPERATURE
 
 
 async def _call_anthropic(
@@ -211,6 +227,15 @@ async def _call_anthropic(
     client = _anthropic()
     messages = [{"role": "user", "content": user}]
 
+    common_kwargs: dict[str, Any] = {
+        "model": model,
+        "system": system,
+        "messages": messages,
+        "max_tokens": max_tokens,
+    }
+    if _anthropic_accepts_temperature(model):
+        common_kwargs["temperature"] = temperature
+
     async for attempt in AsyncRetrying(
         retry=retry_if_exception_type(_ANTHROPIC_RETRYABLE)
         | retry_if_exception_type(AnthropicAPIStatusError),
@@ -224,24 +249,14 @@ async def _call_anthropic(
                     # SDK helper: parse() converts the Pydantic model to a JSON Schema, sends
                     # output_config, and parses the result back into the model.
                     resp = await client.messages.parse(
-                        model=model,
-                        system=system,
-                        messages=messages,
-                        temperature=temperature,
-                        max_tokens=max_tokens,
+                        **common_kwargs,
                         output_format=response_format,
                     )
                     # parsed_output is set when stop_reason='end_turn' and parsing succeeded.
                     parsed = getattr(resp, "parsed_output", None)
                     text = parsed.model_dump_json() if parsed else _join_anthropic_text(resp)
                 else:
-                    resp = await client.messages.create(
-                        model=model,
-                        system=system,
-                        messages=messages,
-                        temperature=temperature,
-                        max_tokens=max_tokens,
-                    )
+                    resp = await client.messages.create(**common_kwargs)
                     text = _join_anthropic_text(resp)
             except AnthropicAPIStatusError as e:
                 if not _is_retryable_status(e):
