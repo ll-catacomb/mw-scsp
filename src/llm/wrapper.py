@@ -300,7 +300,7 @@ async def _call_openai(
                         model=model,
                         messages=messages,
                         temperature=temperature,
-                        max_tokens=max_tokens,
+                        max_completion_tokens=max_tokens,
                         response_format=response_format,
                     )
                     msg = resp.choices[0].message
@@ -313,7 +313,7 @@ async def _call_openai(
                         model=model,
                         messages=messages,
                         temperature=temperature,
-                        max_tokens=max_tokens,
+                        max_completion_tokens=max_tokens,
                     )
                     msg = resp.choices[0].message
                     if msg.refusal:

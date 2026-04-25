@@ -62,6 +62,15 @@ Read this before editing shared files. Update by hand at tier boundaries.
 
 - (none currently)
 
+## Tier 1 wrapper fix (pre-merge note for `main`)
+
+`feature/pipeline` patched `src/llm/wrapper.py::_call_openai` to use
+`max_completion_tokens=max_tokens` instead of `max_tokens=max_tokens`. GPT-5.5 and
+GPT-5 (and the o-series) reject `max_tokens` with HTTP 400
+`Unsupported parameter: 'max_tokens' is not supported with this model. Use
+'max_completion_tokens' instead.`. The function signature still exposes `max_tokens`
+to callers — only the OpenAI SDK call site changed. Authorized by Madeleine.
+
 ## RA outputs incorporated (post-Tier-0 reconciliation)
 
 - **RA-6** — adopted: dropped LiteLLM, wrapper now uses `AsyncAnthropic` + `AsyncOpenAI` directly with per-provider semaphores (Anthropic=8, OpenAI=16), vendored `PRICE_TABLE` for cost computation, RUN_COST_CAP_USD lowered to $1.10. Model defaults updated to `claude-sonnet-4-6` / `claude-opus-4-7` / `claude-haiku-4-5-20251001` / `gpt-5.5` / `gpt-5`.
