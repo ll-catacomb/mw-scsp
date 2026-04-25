@@ -62,6 +62,6 @@ Generate K = {{ k }} candidate Red moves that are plausible but off-distribution
   - `summary` (string, ≤ 80 words)
   - `actions` (array of objects with `actor`, `action`, `target`, `timeline_days`, `purpose`)
   - `intended_effect` (string, ≤ 60 words)
-  - `which_convergence_pattern_it_breaks` (string, ≤ 40 words): name the modal cluster or assumption this move violates.
-  - `why_a_red_planner_could_justify_this` (string, ≤ 80 words): the doctrinal or political case Red could make for this move internally. Be specific.
-  - `risks_red_accepts` (array of strings)
+  - `which_convergence_pattern_it_breaks` (string, ≤ 40 words): name the modal cluster verbatim from the Cartographer's `clusters` block, then name the unstated assumption your move violates (e.g., "breaks the 'law-enforcement quarantine' cluster by violating the assumption that the opening move is unilateral and PRC-led — this move is sub-contracted to a third-state proxy"). Two distinct proposals must not break the *same* cluster-and-assumption pair; if they do, you are generating cosmetic variants.
+  - `why_a_red_planner_could_justify_this` (string, ≤ 80 words): the brief Red would deliver to senior leadership. Must include (a) a doctrinal or historical anchor (named — e.g., "Soviet 1962 Cuba quarantine reversal," "PLA active-defense doctrine §3"), (b) which Red strategic goal it serves, and (c) what political constraint it relaxes that the modal options can't. If you cannot name an anchor, the move is probably pure provocation.
+  - `risks_red_accepts` (array of 2–4 strings): each entry must name a specific Blue countermove or failure condition. No generic "Blue may escalate" or "operation could fail" entries. Same rubric as the modal stage.

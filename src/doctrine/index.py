@@ -4,9 +4,13 @@ Walks `data/doctrine/passages/**/*.md`, parses YAML frontmatter into a `Passage`
 model, and builds a `DoctrineIndex` keyed for the two-pass retriever.
 
 CLI:
-    python -m src.doctrine.index --validate          # exit 0 on clean, non-zero on errors
-    python -m src.doctrine.index --validate --quiet  # only print errors/warnings
-    python -m src.doctrine.index --validate --strict # treat unknown topics as errors
+    python -m src.doctrine.index --validate              # strict by default; unknown topics fail
+    python -m src.doctrine.index --validate --no-strict  # downgrade unknown topics to warnings
+    python -m src.doctrine.index --validate --quiet      # only print errors/warnings
+
+The default flipped to strict at end of Tier 2 — Tier 1 added 24 passages with no
+new topics, and the demo benefits from a frozen vocabulary. To add a topic, edit
+`KNOWN_TOPICS` below and SCHEMA.md in the same commit.
 
 See `data/doctrine/passages/SCHEMA.md` for the schema and PROJECT_SPEC.md §5 for the
 architectural rationale (markdown corpus, no Chroma, no embeddings).
@@ -269,8 +273,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="src.doctrine.index", description=__doc__)
     ap.add_argument("--validate", action="store_true",
                     help="Load and validate the corpus. Exit non-zero on schema errors.")
-    ap.add_argument("--strict", action="store_true",
-                    help="Treat unknown topics as errors instead of warnings.")
+    ap.add_argument("--strict", action=argparse.BooleanOptionalAction, default=True,
+                    help="Treat unknown topics as errors (default). Use --no-strict to "
+                         "downgrade unknown topics to warnings.")
     ap.add_argument("--quiet", action="store_true",
                     help="Only print warnings/errors, not the success summary.")
     args = ap.parse_args(argv)
