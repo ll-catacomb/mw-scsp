@@ -1,0 +1,55 @@
+scenario_id: israel_me_cascade_2026
+title: Middle East Regional Cascade Scenario, 2026
+status: WIP   # Final framing populated from RA-4 output. Mark WIP in UI.
+red_force: >
+  Distributed regional actors (Iran, Hezbollah, Houthi, Iranian-aligned
+  militias in Iraq and Syria) responding to a triggering Israeli action
+blue_force: Israel + US CENTCOM
+note_on_framing: >
+  This is a research wargaming exercise constructed from publicly available
+  open-source analysis. It is not commentary on any specific real-world
+  decision-maker or ongoing operational situation. Scenario parameters are
+  generic enough to exercise the system; specific framing populated from
+  RA-4 output.
+
+timeframe:
+  decision_horizon_days: 14
+  rationale: >
+    Cascade dynamics in the region historically resolve or escalate within
+    a 1–2 week window before either de-escalation pressure or wider war
+    becomes the dominant trajectory.
+
+situation: >
+  Trigger: an Israeli kinetic action of sufficient scope to compel
+  responses from multiple regional actors simultaneously. Specific trigger
+  populated from RA-4. Red consists of a coalition of state and non-state
+  actors with different command structures, different risk tolerances, and
+  only partial coordination.
+
+red_strategic_goals:
+  - Impose costs on Israel sufficient to deter repetition
+  - Avoid full state-level war between Iran and Israel/US where possible
+  - Preserve the deterrent value of the "axis of resistance" coalition
+  - Avoid US-aligned Sunni states consolidating against the coalition
+
+red_resources_and_constraints:
+  capability_summary: >
+    Iran: ballistic and cruise missile inventory, drones, regional proxy
+    network; Hezbollah: substantial rocket and missile inventory targeting
+    Israeli population centers; Houthi: long-range strike on Red Sea
+    shipping and Saudi/UAE territory; Iraqi/Syrian militias: short-range
+    strikes on US bases in Iraq and Syria.
+  constraints:
+    - Coalition coordination is partial; defection risk is real
+    - Domestic political costs of war for Iran are significant
+    - Houthi and Hezbollah operate on different strategic clocks
+
+blue_posture: >
+  Israel: full mobilization, missile defense at high readiness, air force
+  forward; US: CENTCOM force posture per current open-source reporting,
+  carrier presence in region, regional basing access varying by host.
+
+red_team_question: >
+  Propose Red's coordinated response in the first 72 hours. Be specific
+  about which actor takes which action, in what sequence, with what
+  intended effect. Account for coalition coordination friction.

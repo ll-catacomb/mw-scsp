@@ -1,0 +1,62 @@
+scenario_id: taiwan_strait_spring_2028
+title: Taiwan Strait Crisis, Spring 2028
+red_force: People's Liberation Army (PRC)
+blue_force: Republic of China (Taiwan), with US INDOPACOM support
+timeframe:
+  start: 2028-04-01
+  decision_horizon_days: 30
+  rationale: >
+    Spring (March–May) is one of two annual windows in which sea-state and
+    weather conditions across the Taiwan Strait are compatible with large-scale
+    amphibious operations. The other window is fall (September–October).
+    Beyond these windows the monsoon and typhoon seasons make crossings
+    operationally prohibitive. This timing constraint is well-attested in
+    open-source PLA-watcher analysis.
+
+situation: >
+  By Spring 2028, PRC strategic patience with Taiwan's domestic political
+  trajectory has eroded. Routine PLA exercises around Taiwan have escalated
+  in frequency and proximity over the preceding 18 months. Taiwan is in the
+  middle of its electoral cycle. US force posture in INDOPACOM has been
+  partially reconstituted post-Ukraine but remains stretched across multiple
+  theaters. Allied positioning (Japan, Australia, Philippines) is more
+  forward-leaning than in previous decades but is not unified on red lines.
+
+red_strategic_goals:
+  - Achieve unification with Taiwan on terms acceptable to Beijing
+  - Avoid sustained direct kinetic conflict with US forces if possible
+  - Prevent crystallization of a durable anti-PRC coalition during the crisis
+  - Demonstrate PLA capability sufficient to deter future Taiwanese
+    independence trajectories regardless of immediate outcome
+
+red_resources_and_constraints:
+  capability_summary: >
+    PLA Navy is the world's largest by hull count; PLA Rocket Force has
+    extensive conventional missile inventory ranging across the first and
+    second island chains; PLA Air Force has significant 4th- and 5th-gen
+    fighter inventories; PLA Strategic Support Force capable in space and
+    cyber domains. Joint logistics and joint command-and-control across
+    services remain the historical weak point.
+  constraints:
+    - Amphibious lift remains the binding constraint on a full invasion;
+      civilian RoRo fleet partially compensates but introduces visibility
+    - Cross-strait operations are detectable weeks in advance via satellite
+    - Domestic economic costs of full mobilization are material
+    - Escalation thresholds with US/Japan are uncertain to PRC planners
+
+blue_posture: >
+  US naval and air forces in the Western Pacific in routine forward posture;
+  one CSG in vicinity, second redeployable in 2–3 weeks; Marine Littoral
+  Regiment forward in First Island Chain; Japan / Philippines basing access
+  active; Taiwan ground forces partially mobilized; AIT advisors present.
+
+historical_analogies_to_flag:
+  - 1996 Taiwan Strait Crisis (likely over-cited by modal ensemble)
+  - 2022 Pelosi visit response (likely over-cited)
+historical_analogies_to_exclude:
+  - WWII Pacific island-hopping (genre-incorrect for modern PRC planning)
+
+red_team_question: >
+  Propose Red's opening move for the first 7 days of the crisis. Be specific
+  about action, units, timeline, and intended effect. Cite the doctrine
+  passages that informed your choice.
