@@ -2,6 +2,18 @@
 
 Read this before editing shared files. Update by hand at tier boundaries.
 
+## Persona-rooted tree-search (Tier 2.5)
+
+Stage 4 reworked from a single-call OffDistributionGenerator to a persona-rooted bounded tree search inspired by Brenner-Cohen-Addad-Woodruff 2026 §2.2 (negative-prompting tree expansion) and Park et al. 2023 §A.1 (identity-seed agents). Six ethnographic Red-planner personas under `data/personas/`; `select_for_scenario()` picks a structurally-diverse subset by tag-match + greedy diversity; each persona is a `RedPlanner(GenerativeAgent)` with its own memory stream and identity-seed-prepended system prompt. Tree depth + branching configurable via `PERSONA_K` (default 6), `PERSONA_INIT_K` (2), `PERSONA_EXPAND_K` (2), `PERSONA_TREE_DEPTH` (2). Default config = ~36 leaves per run; the user's "true outliers" knob.
+
+Critical architectural commitments preserved: no doctrine retrieval in the off-distribution path (AST tests guard `adversarial.py` and `red_planner.py`); persona ≠ named individual (anonymized handles only); ethnographic detail must be specific (concrete behaviors and visible signals, not psychological labels). Schema in `data/personas/SCHEMA.md`; CLI validator at `python -m src.personas.index --validate` (strict by default).
+
+Backward-compatible: `OFF_DIST_K` env var still honored — when `PERSONA_K=0` is set explicitly OR the persona corpus has no entries for the scenario, `adversarial.py` falls back to the legacy single-call `OffDistributionGenerator` so existing runs/tests don't break.
+
+12 new tests in `tests/test_personas.py` cover corpus loading, selector diversity, tree-search expansion (mocked LLM), AST architectural rules, and config arithmetic. All 50 tests green.
+
+Cost note: at default config the persona tree adds ~$0.40-0.60/run (12 persona generations + 24 sibling expansions, all on Opus 4.7). Bump `RUN_COST_CAP_USD` to 3.00 for the full pipeline. Each axis-of-divergence in `EXPANSION_AXES` is one round; if running depth=3 cycles through (actor → timing → domain) by index.
+
 ## Tier 2 in progress on `feature/pipeline`
 
 End-to-end pipeline shipped: Stage 3 (Cartographer narration) → Stage 4 (off-distribution proposals, K configurable via `OFF_DIST_K`) → Stage 5 (5-judge pool with two questions per move). Survival filter: `median_plausibility >= 3 AND would_have_gen_count < ceil(N_judges/2)`. Orchestrator writes the full artifact set: `manifest.json`, `modal_moves.json`, `convergence.md`, `clusters.json`, `candidates.json`, `judgments.json`, `menu.md`, `menu.json`. New tests at `tests/test_pipeline_dry_run.py` (cartographer shape with stub completion + stub embedder; survival math; AST check that `adversarial.py` imports nothing from `src.doctrine`). All 27 tests green.
