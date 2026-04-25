@@ -111,6 +111,38 @@ to callers — only the OpenAI SDK call site changed. Authorized by Madeleine.
 - **No reflection / OffDistributionGenerator / JudgePool yet.** Per the Tier 1 brief — those land in Tier 2.
 - **Retrieved memories still bump `last_accessed_at` even when `now=` is passed.** This is intentional (retrieval is what counts as access in Park et al.). Mention to anyone writing a "what would this score" preview tool that they should pass a fresh MemoryStore or accept the side effect.
 
+### From `feature/memory` Tier 2
+
+- **`summary_paragraph` is now async.** Was sync in Tier 1 (cache read only); the brief asks
+  for a fresh-generation fallback when the cache is empty, which requires LLM calls.
+  No external callers existed at the time of the change. Pipeline worktree should `await`.
+- **`reflect()` returns the new reflection memory_ids.** Brief said "implement" without pinning
+  a return shape; returning the ids lets the caller decide whether to regenerate the agent
+  summary immediately. `reflect_if_due()` (threshold-gated) is the convenience wrapper the
+  pipeline should call at end-of-run.
+- **Reflection citations may point to earlier reflections in the same `reflect()` invocation.**
+  Park et al. Fig. 7 explicitly allows this; we don't filter it out. The test
+  `test_reflect_persists_reflections_with_citations` asserts citations resolve to *some*
+  memory the agent owns, not strictly observations.
+- **Agent-summary cold start.** `summary_paragraph(query)` on an empty cache generates a
+  single paragraph for the supplied query rather than running the full three-query
+  Appendix-A regeneration. The pipeline calls `regenerate_summary()` explicitly when it
+  wants the canonical three-query version. Compromise to keep the cold-start cheap.
+- **`regenerate_summary_if_stale(run_count)` triggers.** True iff `run_count > 0 and
+  run_count % 3 == 0` OR there is a reflection memory created after the most recent
+  cached summary (or no summary exists yet alongside reflections). The "after a new
+  reflection lands" rule is implemented by a SQL comparison against `agent_summary` —
+  no caller bookkeeping required.
+- **`_JudgeInstance` per judge_id.** Each judge in `JudgePool.judges` is its own
+  `GenerativeAgent` with `agent_id == judge_id` (e.g. `"judge_0"`). Per-instance
+  calibration history is therefore stored under `judge_0` … `judge_4` in `agent_memory`,
+  not under a single `"judge_pool"` row. This matches PROJECT_SPEC.md §4.5's "logical
+  with 5 instances each tagged" framing.
+- **Family rotation at temp=0.2 is structural.** `JudgePool.judge(..., proposal_index)`
+  changes `asyncio.gather` argument order on odd indices but the output is re-sorted by
+  judge_id so downstream code sees a stable shape. Worth flagging if the pipeline starts
+  caring about call ordering for some non-behavioral reason (e.g. retry budget).
+
 ### From `feature/doctrine` Tier 1
 
 Authored 24 new passages on top of the 9 Tier-0 exemplars (33 total: 6 jp3-0 + 5 jp5-0 + 8 pla + 5 me + 4 jp3-0 existing + 4 jp5-0 existing + 1 pla existing). Validation clean (no warnings). All four smoke tests in `tests/test_doctrine_index.py` pass.
