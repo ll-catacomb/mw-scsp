@@ -74,6 +74,32 @@ def _render_scenario_block(scenario: dict) -> str:
     return yaml.safe_dump(payload, sort_keys=False, default_flow_style=False).strip()
 
 
+def _build_doctrine_query(scenario: dict, red_team_question: str) -> str:
+    """Concatenate scenario tokens that should drive doctrine retrieval.
+
+    Pass-1 of the two-pass retriever (keyword/topic) needs scenario-specific vocabulary
+    in the query — `red_team_question` alone is too generic ("Propose Red's opening
+    move..."). Including the title, situation paragraph, and strategic goals lands
+    tokens like "Taiwan", "PLA", "amphibious", "axis of resistance", "Iran" into the
+    pass-1 set, which materially diversifies retrieval and stops forcing the LLM-router
+    fallback for every modal-stage query.
+    """
+    parts: list[str] = [red_team_question]
+    title = (scenario.get("title") or "").strip()
+    if title:
+        parts.append(title)
+    situation = (scenario.get("situation") or "").strip()
+    if situation:
+        parts.append(situation)
+    goals = scenario.get("red_strategic_goals") or []
+    if goals:
+        parts.append("Red strategic goals: " + "; ".join(str(g) for g in goals))
+    red_force = (scenario.get("red_force") or "").strip()
+    if red_force:
+        parts.append(f"Red force: {red_force}")
+    return "\n\n".join(parts)
+
+
 def _pick_model(instance_idx: int) -> str:
     if instance_idx < 4:
         return os.environ.get("MODAL_CLAUDE_MODEL", "claude-sonnet-4-6")
@@ -185,8 +211,15 @@ async def generate_modal_moves(scenario: dict, run_id: str) -> list[dict]:
         raise ValueError("scenario is missing a non-empty `red_team_question`")
     scenario_block = _render_scenario_block(scenario)
 
+    # Retrieval query is built from the scenario's substantive tokens, not just the
+    # generic red_team_question. Tier-1 smoke run used the question alone — it carried
+    # zero scenario-doctrine vocabulary, produced zero pass-1 hits, forced a single
+    # LLM-router pick, and fed the same 6 passages to all 8 modal calls. See
+    # TASK_LEDGER's "From feature/doctrine Tier 2" diagnosis.
+    doctrine_query = _build_doctrine_query(scenario, red_team_question)
+
     doctrine_hits = await retrieve(
-        red_team_question,
+        doctrine_query,
         stage="modal-grounding",
         top_k=_DOCTRINE_TOP_K,
         run_id=run_id,

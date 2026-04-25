@@ -72,6 +72,32 @@ Tier 1 shipped a working end-to-end pipeline through Stage 3 clustering. Live sm
 
 - (none currently)
 
+## Mid-Tier-2 main-worktree edits (heads-up for `feature/pipeline`)
+
+`main` landed two integration fixes that touch files `feature/pipeline` is also editing in
+Tier 2. Rebase / forward-merge before submitting. Both are small and additive — conflicts
+should resolve straightforwardly.
+
+- **`src/pipeline/modal_ensemble.py::_build_doctrine_query`** — new helper. Doctrine-flagged
+  bug: pass-1 of `retrieve(red_team_question, ...)` returned 0 hits on Taiwan, forcing the
+  LLM-router to feed all 8 modal calls from a single pick. Fixed by concatenating
+  red_team_question + title + situation + red_strategic_goals + red_force into the query.
+  Verified: Taiwan 0 → 6 pass-1 hits, Israel 3 → 6 pass-1 hits.
+- **`src/pipeline/convergence.py`** — added `cartographer_narrate(modal_moves, scenario,
+  run_id, *, embedder=None, store=None)` plus `make_default_embedder()` (sentence-transformers
+  BGE wrapper with the asymmetric query prefix per RA-7, module-level singleton). The Tier-1
+  no-op `cluster_moves()` is preserved for tests that don't want sentence-transformers.
+- **`src/pipeline/orchestrator.py::run_pipeline`** — calls `cartographer_narrate` after the
+  modal stage, writes `data/runs/{run_id}/convergence.json` (full ConvergenceNarration shape
+  for the UI loader) and `convergence.md` (readable). The Cartographer call is wrapped in
+  try/except so a Stage-3 failure doesn't kill the run; on error, convergence.json carries
+  `{"_error": ..., "_stage": "3_convergence"}` and the rest of the pipeline continues.
+
+What `feature/pipeline` still owns in Tier 2: `adversarial.py` (Stage 4), `judging.py`
+(Stage 5), and the orchestrator wire-up to chain Stages 3 → 4 → 5 with persistence to
+`off_dist_proposals` / `judgments` and `candidates.json` / `judgments.json` / `menu.md`
+artifacts. The Stage-3 narration call site is now in place; pipeline can build on top.
+
 ## Tier 1 wrapper fix (pre-merge note for `main`)
 
 `feature/pipeline` patched `src/llm/wrapper.py::_call_openai` to use

@@ -24,7 +24,7 @@ from datetime import date as _date, datetime as _datetime
 
 from src.llm.manifest import run_dir, write_manifest
 from src.memory.store import connect, init_db
-from src.pipeline.convergence import cluster_moves
+from src.pipeline.convergence import cartographer_narrate, cluster_moves
 from src.pipeline.modal_ensemble import generate_modal_moves
 
 
@@ -118,6 +118,16 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
         modal_moves = await generate_modal_moves(scenario, run_id)
         clusters = cluster_moves(modal_moves)
 
+        # Stage 3 — Cartographer narration. Drives notable_absences for Stage 4 and the
+        # cross-run callout in the demo. Failures here don't kill the run; convergence.json
+        # is written best-effort so the rest of the pipeline (and the UI's Tier-1 fallback)
+        # still works if the Cartographer call has issues.
+        narration: dict | None = None
+        try:
+            narration = await cartographer_narrate(modal_moves, scenario, run_id)
+        except Exception as exc:  # noqa: BLE001 — pipeline-level non-fatal stage
+            narration = {"_error": str(exc), "_stage": "3_convergence"}
+
         out_dir = run_dir(run_id)
         (out_dir / "modal_moves.json").write_text(
             json.dumps(modal_moves, indent=2, ensure_ascii=False),
@@ -127,6 +137,12 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
             json.dumps(clusters, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
+        (out_dir / "convergence.json").write_text(
+            json.dumps(narration, indent=2, ensure_ascii=False, default=str),
+            encoding="utf-8",
+        )
+        if narration and isinstance(narration, dict) and not narration.get("_error"):
+            _write_convergence_md(out_dir, narration)
 
         _mark_run_complete(run_id, status="complete")
     except Exception:
@@ -134,6 +150,46 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
         raise
 
     return run_id
+
+
+def _write_convergence_md(out_dir: Path, narration: dict) -> None:
+    """Render the Cartographer's narration as readable markdown for the UI's Section 3."""
+    lines: list[str] = []
+    if summary := narration.get("convergence_summary"):
+        lines.append("# Convergence summary\n")
+        lines.append(f"{summary}\n")
+    clusters = narration.get("clusters") or []
+    if clusters:
+        lines.append("# Clusters\n")
+        for c in clusters:
+            cid = c.get("cluster_id", "?")
+            theme = c.get("theme", "(no theme)")
+            members = c.get("member_move_ids") or []
+            actions = c.get("representative_actions") or []
+            lines.append(f"## Cluster {cid} — {theme}\n")
+            lines.append(f"Members: {members}\n")
+            if actions:
+                lines.append("Representative actions:\n")
+                for a in actions:
+                    lines.append(f"- {a}")
+                lines.append("")
+    absences = narration.get("notable_absences") or []
+    if absences:
+        lines.append("# Notable absences\n")
+        for a in absences:
+            lines.append(f"- **{a.get('absence', '')}**")
+            if w := a.get("why_it_might_be_proposed"):
+                lines.append(f"  - Why a planner might propose it: {w}")
+            if w := a.get("why_the_ensemble_missed_it"):
+                lines.append(f"  - Why the ensemble missed it: {w}")
+        lines.append("")
+    cross = narration.get("cross_run_observations") or []
+    if cross:
+        lines.append("# Cross-run observations\n")
+        for o in cross:
+            lines.append(f"- {o}")
+        lines.append("")
+    (out_dir / "convergence.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
