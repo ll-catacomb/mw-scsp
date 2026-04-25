@@ -1,80 +1,131 @@
-# Tier 1 brief — `feature/memory` worktree
+# Tier 2 brief — `feature/memory` worktree
 
 You are working in the `feature/memory` worktree of the Adversarial-Distribution Red Team project (SCSP Hackathon 2026, Wargaming track, Boston). Three other Claude Code instances are working in parallel on `feature/doctrine`, `feature/pipeline`, `feature/ui`. Coordinate via `TASK_LEDGER.md`.
 
+Tier 1 shipped: `MemoryStore` CRUD, Park et al. retrieval scoring, `GenerativeAgent` base, `ConvergenceCartographer` skeleton with `narrate_convergence()`. All on main.
+
 ## Read first
 
-1. `PROJECT_SPEC.md` — sections §3, §4 (memory), §7 (schema), §10 (worktree rules) are most relevant.
-2. `TASK_LEDGER.md` — file ownership and current blockers.
-3. `src/memory/schema.sql` and `src/memory/store.py` — shipped in Tier 0. Build on these.
-4. `src/llm/wrapper.py` — Tier 0 audit-log wrapper. Use it for any LLM call (reflection, importance scoring, agent-summary cache). **Do not edit.**
-5. The reflection / importance / agent_summary prompts in `src/prompts/`.
+1. `PROJECT_SPEC.md` — sections §3 (pipeline), §4 (memory architecture, especially §4.3 reflection and §4.5 the four agents), §15 (definition of done).
+2. `TASK_LEDGER.md` — current tier, Tier 1 follow-ups (especially the embedding-callable signature note and `unreflected_importance_sum` semantics).
+3. `src/agents/base.py` — Tier 1 `GenerativeAgent`. The `reflect()` stub is yours to fill in.
+4. `src/agents/convergence_cartographer.py` — exemplar for how a stage agent wires `narrate_convergence` against `logged_completion` + a pydantic schema. Copy this pattern.
+5. `src/memory/store.py` and `retrieval.py` — already feature-complete; no edits expected.
+6. `src/prompts/{off_distribution,judge_plausibility,judge_off_dist_check,reflection_questions,reflection_insights,agent_summary}.md`.
 
 ## What you own
 
-- `src/memory/store.py` — extend with full CRUD + retrieval helpers.
-- `src/memory/retrieval.py` — implement Park et al. (2023) §4.2 scoring.
-- `src/memory/schema.sql` — owner. If pipeline needs new columns, they ask via `TASK_LEDGER.md`; you decide.
-- `src/agents/base.py` — `GenerativeAgent` base class.
-- `src/agents/convergence_cartographer.py` — Tier 1: skeleton (observation + retrieval, no reflection yet).
-- `tests/test_memory_retrieval.py` — unit tests for the retrieval scoring math.
+- `src/agents/off_distribution_generator.py` — fill in `OffDistributionGenerator(GenerativeAgent)`.
+- `src/agents/judge_pool.py` — fill in `JudgePool` with 5 calibrated judge instances.
+- `src/agents/base.py::GenerativeAgent.reflect()` — implement Park et al. §4.2 two-step.
+- New: `agent_summary` regenerator on `GenerativeAgent` (or a free function in `base.py`).
+- `tests/test_memory_*.py` — extend with tests for the new agents and the reflection trigger.
 
 ## What is read-only for you
 
-- `src/llm/wrapper.py`
-- `src/llm/manifest.py`
-- Anything outside `src/memory/`, `src/agents/`, `tests/test_memory_*.py`.
+- `src/llm/wrapper.py`, `src/llm/manifest.py` — owned by `main`.
+- `src/memory/{schema.sql,store.py,retrieval.py}` — settled in Tier 1.
+- `src/doctrine/`, `src/pipeline/`, `src/ui/` — other worktrees.
 
-`pyproject.toml` is additive-only; if you need a new dep, add it and note it in TASK_LEDGER.
+`pyproject.toml` is additive-only.
 
-## Tier 1 deliverables
+## Tier 2 deliverables
 
-1. **`MemoryStore` class** in `src/memory/store.py` with these methods:
-   - `add_observation(agent_id, description, importance, embedding, source_run_id) -> memory_id`
-   - `add_reflection(agent_id, description, importance, embedding, cited_memory_ids, source_run_id) -> memory_id`
-   - `retrieve(agent_id, query_embedding, k=8, now=None) -> list[Memory]` — calls into `retrieval.py::score_memories`, bumps `last_accessed_at` on returned rows.
-   - `recent(agent_id, n=100) -> list[Memory]` — for reflection question-generation.
-   - `unreflected_importance_sum(agent_id) -> int` — for the reflection trigger.
+### 1. `OffDistributionGenerator`
 
-2. **`retrieval.py::score_memories`** implementing the spec faithfully:
-   - recency = `decay_per_day ** days_since_last_access`
-   - importance = stored 1–10 score
-   - relevance = cosine similarity vs `query_embedding`
-   - min-max normalize each component to [0,1] across the candidate set
-   - `score = α_r·recency + α_i·importance + α_v·relevance` with all α=1 by default
-   - Return `[(memory, score), ...]` sorted descending.
+Subclass `GenerativeAgent` with `agent_id="off_distribution_generator"`, `agent_role="Off-distribution generator for adversarial-distribution red team"`. Methods:
 
-3. **`GenerativeAgent` base** in `src/agents/base.py`:
-   - constructor takes `agent_id`, `agent_role`, embedding callable, `MemoryStore`.
-   - **Embedding model** for memory: `os.environ["MEMORY_EMBEDDING_MODEL"]` (default `BAAI/bge-base-en-v1.5`). Per RA-7, BGE-v1.5 wants the asymmetric query prefix `os.environ["MEMORY_QUERY_PREFIX"]` (default `"Represent this sentence for searching relevant passages: "`) prepended to *queries* but NOT to stored memory descriptions. The embedding callable should handle this distinction — e.g., `embedder.encode(text, is_query=True)` vs `is_query=False`.
-   - **NOTE on the doctrine pivot:** doctrine no longer uses embeddings (PROJECT_SPEC.md §5 — markdown corpus + frontmatter index). Memory still does. The two layers do not share an embedder; memory's is the only sentence-transformers consumer in the project.
-   - `observe(description, source_run_id)` — calls importance-score prompt via `logged_completion`, embeds (no query prefix), persists.
-   - `recall(query, k=8)` — embeds query (with the prefix), calls `MemoryStore.retrieve`, returns memories.
-   - `summary_paragraph(query)` — pulls cached row from `agent_summary` table; placeholder regenerator hook (Tier 2 fills in).
-   - `reflect()` — placeholder method that raises `NotImplementedError("Tier 2")`.
+```python
+async def propose(
+    self,
+    convergence_summary: dict,   # output of ConvergenceCartographer.narrate_convergence
+    scenario: dict,
+    run_id: str,
+    k: int = 10,
+) -> list[dict]:
+    """Generate K candidate off-distribution moves. Persists each as an observation."""
+```
 
-4. **`ConvergenceCartographer`** in `src/agents/convergence_cartographer.py`:
-   - subclass of `GenerativeAgent` with `agent_id="convergence_cartographer"`, `agent_role="Convergence Cartographer for adversarial-distribution red team"`.
-   - method `narrate_convergence(modal_moves, cluster_assignments, scenario, run_id) -> dict` — calls the `convergence_summary.md` prompt via `logged_completion` with retrieved prior reflections injected. Returns the parsed JSON from the prompt.
+Behaviour:
+- Recall past proposals via `self.recall(query=...)` where the query is the scenario+convergence summary. These are injected into `off_distribution.md`'s `{{ prior_proposals_block }}` slot.
+- Pydantic response schema mirrors the JSON contract at the bottom of `off_distribution.md` (a list of K proposals, each with `move_title`, `summary`, `actions`, `intended_effect`, `which_convergence_pattern_it_breaks`, `why_a_red_planner_could_justify_this`, `risks_red_accepts`).
+- After the LLM call, persist each proposal as an observation via `self.observe()` — that runs the importance-score prompt, embeds, writes to the memory stream. Importance prompts may rate proposals 6–9 on average (they're meant to be off-distribution).
+- Return `list[dict]` of the parsed proposals with a synthetic `proposal_id` (uuid) added per item. The pipeline persists to the `off_dist_proposals` table.
+- **Use `HEAVY_CLAUDE_MODEL`** (default `claude-opus-4-7`) — this stage benefits from the heavier model.
+- **Temperature 0.9–1.2** — push the model out of the modal cluster. GPT-5/5.5 are pinned to 1.0 by their API; for this stage prefer Claude.
+- **No doctrine retrieval.** This is the architectural commitment in PROJECT_SPEC.md §5. Do not import from `src.doctrine.retrieve`.
 
-5. **Unit tests** in `tests/test_memory_retrieval.py`:
-   - recency decay over a 30-day gap is detectably less than 1.
-   - min-max normalization is correct on a hand-crafted 3-memory set.
-   - weighted-sum ordering matches a manual computation.
-   - relevance uses cosine, not dot product.
-   - At least one test runs end-to-end against an in-memory SQLite db.
+### 2. `JudgePool`
+
+Five tagged judge instances, mixed family. Logical agent (judge_id encodes the instance + family); each has its own memory stream of past ratings (per-judge calibration history).
+
+```python
+JUDGE_INSTANCES = [
+    ("judge_0", "anthropic"),
+    ("judge_1", "anthropic"),
+    ("judge_2", "anthropic"),
+    ("judge_3", "openai"),
+    ("judge_4", "openai"),
+]
+
+async def judge(
+    self,
+    proposal: dict,
+    scenario: dict,
+    run_id: str,
+) -> list[dict]:
+    """For one proposal, return 5 judgment dicts (one per judge instance)."""
+```
+
+Behaviour:
+- Per proposal, run 5 judgments concurrently via `asyncio.gather`. Each judge calls `judge_plausibility.md` and `judge_off_dist_check.md` separately (fresh contexts so the two signals are independent — the spec's hard rule).
+- Per-judge calibration: after each judgment, `observe()` an entry like `"judge_0 rated proposal abc123 plausibility=4, would_have_generated=False"` so calibration drift is visible in the audit.
+- Family rotation across the 5 judges per proposal: judge_0..2 are anthropic, judge_3..4 are openai. To avoid family-bias compounding, rotate which family votes first by `proposal_index % 2` (this is structural, no behavior change at temp=0.2 but it's the spec).
+- Return per-judgment dict: `{judgment_id, proposal_id, judge_id, plausibility (1–5), rationale, would_have_generated (bool)}`.
+- Use `JUDGE_CLAUDE_MODEL` (default `claude-haiku-4-5-20251001`) and `JUDGE_GPT_MODEL` (default `gpt-5`). Temperature 0.2 (deterministic).
+
+### 3. Reflection (`GenerativeAgent.reflect`)
+
+Park et al. §4.2 two-step:
+
+1. Run `reflection_questions.md` over the agent's 100 most recent memories (`self.store.recent(self.agent_id, n=100)`). Get 3 questions.
+2. For each question: call `recall(question, k=12)`, render the retrieved memories as `1. {desc}\n2. {desc}\n...`, run `reflection_insights.md` to extract 5 insights with cited indices. Convert cited indices back to memory_ids.
+3. For each insight: `observe()` it (gets importance scored + embedded) **but** as a `reflection` row not `observation`. Use `self.store.add_reflection(...)` directly so `cited_memory_ids` is populated.
+
+Triggered when `self.store.unreflected_importance_sum(self.agent_id) >= 50`. Threshold is tunable.
+
+Reflections can themselves be retrieved in future runs and cited in further reflections (Park et al. Fig. 7). The `recall(memory_types=["reflection"])` filter on `MemoryStore.retrieve` already supports this.
+
+### 4. `agent_summary` regenerator
+
+Cached paragraph from `agent_summary.md` (Park et al. Appendix A). Three queries per spec:
+- `f"{agent_role}'s core analytical disposition"`
+- `f"{agent_role}'s recent focus"`
+- `f"{agent_role}'s observed blind spots and tendencies"`
+
+Concatenate the three answers into one paragraph, write via `self.store.write_summary(agent_id, paragraph)`. Regenerate every 3 runs OR whenever a new reflection lands. Cache stays useful across runs because the `agent_summary` table is versioned.
+
+Add `GenerativeAgent.regenerate_summary_if_stale(run_count: int) -> bool` and `GenerativeAgent.summary_paragraph()` should fall back to a freshly-generated summary if the cache is empty (currently returns `None`).
+
+### 5. Tests
+
+Mock `logged_completion` so tests stay offline. Cover:
+- `OffDistributionGenerator.propose()` — calls the right prompt, persists K observations, returns K dicts with proposal_ids.
+- `JudgePool.judge()` — calls both judge prompts per judge, returns 5 judgment dicts, each judgment is observed for calibration.
+- `GenerativeAgent.reflect()` — given seeded memories, runs both reflection prompts, persists reflection-type memories with `cited_memory_ids` populated.
+- Reflection trigger: `unreflected_importance_sum` resets after `reflect()` lands new reflection rows.
+- `regenerate_summary_if_stale` — returns True every 3 calls; writes a new versioned row.
 
 ## Definition of done
 
-- `uv run pytest tests/test_memory_retrieval.py` — all green.
-- `uv run python -c "from src.agents.convergence_cartographer import ConvergenceCartographer; print('ok')"` — clean import.
-- A short note added to `TASK_LEDGER.md` under "Open questions" if anything in the spec turned out to need clarification.
+- `uv run pytest tests/test_memory_retrieval.py tests/test_memory_agents.py` — all green.
+- `uv run python -c "from src.agents.off_distribution_generator import OffDistributionGenerator; from src.agents.judge_pool import JudgePool; print('ok')"` — clean import.
+- A short note in `TASK_LEDGER.md` Tier 2 follow-ups if anything in the spec turned out to need clarification.
 
-## What NOT to do in Tier 1
+## What NOT to do in Tier 2
 
-- No reflection module — Tier 2.
-- No Off-Distribution Generator agent — Tier 2.
-- No Judge Pool — Tier 2.
-- No edits to `src/llm/wrapper.py` or `src/llm/manifest.py`.
+- No edits to `src/llm/wrapper.py`, `src/llm/manifest.py`, `src/memory/{store,retrieval,schema.sql}`.
+- No edits to `src/doctrine/`, `src/pipeline/`, `src/ui/`.
+- No doctrine retrieval in the OffDistributionGenerator. This is the system's architectural commitment.
 
-When you finish, commit with a clear message and push the branch. The main worktree will squash-merge.
+When you finish, commit with a clear message and push the branch.

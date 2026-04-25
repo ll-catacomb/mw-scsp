@@ -2,15 +2,17 @@
 
 Read this before editing shared files. Update by hand at tier boundaries.
 
-## Current Tier: 0 (about to ship to main)
+## Current Tier: 2 (Tier 1 squash-merged: memory 504e3b3, doctrine fdcefe6, pipeline 66c72d7, ui 73eb290)
 
-## Worktree assignments
+Tier 1 shipped a working end-to-end pipeline through Stage 3 clustering. Live smoke test on Taiwan scenario completed in 50s for $0.436 (8 modal moves, 1 doctrine-router fallback; full audit trail in `data/runs/f2b0eb4c-6306-4876-b4db-46466b7c186e/`). The modal ensemble exhibited clean convergence (4/4 Claude on Dongsha-seizure variants; 4/4 GPT on quarantine + Pratas-seizure) — exactly the failure mode Tier 2 is built to expose.
 
-- `main`              → integration, not actively developing during Tier 1+
-- `feature/memory`    → MemoryStore + GenerativeAgent base + Cartographer (skeleton)
-- `feature/doctrine`  → index.py (markdown corpus loader) + retrieve.py (two-pass) + author 20-30 passages from RA-1/RA-2
-- `feature/pipeline`  → modal_ensemble.py + cross-family async fan-out + convergence clustering
-- `feature/ui`        → idle in Tier 1; scaffold Streamlit shell with mocked data if time permits
+## Worktree assignments (Tier 2)
+
+- `main`              → integration; runs the full pipeline at end of tier
+- `feature/memory`    → OffDistributionGenerator + JudgePool + reflection module + agent_summary regenerator
+- `feature/doctrine`  → prompt iteration (modal_red, convergence_summary, off_distribution, judges) against real Tier-1 retrievals; topic-vocab lock decision
+- `feature/pipeline`  → adversarial.py + judging.py + Stage-3 narration wire-up + full pipeline run
+- `feature/ui`        → swap mocks for real reads from `data/runs/{run_id}/`; live "re-run one stage" button
 
 ## File ownership (touch with care)
 
@@ -34,29 +36,37 @@ Read this before editing shared files. Update by hand at tier boundaries.
 - individual prompt files
 - scenario YAMLs
 
-## Tier 1 deliverables
+## Tier 2 deliverables
 
 ### `feature/memory`
-- `MemoryStore` class with: `add_observation`, `add_reflection`, `retrieve(agent_id, query_embedding, k)`, `bump_last_accessed`, `summary_paragraph(agent_id, query)`.
-- `GenerativeAgent` base class.
-- `ConvergenceCartographer` skeleton (observation + retrieval; NO reflection yet — Tier 2).
-- Unit tests: `tests/test_memory_retrieval.py` covering recency decay + min-max normalization + weighted score.
+- `OffDistributionGenerator` agent in `src/agents/off_distribution_generator.py` — persistent memory of past proposals + outcomes (plausibility, would-have-generated, surviving). `propose(convergence_summary, scenario, run_id, k)` calls `off_distribution.md` with retrieved past-proposal memories injected; persists each proposal as an observation.
+- `JudgePool` in `src/agents/judge_pool.py` — 5 logical judge instances (3/2 family split per move with rotation); each judge has its own per-instance calibration history (rate-of-plausible, rate-of-would-have-generated). Two calls per proposal: `judge_plausibility.md` and `judge_off_dist_check.md` (fresh contexts so the two signals are independent).
+- Reflection module in `src/agents/base.py::GenerativeAgent.reflect()` — Park et al. §4.2 two-step (questions → insights with citations). Triggered after pipeline run when `unreflected_importance_sum >= 50` (start threshold; tune from there).
+- `agent_summary` regenerator: re-run the three queries in `agent_summary.md` and write a new versioned row when memory changed materially (every 3 runs OR after a new reflection lands).
+- Unit tests for the new agents (mock `logged_completion` to stay offline) and the reflection trigger.
 
 ### `feature/doctrine`
-**Architecture changed Tier 0 → markdown corpus, no Chroma.** See PROJECT_SPEC.md §5 and `data/doctrine/passages/SCHEMA.md`.
-
-- `src/doctrine/index.py::load_index() -> DoctrineIndex` — walks `data/doctrine/passages/`, parses YAML frontmatter, validates against pydantic model, builds `by_id` / `by_topic` / `by_keyword` / `by_applies_to` dicts. CLI flag `--validate` exits non-zero on any schema error.
-- `src/doctrine/retrieve.py::retrieve(query, stage, top_k=6) -> list[Passage]` — two-pass: keyword/topic intersection scored by (kw hits + 0.5·topic hits + priority weight), then LLM-router fallback if pass 1 returns < 2 hits.
-- Author 20–30 passages: cover RA-2's high-priority JP 3-0/5-0 hooks (cog, decisive-points, phasing, branches-sequels, coa-screening, wargaming-action-reaction, never-assume-away, systems-perspective) and RA-1's PLA highlights. Three exemplars are already shipped in `data/doctrine/passages/{jp3-0,jp5-0}/`.
-- Smoke test: query "adversary course of action development" with `stage=modal-grounding` should return at least one JP 5-0 COA passage; query "fait accompli" with `stage=off-distribution-flag` should hit `jp5-0-never-assume-away` via the LLM router fallback.
+- Iterate `src/prompts/modal_red.md` against actual Tier-1 retrievals. The smoke run showed all 8 moves citing `jp3-0-phasing-model` + `jp3-0-cog` + `pla-gray-zone-coercion` — possibly retrieval bias, possibly the prompt over-anchoring. Investigate and tune.
+- Iterate `src/prompts/convergence_summary.md` against the Cartographer's first real outputs (will land mid-tier when pipeline wires up Stage 3).
+- Iterate `src/prompts/off_distribution.md` against the new generator's behavior — particularly the "which_convergence_pattern_it_breaks" field, which is the cleanest signal of whether escape worked.
+- Iterate the two judge prompts based on rate-of-plausible drift across instances.
+- Decide whether to lock topic vocab (`--strict` becomes default in `index.py`).
+- Author the CSIS subdirectory if any RA-3 off-distribution corpus material is missing.
 
 ### `feature/pipeline`
-- `src/pipeline/modal_ensemble.py::generate_modal_moves(scenario, run_id) -> list[dict]` with cross-family async fan-out (4 Claude + 4 GPT) via `logged_completion`.
-- `src/pipeline/convergence.py` — KMeans clustering on move embeddings, `convergence_summary.md` is called by the Cartographer in Tier 2 but the clustering helper ships in Tier 1.
-- End-to-end dry-run script: scenario YAML → 8 modal moves → cluster assignments. Print to stdout.
+- `src/pipeline/adversarial.py::generate_off_distribution(convergence_summary, scenario, run_id, k) -> list[dict]` — Stage 4. Calls `OffDistributionGenerator.propose()`. **No doctrine retrieval** — enforce by not passing a doctrine block.
+- `src/pipeline/judging.py::judge_proposals(proposals, scenario, run_id) -> list[dict]` — Stage 5. Per proposal: 5 judges (3/2 family split, rotated per move), 2 questions per judge, asyncio.gather. Survival filter: `median_plausibility >= 3 AND would_have_gen_count < ceil(N_judges / 2)`.
+- Wire the Cartographer's `narrate_convergence()` (already shipped) into `src/pipeline/convergence.py` so Stage 3 produces real cluster_assignments + notable_absences.
+- Update `orchestrator.py::run_pipeline()` to run Stages 3 → 4 → 5, persist to `off_dist_proposals` and `judgments` tables, write `data/runs/{run_id}/{convergence,candidates,judgments,menu}.{md,json}`.
+- **K (off-distribution candidates) is configurable** via `OFF_DIST_K` env var, default 10. Madeleine flagged Tier 1 outputs may not surface enough true outliers at K=10; a future scaling pass can crank this without code changes.
+- End-to-end run on both scenarios. Costs ~$0.40/run; budget for 5–10 iterative runs during Tier 2.
 
 ### `feature/ui`
-- (Optional in Tier 1.) `streamlit_app.py` with mocked-data tabs: Scenario / Modal Ensemble / Convergence / Menu / Audit.
+- Swap the Tier-1 mock fixtures for real reads from `data/runs/{run_id}/{manifest,modal_moves,convergence,candidates,judgments,menu}.json` and `data/memory.db`.
+- **Mock shape fixes (Tier 1 carry-over):** `MOCK_MODAL_MOVES` is missing `actions` and `move_id`; `MOCK_CONVERGENCE` uses `cluster_labels` instead of the spec's `clusters` list. Fix as part of the mock-to-real swap.
+- Wire the "Live re-run one stage" button (currently stubbed) — re-runs Stage 4 only, against the existing run's Stage 3 output. Cheapest credibility move in the demo.
+- Run picker (`_list_run_ids()` already exists) becomes the entry point; the demo loads a pre-computed canonical run.
+- Decide which of `streamlit_app.py` vs `streamlit_proto.py` is the demo. Keep the other for reference.
 
 ## Blockers
 

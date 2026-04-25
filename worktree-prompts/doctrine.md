@@ -1,94 +1,85 @@
-# Tier 1 brief — `feature/doctrine` worktree
+# Tier 2 brief — `feature/doctrine` worktree
 
 You are working in the `feature/doctrine` worktree of the Adversarial-Distribution Red Team project (SCSP Hackathon 2026, Wargaming track, Boston). Three other Claude Code instances are working in parallel. Coordinate via `TASK_LEDGER.md`.
 
+Tier 1 shipped: `src/doctrine/{index,retrieve}.py`, 33 passages on disk validating clean (5 stages, 44 topics). Live smoke test on Taiwan exposed a real signal: all 8 modal moves cited the same 3 passages (`jp3-0-phasing-model`, `jp3-0-cog`, `pla-gray-zone-coercion`); zero cited the off-distribution-flag passages. Tier 2 is prompt-iteration and corpus tuning.
+
 ## Read first
 
-1. `PROJECT_SPEC.md` §5 (doctrine markdown corpus, **not RAG**) is your spec. Read §3 and §6 for context.
-2. `data/doctrine/passages/SCHEMA.md` — frontmatter schema, controlled vocabulary, retrieval contract. **Authoritative.**
-3. `TASK_LEDGER.md` — file ownership and current blockers.
-4. `_context/agent-output/ra1-pla-doctrine.md` — PLA Taiwan source list. The passages you author are *distillations* of the cited material, not literal scrapes.
-5. `_context/agent-output/ra2-jp-3-0-5-0.md` — JP 3-0 / 5-0 section guide. Direct quotes are usable.
-6. `_context/agent-output/ra3-pla-off-dist-corpus.md` — Concepts the modal LLM under-weights. Drives `applies-to: off-distribution-flag` passages.
-7. `_context/agent-output/ra4-me-cascade-corpus.md` — Israel/ME source list, for the second scenario's passages.
-8. The 9 sample passages already on `main` under `data/doctrine/passages/`. Match their style.
+1. `PROJECT_SPEC.md` §5 (markdown corpus) and §13 (demo flow).
+2. `TASK_LEDGER.md` Tier 1 follow-ups, especially the doctrine retrieval-quality findings (cross-scenario topic bleed, incomplete stem trimming, pass-2 router fires more than expected).
+3. `data/runs/f2b0eb4c-6306-4876-b4db-46466b7c186e/{modal_moves,manifest}.json` — the actual smoke-test output. **Read this first.** The convergence pattern (4×Dongsha, 4×quarantine) is the empirical anchor for prompt iteration.
+4. `_context/agent-output/{ra1,ra2,ra3,ra5}-*.md` — corpus and register.
+5. `data/doctrine/passages/SCHEMA.md` — settled.
+6. `src/prompts/*.md` — the 9 stub prompts. Yours to iterate.
 
 ## What you own
 
-- `src/doctrine/index.py` (Tier 0 ships full loader + validator; you may extend, e.g. add embedding-free `summarize_corpus()` for the Streamlit "audit" tab if helpful).
-- `src/doctrine/retrieve.py` (Tier 0 ships two-pass retrieval; you may iterate on scoring weights or tokenization, but keep the function signature stable).
-- **Author 20–30 new passages** under `data/doctrine/passages/{jp3-0,jp5-0,pla,me,csis}/*.md`. Quality > count — every passage must validate, must have non-trivial body, must be retrievable on a query a Red planner would actually ask.
+- `src/prompts/*.md` — coordinate via TASK_LEDGER on edits to existing files (avoid concurrent edits with feature/memory or feature/pipeline if they need to touch the same file). You own the *content*; they own the *call sites*.
+- `data/doctrine/passages/**/*.md` — corpus authoring continues if needed (RA-3 off-distribution corpus, CSIS subdirectory, missing passages surfaced by Stage-5 judges).
+- `src/doctrine/{index,retrieve}.py` — minor iteration only (e.g., light stemming if retrieval-quality findings demand it).
 
 ## What is read-only for you
 
-- `src/llm/wrapper.py`, `src/llm/manifest.py` — owned by `main`.
-- `src/memory/`, `src/agents/`, `src/pipeline/`, `src/ui/` — other worktrees.
-- `data/doctrine/passages/SCHEMA.md` — schema is settled. Propose changes via `TASK_LEDGER.md` open-questions; do not edit.
+- `src/llm/`, `src/memory/`, `src/pipeline/`, `src/agents/`, `src/ui/` — other worktrees.
+- `data/doctrine/passages/SCHEMA.md` — settled.
 
-`pyproject.toml` is additive-only; if you need a new dep, add it and note in TASK_LEDGER.
+`pyproject.toml` is additive-only.
 
-## Tier 1 deliverables
+## Tier 2 deliverables
 
-1. **Author the JP 3-0 corpus.** Target ~6 passages from RA-2's section list:
-   - `jp3-0-phasing-model.md` (the six-phase model + competition continuum reframe)
-   - `jp3-0-branches-sequels.md`
-   - `jp3-0-operational-design-elements.md` (the seventeen)
-   - `jp3-0-termination.md`
-   - `jp3-0-lines-of-operations.md`
-   - one of your choice from RA-2's "Why this matters" set
+### 1. Iterate `src/prompts/modal_red.md`
 
-2. **Author the JP 5-0 corpus.** Target ~5 passages:
-   - `jp5-0-jpp-overview.md` (the seven steps)
-   - `jp5-0-mission-analysis.md`
-   - `jp5-0-coa-comparison.md`
-   - `jp5-0-risk-assessment.md`
-   - `jp5-0-most-probable-most-dangerous.md` (call out how this passage is what the system is reacting against — high `priority`, `applies-to: off-distribution-flag`)
+Open `data/runs/f2b0eb4c-6306-4876-b4db-46466b7c186e/modal_moves.json`. Read all 8 moves. Specific findings to address in the prompt:
 
-3. **Author the PLA corpus.** Target ~8 passages from RA-1:
-   - `pla/quarantine-vs-blockade.md` (CSIS Bonny Lin et al.)
-   - `pla/joint-island-landing-campaign.md` (the three-phase doctrine)
-   - `pla/decapitation.md`
-   - `pla/outlying-island-seizure.md` (Kinmen, Matsu, Dongsha)
-   - `pla/gray-zone-coercion.md` (CSIS "Signals in the Swarm")
-   - `pla/active-defense.md` (PLA historical doctrine; off-distribution-flag)
-   - `pla/volt-typhoon-class.md` (off-distribution-flag; civilian-infra pre-positioning)
-   - one PLAAF or Rocket Force technical anchor
+- **Citation flattening:** 8/8 moves cited exactly 3 passages (phasing-model + cog + gray-zone). Either retrieval is over-anchoring on those (high-priority + common keywords), or the prompt is implicitly biasing the model to default to gray-zone framings. Investigate both. Try: explicitly tell the model to cite ONLY passages it drew on (the prompt already says this — strengthen if needed); and check whether the doctrine-block ordering is biasing toward the first-listed passages.
+- **Cluster narrowness:** 4 distinct titles for "Dongsha seizure" suggest the model is genuinely converging on that move at high temperature. This is the failure mode the system is built to expose, so it's a feature for Stage 3, not a bug. But: if the prompt's example phrasing or doctrine excerpts themselves seed this convergence, soften them.
+- **`risks_red_accepts` quality:** check whether models actually populate this with substantive risk language vs. boilerplate. The Cartographer relies on this for "notable absences" framing.
 
-4. **Author the ME corpus.** Target ~5 passages from RA-4 / RA-3:
-   - `me/iran-april-2024-strike.md` (model anchor; will be over-cited)
-   - `me/iran-october-2024-strike.md` (model anchor)
-   - `me/tower-22-precedent.md` (attribution / coordination friction)
-   - `me/houthi-bab-al-mandeb.md`
-   - one off-distribution Cluster B move from RA-4 (e.g., `me/lawfare-instrumental.md` or `me/insurance-market-vector.md`)
+Iterate, then re-run the modal stage on Taiwan. Cost ~$0.15. Compare convergence patterns before/after; **document in TASK_LEDGER**.
 
-5. **Smoke tests.** Add `tests/test_doctrine_index.py`:
-   - `load_index()` succeeds without warnings.
-   - `retrieve_sync('amphibious operations', 'modal-grounding', 3)` returns at least one PLA passage.
-   - `retrieve_sync('the staff should reject this course of action', 'judge-rubric', 3)` returns `jp5-0-coa-screening` first.
-   - Every authored passage's id is referenced from at least one other passage's `related` list (catches orphan passages).
+### 2. Iterate `src/prompts/convergence_summary.md`
 
-6. **TASK_LEDGER notes** on prompt-iteration findings: which queries return useful passages vs. which return Blue-side noise. The pipeline worktree iterates `modal_red.md` against your retrieval; flagging quirks here saves them time.
+This prompt drives the Cartographer's narration. After `feature/pipeline` lands the Stage-3 wire-up, iterate against the first 1–2 real Cartographer outputs. Specific things to tune:
 
-## Authoring rules (from SCHEMA.md, restated)
+- The `notable_absences` format — RA-5 register requires "specific" not "the ensemble underweights X" hand-waving. The prompt already says this; check whether outputs comply.
+- Length: spec says 4–8 absences. Verify.
+- Cross-run observations should appear blank on Run 1 (no prior reflections), populated on Run 3+ for the same scenario family.
 
-- One concept per file. Body under ~500 lines.
-- Cite source/edition/page exactly. Use blockquote markdown for verbatim quotes.
-- Lowercase, stem-trimmed keywords. Generous synonyms but not promiscuous.
-- Stable ids — they're the citation token in `modal_moves.doctrine_cited`.
-- Run `uv run python -m src.doctrine.index --validate` before committing.
-- The off-distribution generator (Stage 4) does NOT call `retrieve()`. No passage should be authored *for* that stage; an `applies-to: off-distribution-flag` passage is for the Stage 5 judges and the Cartographer to *recognize* off-distribution moves, not to seed them.
+### 3. Iterate `src/prompts/off_distribution.md`
+
+Once `feature/memory` ships `OffDistributionGenerator` and `feature/pipeline` runs Stage 4 end-to-end, examine the K proposals. Specific signal to watch:
+
+- The `which_convergence_pattern_it_breaks` field is the cleanest evidence of whether the generator escaped the gap. If proposals all break the *same* convergence pattern, the prompt isn't pushing hard enough.
+- The `why_a_red_planner_could_justify_this` field separates plausible-but-novel from implausible-and-novel. Strengthen the rubric if proposals are pure provocation.
+
+### 4. Iterate the two judge prompts
+
+Calibration drift: if the 5 judges' median plausibility is consistently 4–5 across all proposals, plausibility isn't discriminating. If would-have-generated is True too often, the survival filter never fires. Tune temperature, examples, or rubric language.
+
+### 5. Topic vocabulary lock decision
+
+The Tier 1 doctrine pass added 24 passages without introducing new topics. If Tier 2 holds the line, consider making `--strict` the default in `index.py` (treat unknown topics as errors). One-line change in `main()`. Decide and document.
+
+### 6. Optional: CSIS subdirectory
+
+If RA-3 surfaces off-distribution PLA concepts not yet in the corpus, author them under `data/doctrine/passages/csis/` (or split out from `pla/`). Mark as `applies-to: off-distribution-flag` so Stage 5 judges and the Cartographer can recognize escape.
+
+### 7. Optional: light stemming
+
+The Tier-1 finding that `phase` doesn't match `phasing` and `transition` doesn't match `transitions` is real. A simple `re.sub(r'(ing|ion|ions|ed|s)$', '', token)` pass on both query tokens and stored keywords would close this without changing function signatures. Held off in Tier 1; pick up if retrieval misses become demo-blocking.
 
 ## Definition of done
 
-- `uv run python -m src.doctrine.index --validate` exits 0.
-- ≥ 25 passages on disk; every required `applies-to` stage has ≥ 3 passages.
-- `uv run pytest tests/test_doctrine_index.py` — all green.
-- A short note added to `TASK_LEDGER.md` open-questions listing any retrieval-quality issues you saw.
+- One full pipeline re-run on Taiwan after the modal_red iteration; document the change in convergence pattern.
+- `convergence_summary.md` and `off_distribution.md` have been touched at least once based on real LLM output (not just spec-reading).
+- Topic-vocabulary lock decided.
+- TASK_LEDGER updated with prompt-iteration findings.
 
-## What NOT to do in Tier 1
+## What NOT to do
 
-- No embeddings. No ChromaDB. No PDF chunking. The pivot to markdown corpus is settled (PROJECT_SPEC.md §5).
-- No edits to `src/llm/wrapper.py`, `src/memory/`, `src/agents/`, `src/pipeline/`, `src/ui/`.
-- No passages authored *for* the off-distribution generator. That stage is intentionally ungrounded.
+- No edits to `src/llm/wrapper.py`, `src/memory/`, `src/pipeline/`, `src/agents/`, `src/ui/`.
+- No edits to `data/doctrine/passages/SCHEMA.md` (locked).
+- No new doctrine passages authored *for* the off-distribution generator (Stage 4). It's doctrine-free by design. Passages tagged `applies-to: off-distribution-flag` are for Stage 5 judges and the Cartographer to *recognize* off-distribution moves, not to seed Stage 4.
 
-When you finish, commit with a clear message and push the branch. The main worktree will squash-merge.
+When you finish, commit with a clear message and push the branch.
