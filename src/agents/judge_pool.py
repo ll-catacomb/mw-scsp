@@ -192,10 +192,14 @@ class _JudgeInstance(GenerativeAgent):
             system=plaus_sys,
             user=plaus_usr,
             temperature=self.temperature,
-            # GPT-5 reasoning models consume the budget on reasoning tokens before
-            # emitting content; 512 returned empty under LengthFinishReasonError.
-            # See feature/pipeline Tier-2 follow-up notes in TASK_LEDGER.
-            max_tokens=4096,
+            # GPT-5/5.5 are reasoning models — they spend completion tokens on
+            # internal chain-of-thought BEFORE emitting any content. With the
+            # structured 6-field _PlausibilityRating schema (adjacency_found,
+            # adjacency_evidence, leverage_named, leverage_instrument, plausibility,
+            # rationale), 4096 was consumed entirely by reasoning_tokens
+            # (LengthFinishReasonError, completion_tokens=4096, reasoning=4096,
+            # zero content). 16384 matches cartographer + persona settings.
+            max_tokens=16384,
             prompt_path=plaus_path,
             response_format=_PlausibilityRating,
         )
@@ -207,7 +211,7 @@ class _JudgeInstance(GenerativeAgent):
             system=off_sys,
             user=off_usr,
             temperature=self.temperature,
-            max_tokens=4096,  # GPT-5 reasoning headroom (see plaus_task above).
+            max_tokens=16384,  # GPT-5 reasoning headroom (see plaus_task above).
             prompt_path=off_path,
             response_format=_OffDistCheck,
         )
