@@ -187,7 +187,13 @@ def build_menu(
     rejected_entries: list[dict[str, Any]] = []
     for p in proposals:
         plist = by_proposal.get(p["proposal_id"], [])
-        med, wgc, surviving = compute_survival(plist)
+        med, wgc, legacy_surviving = compute_survival(plist)
+        # Prefer the strict round-based-tree flag when present (this is the
+        # filter the orchestrator actually applied at every tier). Fall back
+        # to the legacy med≥3+wgen<ceil(N/2) only when tier_surviving wasn't
+        # annotated — keeps test fixtures + older runs working.
+        ts = p.get("tier_surviving")
+        surviving = bool(ts) if ts is not None else legacy_surviving
         entry = {
             "proposal": p,
             "judgments": plist,
@@ -201,8 +207,8 @@ def build_menu(
     md_parts: list[str] = ["# Survival menu\n"]
     md_parts.append(
         f"**{len(surviving_entries)} surviving** of {len(proposals)} proposals "
-        f"(median plausibility ≥ 3 AND fewer than half of judges said "
-        f"\"I would have generated this\").\n"
+        f"(strict tier filter: median plausibility ≥ TIER_PLAUS_FLOOR "
+        f"AND would-have-generated count ≤ TIER_WGEN_CEIL).\n"
     )
 
     if surviving_entries:
@@ -359,6 +365,51 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
             json.dumps(menu_dict, indent=2, ensure_ascii=False), encoding="utf-8"
         )
 
+        # Stage 6 — Blue Interpretive Curator. One LLM call per run that sorts
+        # the surviving menu into A/B/C wargame-prep tiers from the perspective
+        # of the scenario's lead_branch (USN for Taiwan, USAF for Israel). The
+        # curator does not modify tier_surviving; it sorts. Failure is non-fatal
+        # — the rest of the artifact set still ships.
+        branch_curation: dict[str, Any] | None = None
+        try:
+            from src.agents.blue_curator import BlueCurator
+            from src.personas.branches import get_curator_persona
+            curator_persona = get_curator_persona(scenario)
+            if curator_persona is None:
+                lb = scenario.get("lead_branch", "(unset)")
+                print(
+                    f"blue_curator: no persona for scenario lead_branch={lb!r}; "
+                    "skipping Stage 6.",
+                )
+            else:
+                survivors_only = [
+                    e["proposal"] for e in menu_dict.get("surviving", [])
+                ]
+                survivor_ids = {p["proposal_id"] for p in survivors_only}
+                survivor_judgments = [
+                    j for j in judgments if j.get("proposal_id") in survivor_ids
+                ]
+                curator = BlueCurator(persona=curator_persona)
+                branch_curation = await curator.curate(
+                    survivors=survivors_only,
+                    judgments=survivor_judgments,
+                    scenario=scenario,
+                    narration=narration,
+                    run_id=run_id,
+                )
+                (out_dir / "branch_curation.json").write_text(
+                    json.dumps(branch_curation, indent=2, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                print(
+                    f"blue_curator: rated {len(branch_curation.get('ratings', []))} "
+                    f"surviving moves for {curator_persona.branch}."
+                )
+        except Exception as e:  # noqa: BLE001 — Stage 6 is non-fatal
+            import sys as _sys
+            print(f"blue_curator failed: {e}", file=_sys.stderr)
+            branch_curation = None
+
         # Per-leaf context packs: one self-contained markdown per surviving
         # proposal. Re-feedable to a new model instance to continue the option's
         # reasoning when the wargame moves into player counter-moves. Lives at
@@ -367,11 +418,17 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
             from src.personas.index import load_index as load_persona_index
             from src.pipeline.context_pack import write_context_packs
             persona_index = load_persona_index()
+            ratings_by_pid: dict[str, dict] | None = None
+            if branch_curation and branch_curation.get("ratings"):
+                ratings_by_pid = {
+                    r["proposal_id"]: r for r in branch_curation["ratings"]
+                }
             written = write_context_packs(
                 run_id=run_id, run_dir=out_dir,
                 proposals=proposals, judgments=judgments,
                 scenario=scenario, narration=narration,
                 persona_index=persona_index,
+                branch_curation=ratings_by_pid,
             )
             if written:
                 print(

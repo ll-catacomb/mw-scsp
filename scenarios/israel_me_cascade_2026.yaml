@@ -9,6 +9,7 @@ red_force: >
   Asaib Ahl al-Haq, Harakat Hezbollah al-Nujaba); Iran-aligned Syrian militias /
   IRGC-Quds Force formations in Syria.
 blue_force: Israel + US CENTCOM (with adjacent partners — KSA, UAE, Jordan, Egypt — non-belligerent)
+lead_branch: USAF  # which Blue branch curates the surviving menu (Stage 6)
 note_on_framing: >
   This is a research wargaming exercise built from publicly available
   open-source analysis. It is not commentary on any specific real-world

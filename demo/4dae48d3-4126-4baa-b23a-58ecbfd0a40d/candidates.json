@@ -1,0 +1,727 @@
+[
+  {
+    "move_title": "Itu Aba Airborne Seizure with Penghu Lift Mobilization",
+    "summary": "D+1: 15th Airborne Corps drops a reinforced battalion onto Itu Aba, seizing the 1200m runway and ROC Marine detachment intact. Simultaneously, Bo Hai/CCS RoRo consortium mobilizes visibly at Mawei/Pingtan under 'spring lift exercise' cover, ranged for Penghu but not sailing. MFA frames Itu Aba as 'recovery of disputed Nansha feature,' inviting Hanoi/Manila to litigate against Taipei rather than Beijing. No Taiwan-proper strikes; PLARF dispersed, not launched.",
+    "actions": [
+      {
+        "actor": "PLA Airborne Corps, 15th Airborne, reinforced battalion",
+        "action": "Combat parachute and heliborne assault, secure runway, neutralize ROC Marine garrison with maximum surrender pressure",
+        "target": "Itu Aba (Taiping Island), Spratlys",
+        "timeline_days": 1,
+        "purpose": "Seize Taiwan's only SCS runway and create a fait accompli outside the Strait template"
+      },
+      {
+        "actor": "PLAN Southern Theater surface action group + Y-20 lift",
+        "action": "Establish 50nm air-defense identification bubble, rotate J-16s through Yongshu/Meiji, sustain garrison",
+        "target": "Itu Aba and surrounding Nansha features",
+        "timeline_days": 2,
+        "purpose": "Make reversal cost-prohibitive within 72 hours"
+      },
+      {
+        "actor": "COSCO Shipping / Bo Hai Ferry consortium under ETC JLSF tasking",
+        "action": "Visible RoRo marshalling and load-out drills at Mawei, Pingtan, Quanzhou — no sailing",
+        "target": "Civilian RoRo fleet, ~24 hulls",
+        "timeline_days": 1,
+        "purpose": "Hold Penghu/JILC option visibly open as the unstated next rung"
+      },
+      {
+        "actor": "MFA + State Council Information Office",
+        "action": "Frame action as intra-Chinese sovereignty matter over Nansha, invite Vietnamese and Philippine claimant dialogue under PRC framework",
+        "target": "ASEAN claimant capitals, particularly Hanoi and Manila",
+        "timeline_days": 2,
+        "purpose": "Fragment ASEAN coalition by surfacing competing SCS claims against Taipei, not Beijing"
+      },
+      {
+        "actor": "PLARF Base 61 / Base 62",
+        "action": "Visible dispersal to field sites, no launches; closure NOTAMs east of Taiwan",
+        "target": "DF-17, DF-26 brigades",
+        "timeline_days": 1,
+        "purpose": "Hold counter-intervention threat over Yokosuka/Guam without crossing kinetic threshold"
+      },
+      {
+        "actor": "State Council via Taiwan Affairs Office",
+        "action": "Issue 21-day political offer: Itu Aba returnable upon Lai administration suspending referendum trajectory and entering 1992-framework talks",
+        "target": "Taipei, with copy to Washington back-channel",
+        "timeline_days": 3,
+        "purpose": "Convert seizure into bargaining instrument with explicit ladder rung above"
+      }
+    ],
+    "intended_effect": "Force Taipei into 1992-framework talks under threat of Penghu as the next rung, while fragmenting ASEAN by making Hanoi and Manila litigate against Taipei's SCS claim rather than against Beijing. Buy Beijing the political-legitimacy ratchet without triggering Article V or EDCA activation.",
+    "why_a_red_planner_could_justify_this": "Anchor: pla-outlying-island-seizure read correctly — Itu Aba is the doctrinally superior rung (runway, deepwater, smaller garrison) Dongsha lacks. Serves goals 1 (unification leverage) and 3 (prevents coalition crystallization, since SCS claimants cannot align with Taipei without conceding their own claims). Relaxes the political constraint Dongsha cannot: it splits ASEAN against Taipei rather than uniting ASEAN against Beijing. The 1974 Paracels precedent shows SCS seizures do not trigger US treaty response.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 1 — Pratas-only outlying-island fait accompli.' Violates the unstated assumption that 'outlying island' is bound to Dongsha and that the seizure target should be in the Strait or its approaches rather than the SCS.",
+    "risks_red_accepts": [
+      "Vietnam responds by reinforcing its own Spratly garrisons and quietly cooperating with US ISR rather than litigating against Taipei",
+      "ROC Marine garrison fights through rather than surrenders, producing the martyrs the ensemble's law-enforcement framing avoids",
+      "Manila uses the seizure as pretext to expand EDCA rather than freeze it, the opposite of intended ASEAN effect",
+      "15th Airborne lift window detected by NRO 96+ hours out, costing tactical surprise and forcing either acceleration or visible climbdown"
+    ],
+    "proposal_id": "10a82c4e-903e-4213-8605-a04fa4076db7",
+    "persona_id": "persona-pla-post-2015-joint-planner",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": false,
+    "tier_median_plaus": 3.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "MOFCOM Gallium-Germanium Cutoff Tied to TSMC Compliance Regime",
+    "summary": "D+1: MOFCOM announces 90-day export licensing freeze on gallium, germanium, refined rare-earth oxides, and tungsten to any firm 'participating in Taiwan Strait military activities,' with named entity list including TSMC Arizona, ASML Taiwan, Raytheon, Lockheed, BAE. Day 3: PBOC signals Taiwan-exposed counterparty risk to HKMA-cleared banks. Day 5: Cyberspace Administration of China requires TSMC Nanjing fab to file 'cross-Strait technology transfer compliance reports' weekly. No PLAN posture change beyond exercise baseline. Operative clock becomes the equity-market and semiconductor-supply-chain quarter, not the spring lift window.",
+    "actions": [
+      {
+        "actor": "PRC Ministry of Commerce (MOFCOM)",
+        "action": "Publish export licensing freeze with named US/Taiwan/EU entity list under existing dual-use catalog authority",
+        "target": "Gallium, germanium, graphite, tungsten, 17 rare-earth oxides; ~140 named firms",
+        "timeline_days": 1,
+        "purpose": "Trigger immediate Blue defense-industrial equity repricing and force Washington to choose between Taiwan posture and supply chain"
+      },
+      {
+        "actor": "State Administration of Foreign Exchange + PBOC",
+        "action": "Quiet guidance to HKMA-cleared correspondent banks: Taiwan-exposed counterparties face enhanced settlement scrutiny",
+        "target": "CTBC, Cathay, Mega ICBC and their USD correspondent relationships",
+        "timeline_days": 3,
+        "purpose": "Generate Taiwan banking-sector liquidity stress without formal sanctions"
+      },
+      {
+        "actor": "Cyberspace Administration of China + MIIT",
+        "action": "Impose weekly compliance reporting on TSMC Nanjing fab regarding mainland staff travel, parts movements, and IP transfer",
+        "target": "TSMC Nanjing, UMC Xiamen, ASE Suzhou",
+        "timeline_days": 5,
+        "purpose": "Convert TSMC's mainland footprint into a hostage that Taipei must defend politically while in cross-strait talks"
+      },
+      {
+        "actor": "State Council Taiwan Affairs Office",
+        "action": "Announce 'Cross-Strait Industrial Stabilization Dialogue' offer: licensing freeze lifts upon Lai suspending referendum and entering 1992-framework talks",
+        "target": "Taipei, with industry-association back-channels to TSMC, Foxconn, MediaTek leadership",
+        "timeline_days": 7,
+        "purpose": "Make Taiwan's semiconductor oligarchy the constituency lobbying Lai for accommodation"
+      },
+      {
+        "actor": "PLA Eastern Theater",
+        "action": "Hold exercise baseline; no dispersal, no closures, no PLARF posture change",
+        "target": "All forces",
+        "timeline_days": 1,
+        "purpose": "Deny Blue any kinetic predicate for Article V consultations or CSG forward sortie"
+      },
+      {
+        "actor": "MFA",
+        "action": "Frame all measures as 'lawful regulatory response to Taiwan-authority militarization,' decline UN/WTO consultation requests as internal matter",
+        "target": "International audience, particularly Global South and EU industrial ministries",
+        "timeline_days": 2,
+        "purpose": "Run the coercion on a regulatory-administrative clock Blue cannot answer at theater command"
+      }
+    ],
+    "intended_effect": "Replace the spring-2028 D-day clock with the equity-market quarter and the TSMC board-meeting cycle. Inflict measurable economic damage on Taiwan and Blue defense industrials within 30 days while presenting Blue zero kinetic predicate. Make Taiwan's own semiconductor oligarchy the lobby for accommodation.",
+    "why_a_red_planner_could_justify_this": "Anchor: 2010 rare-earth embargo against Japan over Senkaku trawler incident — measurable coercion, no kinetic predicate, no Article V trigger. Serves goal 2 (avoids US kinetic conflict) and goal 3 (prevents coalition crystallization — EU industrial ministries split from Pentagon). Relaxes the political constraint kinetic options cannot: requires no CMC factional consensus on casualty risk and no Politburo authorization for force employment. The operative clock becomes Q2 industrial earnings, not the lift window.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 2 — CCG-led declared customs quarantine + Pratas pressure-multiplier.' Violates the unstated assumption that the coercion instrument must be PLA/CCG/PLARF rather than MOFCOM/PBOC/CAC, and that the operative clock must be the spring lift window.",
+    "risks_red_accepts": [],
+    "proposal_id": "18b95972-1f33-4ed3-9e4c-d2fd90670b78",
+    "persona_id": "persona-pla-post-2015-joint-planner",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Bashi-Miyako Reload-Held Salvo, Reverse-1996 Bracket",
+    "summary": "H-Hour Day 1: Eastern and Southern Theater PLARF fire layered conventional DF-26/DF-17 salvos into two declared NOTAM boxes — 350nm east of Miyako astride the forward CSG arc, and 600nm east of Luzon astride the second CSG's redeployment lane — with terminal maneuver against instrumented hulks. Days 2–7: visible reload, DF-21D dispersal under SSF EW cover, second salvo Day 5 if CSG closes inside 700nm. Taiwan untouched. MFA: 'lawful defensive exercise.'",
+    "actions": [
+      {
+        "actor": "Eastern Theater PLARF Base 61, 611 and 613 Brigades",
+        "action": "Conventional DF-17 HGV salvo (12 rounds) into Miyako-east NOTAM box with terminal maneuver against instrumented target hulk",
+        "target": "NOTAM box 350nm ENE of Miyako, astride forward CSG southwesterly arc",
+        "timeline_days": 1,
+        "purpose": "Demonstrate HGV terminal performance against a moving sea target inside the forward CSG's threat geometry; force CSG to open range."
+      },
+      {
+        "actor": "Southern Theater PLARF Base 62, 626 Brigade",
+        "action": "Conventional DF-26 salvo (16 rounds) into Luzon-east NOTAM box, instrumented hulk struck on Day 1, reload visible on Day 3",
+        "target": "NOTAM box 600nm east of Luzon, astride second CSG redeployment lane from Guam/Pearl",
+        "timeline_days": 1,
+        "purpose": "Place the second-CSG redeployment lane under demonstrated fires; impose a 2–3 week reconstitution penalty on Blue's swing carrier."
+      },
+      {
+        "actor": "PLARF DF-21D brigades, Eastern Theater",
+        "action": "Disperse to pre-surveyed coastal hides under SSF 311 Base EW cover; hold reload posture visible to NRO overhead",
+        "target": "Coastal Fujian/Zhejiang hide complexes",
+        "timeline_days": 2,
+        "purpose": "Signal sustained second-and-third salvo capacity; convert one demonstration into a standing fires hold."
+      },
+      {
+        "actor": "MFA spokesperson + State Council Information Office",
+        "action": "Frame salvos as 'lawful defensive exercise in response to Taiwan separatist provocation,' simultaneously offer cross-strait dialogue under 1992 framework",
+        "target": "Washington back-channel (NSC senior director China), Tokyo (Kantei), ASEAN capitals",
+        "timeline_days": 1,
+        "purpose": "Open political off-ramp while the fires demonstration sets the new equilibrium; deny Blue the 'unprovoked aggression' narrative."
+      },
+      {
+        "actor": "Eastern Theater PLAAF",
+        "action": "J-20 and J-16 sweeps along Taiwan ADIZ centerline crossings, no weapons release, no Taiwan airspace penetration",
+        "target": "Taiwan ADIZ centerline, Bashi Channel",
+        "timeline_days": 3,
+        "purpose": "Saturate Taiwan air-defense decision cycle without giving Taipei a casus for general mobilization."
+      },
+      {
+        "actor": "PLARF Base 61, conditional second salvo cell",
+        "action": "Day 5 conditional reload-and-fire if forward CSG closes inside 700nm of Taiwan",
+        "target": "Same Miyako-east NOTAM box, with declared expansion option",
+        "timeline_days": 5,
+        "purpose": "Convert the demonstration into an enforcement mechanism; the reload is the message."
+      }
+    ],
+    "intended_effect": "Solve the carrier counter-intervention problem first. Push the forward CSG east of 140°E, delay second-CSG redeployment by 14+ days, and let the political clock run on Taipei and Washington under demonstrated fires dominance. Taiwan is the prize; the CSG problem is the gate.",
+    "why_a_red_planner_could_justify_this": "Anchor: pla-joint-firepower-strike and pla-df-26-anti-access — JFSO doctrine treats counter-intervention fires as the prerequisite, not the consequence, of any cross-strait act. Historical anchor: 1996 inverted — in 1996 we fired closure boxes and the CSG closed; in 2028 we fire on the lane and the CSG opens. Serves Goal 2 (avoid sustained kinetic with US) and Goal 4 (deter independence trajectory). Relaxes the political constraint that an opening kinetic act must produce Taiwanese casualties — it does not.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 1 — Pratas-only outlying-island fait accompli' and 'cluster 2 — CCG-led declared customs quarantine.' Violates the assumption that the opening must be a territorial or jurisdictional act on Taiwan's periphery rather than a fires act against the intervention problem itself.",
+    "risks_red_accepts": [
+      "Forward CSG holds station inside 700nm and forces Day 5 conditional second salvo, escalating to a hulk-vs-warship targeting ambiguity",
+      "Japan invokes Article VI consultations within 96 hours given Miyako-proximate impacts and grants expanded Kadena tanker access",
+      "Insurance markets close Bashi and Luzon Strait commercial traffic for 30+ days, imposing PRC export costs MOFCOM did not pre-clear",
+      "DF-17 terminal-maneuver performance against the instrumented hulk underperforms in NRO/SBIRS imagery, degrading the deterrent signal",
+      "Taiwan declares general mobilization under the cover of the salvos and accelerates the referendum rather than postponing it"
+    ],
+    "proposal_id": "9d25fc2f-7ad7-4ff5-9242-72fa6a2e783a",
+    "persona_id": "persona-pla-rocket-force-doctrinaire",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": false,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 2
+  },
+  {
+    "move_title": "Eastern Theater Fires Sanctuary: Kadena Access Denial via Okinawa Prefectural Lawfare",
+    "summary": "Days 1–7: Beijing constructs binding political leverage on the Okinawa prefectural government and its Diet allies to force a 90-day suspension of Kadena and Futenma host-nation consent for Taiwan-contingency sortie generation, before any Strait-centric act. Instrument stack: pre-staged Okinawa base-pollution class action funded through Hong Kong NGO conduits; UFWD activation of Okinawan reversion-anniversary protests; targeted GACC suspension of Okinawan agricultural and fisheries import licenses; a single Senkaku CCG-and-Maritime-Militia surge framed as fisheries enforcement. No Taiwan strikes. No Pratas. The operative clock becomes the Okinawa prefectural assembly session and the Kishida-successor cabinet's Diet calendar, not the spring amphibious window.",
+    "actions": [
+      {
+        "actor": "UFWD Japan Bureau via Hong Kong-registered environmental NGO",
+        "action": "File pre-staged class action in Naha District Court on Kadena PFAS contamination, with simultaneous prefectural-assembly resolution demanding suspension of US sortie generation pending investigation",
+        "target": "Naha District Court; Okinawa Prefectural Assembly (Governor Tamaki bloc)",
+        "timeline_days": 1,
+        "purpose": "Convert latent Okinawan base resentment into a procedural instrument that contests host-nation consent at the prefectural level, forcing Tokyo into a domestic-political fight before an external one."
+      },
+      {
+        "actor": "GACC (General Administration of Customs)",
+        "action": "Suspend import licenses for Okinawan mozuku, sea grape, Ishigaki beef, and Yaeyama pineapple citing 'phytosanitary irregularities'",
+        "target": "Okinawan agricultural cooperatives (JA Okinawa); Ishigaki and Miyako fisheries cooperatives",
+        "timeline_days": 2,
+        "purpose": "Inflict targeted economic pain on the prefectural constituencies most resistant to base expansion, signaling that Okinawan cooperation with a Taiwan contingency carries discrete prefectural costs distinct from national ones."
+      },
+      {
+        "actor": "CCG 2901-class cutters + Maritime Militia (Sansha)",
+        "action": "Surge 12 hulls into Senkaku 12nm contiguous zone, declare fisheries enforcement patrol, surfaced and photographed; no contact with JCG",
+        "target": "Senkaku/Diaoyu 12nm zone",
+        "timeline_days": 3,
+        "purpose": "Force Tokyo to split crisis-cell attention between Article V Taiwan consultations and a Senkaku sovereignty incident; consume Kantei bandwidth during the precise window when Kadena access decisions are made."
+      },
+      {
+        "actor": "MFA + Xinhua",
+        "action": "Publicize a 'Okinawa Peace Initiative' offering bilateral fisheries access agreement and direct Fuzhou-Naha charter flights conditional on prefectural neutrality declaration",
+        "target": "Tamaki government; Okinawan business federation; Komeito Okinawa chapter",
+        "timeline_days": 4,
+        "purpose": "Provide the off-ramp that makes prefectural defection from Tokyo's Taiwan posture politically survivable for Okinawan elites."
+      },
+      {
+        "actor": "PLARF Eastern Theater (posture only, no fires)",
+        "action": "Visible DF-17 brigade dispersal to Fujian coastal hides under SSF EW cover, no NOTAM, no launches",
+        "target": "Coastal Fujian",
+        "timeline_days": 3,
+        "purpose": "Hold the JFSO option visibly cocked while the political-warfare instruments do the upstream work; convert restraint into bargaining capital."
+      },
+      {
+        "actor": "PRC Embassy Tokyo + Track-2 conduits",
+        "action": "Back-channel to LDP Nikai-faction successors and Komeito leadership: prefectural lawfare de-escalates if Kadena Taiwan-contingency sortie generation is suspended 90 days",
+        "target": "LDP Secretariat; Komeito Diet leadership",
+        "timeline_days": 5,
+        "purpose": "Make explicit the linkage between the prefectural pressure and the Kadena access question; give Tokyo a deal it can take without losing face."
+      }
+    ],
+    "intended_effect": "Deny Blue its decisive forward sortie-generation node before fires open. If Kadena Taiwan-contingency access is suspended even 30 days, the JFSO problem becomes structurally easier; if it is not, Beijing has surfaced the seam without firing. The operative clock becomes the Okinawa prefectural assembly's session, not Blue's 30-day Strait window.",
+    "why_a_red_planner_could_justify_this": "Anchor: Mao's 'On Protracted War' §III on attacking the enemy's political seams before his military ones, and pla-three-warfares (legal/public opinion/psychological) operationalized at sub-national scale. Serves Goal 3 (prevent durable anti-PRC coalition) and Goal 2 (avoid sustained kinetic with US). Relaxes the constraint that coalition-fragmentation must wait until after fires open — it makes fragmentation the opening move, with Tokyo as the seam. The modal options cannot do this because they treat Japan as a unitary actor.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 1 — Pratas-only outlying-island fait accompli' by substituting a Tokyo-prefectural-coalition decoupling move. Violates the unstated assumption that Japan is a unitary coalition variable rather than a federated polity with prefectural-level seams that can be pried open below the Article V threshold.",
+    "risks_red_accepts": [
+      "Tamaki government refuses the bait and the prefectural assembly passes a pro-alliance resolution instead, reversing the polarity of the lawfare",
+      "Senkaku CCG surge produces an unintended JCG ramming incident that triggers Article V consultations Beijing was trying to delay",
+      "UFWD Hong Kong NGO conduit is exposed by Japanese public-security intelligence within 72 hours, burning a long-cultivated asset",
+      "Tokyo accelerates rather than delays Kadena access as a sovereignty signal, producing the opposite of the intended effect",
+      "Okinawan agricultural suspension fails to bite because cooperatives have diversified to Singapore and Bangkok markets post-2023"
+    ],
+    "proposal_id": "3dab4833-7363-4fa1-ad1e-57570b152005",
+    "persona_id": "persona-pla-rocket-force-doctrinaire",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Kinmen-Matsu Co-Governance Petition: United Front Territorial Capture",
+    "summary": "On Day 1, KMT-aligned Kinmen County Magistrate and Lienchiang (Matsu) Magistrate — both UFWD-cultivated through a decade of Xiamen economic integration — issue a joint declaration requesting 'temporary cross-strait humanitarian administrative coordination' citing Taipei's failure to guarantee fuel, water, and medical continuity during the crisis. Fujian provincial government accepts within 6 hours. CCG begins daily supply runs Day 2. No PLA uniformed presence. Taipei must coerce its own citizens or watch sovereignty hollow out.",
+    "actions": [
+      {
+        "actor": "UFWD Fujian Bureau + Kinmen/Lienchiang county magistrates (cultivated assets)",
+        "action": "Joint public declaration requesting PRC humanitarian administrative coordination",
+        "target": "Kinmen and Matsu county governments",
+        "timeline_days": 1,
+        "purpose": "Manufacture local-democratic legitimacy for PRC administrative presence on ROC-claimed soil"
+      },
+      {
+        "actor": "Fujian Provincial Government",
+        "action": "Formal acceptance and establishment of Xiamen-Kinmen Coordination Office",
+        "target": "Xiamen waterfront, mirrored on Kinmen",
+        "timeline_days": 1,
+        "purpose": "Convert petition into bilateral administrative fact within news cycle"
+      },
+      {
+        "actor": "China Coast Guard Fujian Detachment",
+        "action": "Daily ferry supply runs (water, diesel, medical) under civilian flagging",
+        "target": "Kinmen Shuitou and Matsu Fuao harbors",
+        "timeline_days": 2,
+        "purpose": "Establish persistent uniformed PRC presence below kinetic threshold"
+      },
+      {
+        "actor": "State Council Taiwan Affairs Office",
+        "action": "Public offer of identical arrangement to any Taiwan county requesting it",
+        "target": "Penghu, Hualien, Taitung county governments",
+        "timeline_days": 4,
+        "purpose": "Transform crisis into a rolling municipal-level referendum on cross-strait integration"
+      },
+      {
+        "actor": "MFA + UFWD media assets",
+        "action": "Frame any Taipei interdiction attempt as ROC central-government coercion of local democracy",
+        "target": "International press, ASEAN capitals, Taiwan electorate",
+        "timeline_days": "3-7",
+        "purpose": "Pre-position Taipei as the escalator if it sends Coast Guard against its own magistrates"
+      }
+    ],
+    "intended_effect": "Within 7 days, Taipei faces a constitutional crisis on its own offshore territory it cannot resolve militarily without firing on its own citizens and elected officials. The cross-strait question becomes a Taiwan-domestic devolution question, foreclosing US/Japan kinetic intervention because no PLA force has moved.",
+    "why_a_red_planner_could_justify_this": "Anchor: the 2005 Anti-Secession Law's Article 6 'encouragement of cross-strait exchange' read together with Hu Jintao's 'three links' doctrine — both authorize sub-national integration as a unification instrument. Serves goals 1 and 3 (unification on Beijing's terms; prevents anti-PRC coalition because no kinetic trigger exists). Relaxes the constraint the modal options cannot: the 2-3 week amphibious-detection window is irrelevant because the operative clock becomes Taiwan's electoral cycle, which now runs through Kinmen.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 1 — Pratas-only outlying-island fait accompli (Anthropic).' Violates the assumption that 'outlying island' means contested seizure of a garrisoned ROC asset rather than invited administrative absorption of a co-opted one.",
+    "risks_red_accepts": [
+      "Magistrates lose nerve under DPP pressure within 72 hours and retract; UFWD must have signed pre-positioned statements and family-relocation guarantees in Xiamen ready Day 0",
+      "Taipei sends Coast Guard Administration vessels to interdict CCG ferries, producing a ROC-on-ROC standoff Beijing must be ready to decline rather than reinforce",
+      "Taiwan's Constitutional Court issues emergency injunction stripping magistrates of office Day 3-5; counter-move requires UFWD to have prepared replacement civic committees",
+      "US Treasury sanctions Fujian provincial banks within 14 days, imposing real cost on the cooperating provincial leadership"
+    ],
+    "proposal_id": "f379b4ea-890d-4a16-a02b-e3586910339a",
+    "persona_id": "persona-pla-political-officer",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": false,
+    "tier_median_plaus": 3.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Strait Internal-Waters Declaration with Senkaku Co-Timed Submarine Surface",
+    "summary": "Day 1: State Council issues revised territorial-sea declaration designating the Taiwan Strait median-line-west as PRC internal waters under a 1958-doctrine update, with CCG empowered to enforce fisheries, customs, and environmental law. Day 2: a PLAN Yuan-class SSK surfaces inside the Senkaku 12nm contiguous zone, photographed, MFA framing as routine Diaoyu patrol. Two legal facts created simultaneously; Tokyo and Washington must litigate sovereignty before they can litigate transit.",
+    "actions": [
+      {
+        "actor": "PRC State Council + NPC Standing Committee",
+        "action": "Promulgate revised Territorial Sea and Contiguous Zone Law adding Taiwan Strait internal-waters clause",
+        "target": "International legal record; UN SG notification",
+        "timeline_days": 1,
+        "purpose": "Convert any future USN Strait transit from FONOP into sovereignty violation"
+      },
+      {
+        "actor": "China Coast Guard + Maritime Safety Administration",
+        "action": "Issue NAVAREA notice asserting enforcement jurisdiction over fisheries and customs west of median line",
+        "target": "IMO, Lloyd's insurance market, Taiwan-flagged shipping",
+        "timeline_days": 1,
+        "purpose": "Force insurers to reprice Strait transits within 96 hours"
+      },
+      {
+        "actor": "PLAN Submarine Force, North Sea Fleet, Yuan-class SSK",
+        "action": "Deliberate surfaced transit inside Senkaku 12nm with hull number visible, accompanied by CCTV cameraman",
+        "target": "Senkaku/Diaoyu contiguous zone",
+        "timeline_days": 2,
+        "purpose": "Force Japanese cabinet into Senkaku crisis posture, delaying Article V Taiwan consultations"
+      },
+      {
+        "actor": "MFA Spokesperson + State Council Information Office",
+        "action": "Coordinated press: Strait declaration framed as 'clarification,' Senkaku transit as 'routine'",
+        "target": "Tokyo, Washington, ASEAN capitals",
+        "timeline_days": 2,
+        "purpose": "Lower temperature on both events while creating two legal facts simultaneously"
+      },
+      {
+        "actor": "Ministry of Commerce",
+        "action": "Quiet briefing to Lloyd's, Munich Re, and three Asian P&I clubs that Taiwan-flagged hulls now require PRC export-license confirmation for Strait transit",
+        "target": "London/Munich/Singapore insurance markets",
+        "timeline_days": 3,
+        "purpose": "Translate legal declaration into commercial chokehold within one underwriting cycle"
+      },
+      {
+        "actor": "PLA Eastern Theater Command",
+        "action": "Cancel two scheduled live-fire exercises and announce 'goodwill' fleet posture standdown",
+        "target": "Strait public information environment",
+        "timeline_days": 4,
+        "purpose": "Deny Blue a kinetic narrative; force Blue to either accept new legal status quo or escalate first"
+      }
+    ],
+    "intended_effect": "Within 7 days: Lloyd's repricing makes Strait transit commercially impossible for Taiwan-bound LNG and container traffic; Tokyo's Article V deliberations are paralyzed by competing Senkaku crisis; US Navy faces a transit decision that is now a sovereignty-violation choice rather than a routine FONOP. The new operative clock is the insurance-renewal cycle and Japanese Diet debate calendar, not the 30-day military window.",
+    "why_a_red_planner_could_justify_this": "Anchor: 1958 PRC Declaration on Territorial Sea precedent (used successfully against US destroyers Aug 1958) combined with Hu Jintao's 2012 Senkaku baseline declaration — both established that legal-administrative facts created in a single news cycle become baselines no successor government rolls back. Serves goals 2 and 3 (avoid sustained kinetic; prevent coalition crystallization by splitting Tokyo from Washington at the legal-staff level). Relaxes the constraint kinetic options cannot: no amphibious lift required, no detection window matters, the binding clock becomes commercial-legal not military.",
+    "which_convergence_pattern_it_breaks": "Breaks 'cluster 2 — CCG-led declared customs quarantine + Pratas pressure-multiplier (OpenAI).' Violates the assumption that law-enforcement framing is a narrative wrapper for kinetic enforcement rather than a standalone lawfare instrument that needs no enforcement event to bind insurers and allied legal staffs.",
+    "risks_red_accepts": [
+      "Lloyd's market may absorb the declaration without repricing if US Treasury issues immediate counter-guarantee within 96 hours; mitigated only by pre-coordinated MOFCOM signaling to specific Asian reinsurers",
+      "Yuan-class submarine surfaces in degraded condition or is shadowed too closely by JMSDF P-1, producing humiliating imagery rather than sovereignty assertion",
+      "Japanese cabinet unifies *faster* under Senkaku provocation rather than splits, accelerating rather than delaying Article V — political officer acknowledges this is the move's most under-modeled axis",
+      "ROC MOFA secures emergency ICJ advisory opinion request within 14 days, locking in adverse legal precedent that complicates future PRC maritime claims globally",
+      "Taiwan-flagged shippers reflag to Panama/Liberia within one week, evading the legal predicate entirely and exposing the declaration as theatrical"
+    ],
+    "proposal_id": "8fb83eb6-75d3-424d-bdda-19f51cd12943",
+    "persona_id": "persona-pla-political-officer",
+    "parent_proposal_id": null,
+    "expansion_axis": null,
+    "tree_depth": 0,
+    "tier": 0,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Dormant Compliance Trap: Triggered Cutoff On Blue Commitment",
+    "summary": "D+1 through D+30: No action announced. MOFCOM, PBOC, CAC quietly pre-position legal instruments — drafted but unsigned export-license suspensions, pre-cleared HKMA guidance memos, pre-staffed CAC inspection teams at TSMC Nanjing. Trigger condition is published as ambiguous regulatory language: instruments execute automatically only upon a defined Blue act (CSG-2 sortie west of 130°E, AIT advisor reinforcement, or Lai referendum scheduling). The coercion exists as a legal landmine, not an event. Beijing waits.",
+    "actions": [
+      {
+        "actor": "State Council legal affairs office",
+        "action": "Quietly pre-stage and pre-coordinate the full MOFCOM/PBOC/CAC instrument package with auto-trigger conditions; brief select Western financial press off-record that 'measures are ready'",
+        "target": "Internal PRC regulatory apparatus; selective leak to FT/Bloomberg Beijing bureaus",
+        "timeline_days": 3,
+        "purpose": "Create market knowledge that the cutoff is loaded and aimed without firing it"
+      },
+      {
+        "actor": "MFA spokesperson",
+        "action": "Decline to confirm or deny the reported instrument package; refer questions to 'lawful regulatory authorities'",
+        "target": "International press",
+        "timeline_days": 5,
+        "purpose": "Sustain ambiguity premium in Taiwan equity and TSMC supplier pricing"
+      },
+      {
+        "actor": "TAO back-channel",
+        "action": "Communicate to TSMC, Foxconn, MediaTek boards that instruments execute on defined Blue/Taipei acts, with private list",
+        "target": "Taiwan industrial oligarchy",
+        "timeline_days": 7,
+        "purpose": "Convert the oligarchy into a real-time lobby against any Lai or Washington escalatory step"
+      },
+      {
+        "actor": "PLA Eastern Theater",
+        "action": "Hold exercise baseline; no posture change",
+        "target": "All forces",
+        "timeline_days": 1,
+        "purpose": "Preserve the pure deferred-trigger character of the move"
+      }
+    ],
+    "intended_effect": "Blue and Taipei govern themselves under a sword they cannot see fall. Every Blue escalatory option carries an embedded supply-chain cost; risk-aversion in Washington and Taipei does Beijing's coercion for it, indefinitely, without Beijing executing.",
+    "how_it_diverges_from_original": "Original is fast single-pulse opening move on D+1 through D+7. This sibling is a deferred trigger with no execution — the instrument is loaded and waits on a Blue commitment that may never come.",
+    "why_a_red_planner_could_justify_this": "Anchor: 2018–2024 'unreliable entity list' jurisprudence — the threat sustained leverage longer than the firings did. Serves goal 3 (no coalition crystallizes around an event that hasn't happened) and goal 2 (no kinetic or even regulatory predicate for Blue response). Relaxes Politburo constraint: no decision to execute is required, only a decision to load. Reversible at zero face-cost.",
+    "which_convergence_pattern_it_breaks": "Breaks the assumption that Red's opening move must be an *act* in the 7-day window. Red's opening move can be the credible *threat* of an act, with execution outsourced to Blue's own next decision.",
+    "risks_red_accepts": [
+      "Leak deemed bluff; market re-prices ambiguity to zero within 14 days",
+      "Blue calls trigger by deliberately crossing it to force Red to execute or fold",
+      "Taiwan industrial oligarchy lobbies Beijing rather than Taipei, inverting the intended pressure direction"
+    ],
+    "proposal_id": "97a63f2f-e75e-44f5-93d6-5c096fd37c7f",
+    "persona_id": "persona-pla-post-2015-joint-planner",
+    "parent_proposal_id": "18b95972-1f33-4ed3-9e4c-d2fd90670b78",
+    "expansion_axis": "timing",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Eighteen-Month Regulatory Strangulation Beginning D+1",
+    "summary": "Replace the 7-day pulse with a publicly announced 18-month phased compliance regime: D+1 announces a graduated quarterly tightening schedule on rare earths, semiconductor precursors, and Taiwan-exposed banking, with each phase contingent on Taipei's progress against published 'cross-strait stabilization milestones.' No single quarter is acute enough to trigger a Blue mobilization decision; cumulative effect over six quarters is decisive. Spring 2028 lift window passes with no kinetic event; Fall 2029 window arrives with Taiwan economy already restructured.",
+    "actions": [
+      {
+        "actor": "MOFCOM + State Council",
+        "action": "Publish 18-month phased export-control schedule with quarterly review gates and explicit milestone-based de-escalation language",
+        "target": "Global rare-earth, semiconductor precursor, and tungsten supply chains",
+        "timeline_days": 1,
+        "purpose": "Establish a coercion clock measured in fiscal years, not lift windows"
+      },
+      {
+        "actor": "PBOC + SAFE",
+        "action": "Quarterly tightening of Taiwan-exposed correspondent banking scrutiny in pre-announced steps",
+        "target": "Taiwan banking sector USD clearing",
+        "timeline_days": "90, 180, 270, 360",
+        "purpose": "Sustained liquidity pressure that compounds rather than shocks"
+      },
+      {
+        "actor": "TAO",
+        "action": "Publish quarterly 'cross-strait stabilization assessment' grading Taipei against milestones; tie next phase to grade",
+        "target": "Taipei political system, Taiwan business federations",
+        "timeline_days": "90, 180, 270",
+        "purpose": "Make every Taiwanese election cycle and budget cycle a referendum on Beijing's grade"
+      },
+      {
+        "actor": "PLA Eastern Theater",
+        "action": "Sustain elevated-but-routine exercise tempo throughout, normalizing presence over 18 months rather than spiking",
+        "target": "Strait air and sea space",
+        "timeline_days": "continuous",
+        "purpose": "Let Blue alert fatigue erode the CSG forward-deployment political case"
+      }
+    ],
+    "intended_effect": "Shift the operative clock from the 30-day decision horizon to a multi-year political-economic process. Blue cannot sustain CSG forward posture for 18 months; allied coalition fatigues; Taiwan industrial base restructures toward mainland accommodation under cumulative pressure rather than any single shock event.",
+    "how_it_diverges_from_original": "Original is a fast single-pulse coercion package designed to land inside the 30-day decision horizon. This sibling is a sustained slow-burn over six fiscal quarters, deliberately engineered so no single phase justifies Blue mobilization.",
+    "why_a_red_planner_could_justify_this": "Anchor: PRC's decade-long South China Sea reclamation — no single act triggered Blue response; cumulative effect was decisive. Serves goal 3 (coalition cannot sustain 18-month alert posture) and goal 4 (demonstrates patient capability superior to Blue's election-cycle attention span). Relaxes constraint: requires no spring-window forcing decision; the 2028 lift window's loss is acceptable because 2029 and 2030 inherit a weaker Taiwan.",
+    "which_convergence_pattern_it_breaks": "Breaks the assumption that the spring-2028 window is the decision window. Reframes the campaign so that Blue's 30-day decision horizon is irrelevant to Red's 540-day clock.",
+    "risks_red_accepts": [
+      "Lai uses the 18-month runway to accelerate hardening, US weapons absorption, and coalition-building",
+      "Domestic PRC economic costs of sustained restriction exceed Taiwan's",
+      "Next US administration breaks the gradient with a single decisive counter-package",
+      "CMC factional pressure to 'do something' in the spring window overrides the patient plan"
+    ],
+    "proposal_id": "74469126-d4a8-4ac0-8585-1c903733dfda",
+    "persona_id": "persona-pla-post-2015-joint-planner",
+    "parent_proposal_id": "18b95972-1f33-4ed3-9e4c-d2fd90670b78",
+    "expansion_axis": "timing",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": false,
+    "tier_median_plaus": 3.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Kadena Sortie Suppression via DF-26 Demonstrative Salvo and Mining",
+    "summary": "Days 1-7: PLARF executes a demonstrative DF-26 salvo into a declared Philippine Sea box 180nm east of Okinawa, paired with PLAN SSN-laid influence-mine field across the Kerama Gap and Miyako Strait approaches to Kadena's reinforcement track. PLAAF H-6K standoff CJ-20 patrols visible on Japanese radar nightly. No strikes on Japanese soil. Goal: make Kadena sortie generation a kinetic risk calculation for Tokyo, not a lawfare one.",
+    "actions": [
+      {
+        "actor": "PLARF Eastern Theater 61st Base",
+        "action": "Salvo of 6 DF-26 into pre-declared maritime exclusion box 180nm ENE of Okinawa, 0400L, with NOTAM issued 6 hours prior",
+        "target": "Philippine Sea exclusion box astride Kadena CSG reinforcement axis",
+        "timeline_days": 2,
+        "purpose": "Establish kinetic precedent that the sortie corridor east of Okinawa is range-held; force Tokyo to weigh aircrew survivability against Article V signaling."
+      },
+      {
+        "actor": "PLAN Submarine Force (Type 093B x2)",
+        "action": "Covertly lay EM-52 rising mines and influence mines across Miyako Strait and Kerama Gap chokepoints",
+        "target": "Kadena maritime resupply/reinforcement chokepoints",
+        "timeline_days": 4,
+        "purpose": "Convert the sortie-generation question into a logistics-survivability question; mines are deniable until detonated and force MCM tempo Blue does not have forward."
+      },
+      {
+        "actor": "PLAAF H-6K + J-16 from Eastern Theater",
+        "action": "Nightly CJ-20-armed standoff orbits at 250nm from Okinawa, fire-control radar painting briefly",
+        "target": "Kadena air defense alert posture",
+        "timeline_days": "1-7",
+        "purpose": "Force Kadena into continuous DEFCON-elevated alert state; degrade sortie-generation rate through crew-rest and posture friction alone."
+      },
+      {
+        "actor": "PLAN Eastern Theater Fleet",
+        "action": "Surge 2 SAG including Type 055 east of Yonaguni, AIS on, broadcasting 'live-fire exercise' NAVAREA",
+        "target": "Waters between Taiwan and Okinawa",
+        "timeline_days": 1,
+        "purpose": "Visibly close the Okinawa-Taiwan operational seam with surface kinetic presence, not lawfare."
+      }
+    ],
+    "intended_effect": "Suppress Kadena Taiwan-contingency sortie generation by raising the kinetic risk and logistics cost of operating from Okinawa, without striking Japanese soil. If Tokyo restricts sortie generation for force-protection reasons, JFSO problem eases; if not, Beijing has range-held the seam.",
+    "how_it_diverges_from_original": "Original achieved Kadena suppression through prefectural lawfare, UFWD, GACC sanctions, and back-channel deals — pure non-kinetic. This sibling achieves the identical effect through demonstrative fires, mining, and standoff air pressure — pure kinetic, no Japanese soil struck.",
+    "why_a_red_planner_could_justify_this": "Anchor: pla-joint-firepower-strike on shaping fires before decisive fires, and pla-df-26-anti-access on holding the second-island-chain reinforcement axis at risk. Serves Goal 2 (no sustained US kinetic) by staying off Japanese soil, and Goal 4 (deterrent demonstration). Relaxes the constraint that kinetic Kadena suppression requires striking Japan — mining and exclusion-box fires achieve it below that threshold.",
+    "which_convergence_pattern_it_breaks": "Breaks the assumption that Kadena is suppressed either by striking it or by political coercion — substitutes a kinetic-but-off-soil shaping campaign that holds the node hostage without crossing the strike threshold.",
+    "risks_red_accepts": [
+      "DF-26 demonstrative salvo is read as opening of JFSO and triggers Article V consultations Beijing wanted to delay",
+      "Mine in Miyako Strait detonates against Japanese-flag commercial hull, producing casus belli",
+      "093B detected during mine-lay, exposing the covert leg and burning SSN posture",
+      "Tokyo responds by accelerating Kadena dispersal to Iwakuni/Misawa rather than restricting sorties",
+      "CJ-20 orbits provoke JASDF intercept incident with weapons release"
+    ],
+    "proposal_id": "99d46302-1e6c-4339-9daa-3a0489eb3f83",
+    "persona_id": "persona-pla-rocket-force-doctrinaire",
+    "parent_proposal_id": "3dab4833-7363-4fa1-ad1e-57570b152005",
+    "expansion_axis": "domain",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "Pratas Bloodless Seizure as Kadena Decision Forcing Function",
+    "summary": "Days 1-7: PLA Marine Corps brigade conducts overnight heliborne and surface-landed seizure of Pratas (Dongsha) Atoll, ROC garrison given 6-hour ultimatum and safe withdrawal to Kaohsiung. No fires on Taiwan main island. Simultaneous PLAN SAG cordon east of Pratas to deter US/ROC reinforcement. The kinetic fait accompli forces Tokyo and Washington to decide on Kadena Taiwan-contingency authorization under fait-accompli pressure rather than at leisure.",
+    "actions": [
+      {
+        "actor": "PLA Marine Corps 1st Brigade + Eastern Theater Army Aviation",
+        "action": "Heliborne assault on Pratas Atoll airfield and garrison, paired with Type 071 LPD-delivered mech company; ROC garrison offered safe evacuation",
+        "target": "Pratas (Dongsha) Atoll, ROC garrison",
+        "timeline_days": 2,
+        "purpose": "Establish kinetic fait accompli on undefendable ROC outlying island; demonstrate JFSO is cocked without firing it; force Blue decision tempo."
+      },
+      {
+        "actor": "PLAN Southern Theater Fleet SAG",
+        "action": "Cordon 80nm east of Pratas with Type 052D x4 and Type 055 x1, ASW screen, deny ROC/USN reinforcement approach",
+        "target": "Pratas eastern approaches",
+        "timeline_days": 2,
+        "purpose": "Make reinforcement attempt require a deliberate Blue kinetic decision; convert Pratas from atoll-grab into US escalation-decision forcing function."
+      },
+      {
+        "actor": "PLAAF Southern Theater",
+        "action": "Establish CAP envelope over Pratas with J-20 and J-16 rotations, KJ-500 AEW orbit",
+        "target": "Pratas airspace",
+        "timeline_days": 3,
+        "purpose": "Deny ROC air resupply or symbolic overflight; lock the fait accompli."
+      },
+      {
+        "actor": "MFA + State Council TAO",
+        "action": "Frame seizure as 'restoration of administrative jurisdiction over Chinese territory,' offer no-further-escalation pledge conditional on US not authorizing Kadena Taiwan-contingency sorties",
+        "target": "Washington, Tokyo, Taipei",
+        "timeline_days": 3,
+        "purpose": "Convert the kinetic move into an explicit bargaining instrument linked to Kadena access — same political objective as original, but executed with steel."
+      },
+      {
+        "actor": "PLARF (posture only)",
+        "action": "Visible DF-17 dispersal to Fujian, no launches, paired with public statement that further fires are conditional on Blue response",
+        "target": "Fujian coast",
+        "timeline_days": 4,
+        "purpose": "Hold escalation ladder visible; couple Pratas seizure to JFSO threat as bargaining stack."
+      }
+    ],
+    "intended_effect": "Force Washington/Tokyo to decide Kadena Taiwan-contingency authorization under live fait-accompli pressure, when the political cost of escalation is high and the demonstrated PLA tempo is real. Same goal as original — Kadena access denial — reached through a kinetic shock that makes Blue's calculus, not Okinawan prefectural politics, the operative variable.",
+    "how_it_diverges_from_original": "Original used lawfare, UFWD, GACC sanctions, and back-channel diplomacy — non-kinetic instruments operating on Japanese domestic politics. This sibling uses an actual amphibious kinetic seizure to coerce the same Kadena outcome through Blue decision-shock.",
+    "why_a_red_planner_could_justify_this": "Anchor: pla-joint-firepower-strike on shaping operations and Sun Tzu on seizing the indefensible to dictate the defender's tempo. Serves Goal 1 (unification trajectory: ROC territory taken) and Goal 4 (capability demonstration). Relaxes the constraint that opening kinetic moves must target Taiwan main island — Pratas is genre-correct, ROC-territorial, and below the Article V threshold.",
+    "which_convergence_pattern_it_breaks": "Breaks the assumption that Pratas seizure is an end in itself (cluster 1 pattern); reframes it as a coercive instrument explicitly linked to Kadena access bargaining, not a territorial fait accompli for its own sake.",
+    "risks_red_accepts": [
+      "ROC garrison resists and produces ROC KIA, hardening Taipei domestic politics against any settlement",
+      "US 7th Fleet conducts demonstrative FONOP through cordon, forcing PLAN to either fire or back down",
+      "Japan reads kinetic opening as JFSO Phase 0 and authorizes Kadena Taiwan-contingency immediately, reversing the intended coercion",
+      "Amphibious lift consumed at Pratas is then unavailable for main-island optionality, narrowing later moves",
+      "Coalition-crystallization risk (Goal 3 violation) is materially higher than original lawfare path"
+    ],
+    "proposal_id": "b5cecc91-3af1-45e1-99f0-4e590d82260a",
+    "persona_id": "persona-pla-rocket-force-doctrinaire",
+    "parent_proposal_id": "3dab4833-7363-4fa1-ad1e-57570b152005",
+    "expansion_axis": "domain",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": false,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 1
+  },
+  {
+    "move_title": "KMT Local-Government Sister-City Compact and Subsidy Pipeline",
+    "summary": "Day 1–7: Beijing pivots from contesting maritime/legal terrain to acting directly on Taiwan's intra-island political coalition. TAO and UFWD operationalize a pre-staged 'Cross-Strait Municipal Prosperity Compact' offering KMT-held municipalities (Taichung, New Taipei, Kaohsiung-south townships) guaranteed agricultural procurement, tourism quotas, and LNG transshipment fees — bypassing Taipei entirely. Target is the DPP's claim to be the sole legitimate cross-strait interlocutor.",
+    "actions": [
+      {
+        "actor": "Taiwan Affairs Office + ARATS",
+        "action": "Announce Compact framework with named pre-negotiated MOUs ready for signature by individual municipalities",
+        "target": "KMT-held county/city executives and their business constituencies",
+        "timeline_days": 1,
+        "purpose": "Create a parallel cross-strait channel that delegitimizes Taipei's monopoly on the relationship"
+      },
+      {
+        "actor": "MOFCOM + Fujian provincial government",
+        "action": "Open agricultural procurement window at 1.4x market price for participating municipalities; 30-day signing window",
+        "target": "Taiwanese fruit/fisheries cooperatives in KMT counties",
+        "timeline_days": 2,
+        "purpose": "Convert the abstract Compact into a concrete economic event before DPP can legislate against it"
+      },
+      {
+        "actor": "UFWD-affiliated Taiwan business associations",
+        "action": "Publish open letter from 200+ Taishang signatories endorsing Compact as 'depoliticized livelihood measure'",
+        "target": "Taiwanese centrist media (UDN, CTi)",
+        "timeline_days": 3,
+        "purpose": "Manufacture domestic Taiwanese constituency that frames DPP rejection as anti-prosperity"
+      },
+      {
+        "actor": "PLA Eastern Theater Command",
+        "action": "Visibly stand down two scheduled exercise series; publish reduced-tempo schedule",
+        "target": "Taiwan public information environment",
+        "timeline_days": 4,
+        "purpose": "Deny DPP a securitization frame; force the question into pure domestic-political terrain"
+      },
+      {
+        "actor": "State Council Information Office",
+        "action": "Frame any DPP legal challenge to Compact-signing municipalities as 'authoritarian centralization against local democracy'",
+        "target": "Taiwan electoral discourse",
+        "timeline_days": 6,
+        "purpose": "Weaponize Taiwan's own federalism rhetoric against Taipei"
+      }
+    ],
+    "intended_effect": "Within 7 days: 3–5 KMT municipalities signal interest, splitting Taiwan's executive-local axis. DPP forced to either prosecute its own mayors (electoral suicide) or tolerate parallel diplomacy (sovereignty erosion). The crisis clock becomes the Taiwanese local-election calendar, not the military window.",
+    "how_it_diverges_from_original": "Original targeted the connective tissue of allied legal-commercial systems (insurance, Article V deliberations). This sibling targets the connective tissue *inside* Taiwan — the executive-municipal political coalition the DPP requires but has not articulated as a vulnerability.",
+    "why_a_red_planner_could_justify_this": "Anchor: 2005 Lien Chan visit and the 2008–2016 ECFA-era municipal MOUs proved sub-national channels bind faster than Taipei can legislate against them. Serves goals 1 and 3 directly (unification terrain; prevent coalition crystallization, including the *internal* DPP-local coalition). Relaxes the constraint that every cross-strait move triggers a Washington consultation — municipal economics doesn't.",
+    "which_convergence_pattern_it_breaks": "Breaks the entire 'crisis = Taipei-Beijing-Washington triangle' frame shared across both kinetic and lawfare clusters. Reintroduces a fourth node (Taiwanese localities) the modal ensemble has decommissioned.",
+    "risks_red_accepts": [
+      "KMT municipal executives publicly refuse to avoid being branded collaborators pre-election, producing the opposite signaling effect",
+      "DPP-controlled Legislative Yuan passes emergency law voiding municipal cross-strait MOUs within 14 days",
+      "US State Department issues Taishang sanctions threat that freezes the business-association endorsement letter"
+    ],
+    "proposal_id": "5c07bac5-91b5-4e0d-9f7d-419e1fafd7c4",
+    "persona_id": "persona-pla-political-officer",
+    "parent_proposal_id": "8fb83eb6-75d3-424d-bdda-19f51cd12943",
+    "expansion_axis": "target",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": true,
+    "tier_median_plaus": 4.0,
+    "tier_wgen_count": 0
+  },
+  {
+    "move_title": "TSMC Supply-Chain Reassurance and ASML Service-Contract Capture",
+    "summary": "Day 1–7: Red shifts target from Taiwan/US forces and even from cross-strait legal terrain to the *single decisive point Blue's planning treats as exogenous*: the global semiconductor supply chain's continuity assumptions. Coordinated MOFCOM, MIIT, and SASAC actions guarantee TSMC Nanjing/Shanghai fab continuity, quietly capture ASML China-region service contracts, and signal to hyperscaler customers that fab-continuity is now a PRC-underwritten variable.",
+    "actions": [
+      {
+        "actor": "MOFCOM + MIIT",
+        "action": "Issue 'Cross-Strait Semiconductor Continuity Assurance' designating TSMC mainland fabs as protected critical infrastructure with guaranteed power, water, and personnel-transit",
+        "target": "TSMC board, Apple/NVIDIA/AMD procurement officers",
+        "timeline_days": 1,
+        "purpose": "Make TSMC's mainland operations a *PRC-stabilized* asset, inverting the assumption that crisis = TSMC risk"
+      },
+      {
+        "actor": "SASAC via SMIC and YMTC",
+        "action": "Quietly extend 18-month service contracts to ASML, Applied Materials, and Tokyo Electron field engineers covering both mainland and (offered) Taiwan fabs under 'humanitarian technical continuity'",
+        "target": "ASML Veldhoven, AMAT Santa Clara, TEL Tokyo",
+        "timeline_days": 2,
+        "purpose": "Position PRC as the guarantor of fab uptime that Western customers cannot afford to lose"
+      },
+      {
+        "actor": "PBOC + CIPS",
+        "action": "Open USD-settlement window for semiconductor-sector cross-strait payments backed by SAFE reserves, 90-day no-questions clearing",
+        "target": "Taiwan semiconductor supply-chain SMEs",
+        "timeline_days": 3,
+        "purpose": "Create a financial dependency on PRC clearing infrastructure that survives any Blue sanctions package"
+      },
+      {
+        "actor": "State Council Information Office",
+        "action": "Backgrounder to FT, Nikkei, Bloomberg: 'PRC will not target semiconductor infrastructure under any escalation scenario; this is a civilizational asset'",
+        "target": "Hyperscaler CEOs and their Washington advocacy",
+        "timeline_days": 4,
+        "purpose": "Recruit US tech industry as a domestic constraint on Blue's escalation menu"
+      },
+      {
+        "actor": "PLA Eastern Theater Command",
+        "action": "Publish exercise exclusion zones explicitly routed around Hsinchu and southern fab cluster airspace",
+        "target": "International risk press",
+        "timeline_days": 5,
+        "purpose": "Convert military restraint into an industrial-policy commitment that Blue cannot match"
+      }
+    ],
+    "intended_effect": "Within 7 days: hyperscaler lobbying re-enters Washington's escalation calculus on Beijing's side; Taipei's strongest international leverage (silicon shield) is reframed as a *jointly held* asset. Blue's sanction architects discover their own Fortune 50 constituents are the loudest voice for de-escalation.",
+    "how_it_diverges_from_original": "Original targeted maritime legal regime and allied alliance-management connective tissue. This sibling targets the connective tissue between Taiwan's deterrent narrative (silicon shield) and its US corporate underwriters — a decisive point Blue's planning treats as automatically aligned.",
+    "why_a_red_planner_could_justify_this": "Anchor: 2018–2024 Huawei sanctions taught Beijing that US tech industry preferences materially shape escalation menus when framed as continuity-of-operations rather than political loyalty. Serves goals 2 and 3 (avoid kinetic; prevent coalition by splitting US tech sector from US security state). Relaxes the constraint that economic pressure flows only Blue→Red.",
+    "which_convergence_pattern_it_breaks": "Breaks the universal assumption that semiconductors are Taiwan's leverage *over* the PRC. Inverts it: in crisis, fab continuity becomes a PRC deliverable that Western customers buy with political restraint.",
+    "risks_red_accepts": [
+      "TSMC board publicly rejects the assurance framework as coercive, producing a Mark Liu/Morris Chang statement that hardens silicon-shield narrative",
+      "ASML and US fab-equipment vendors comply with Dutch/US export-control extraterritorial orders within 96 hours, voiding the service-contract capture",
+      "Treasury OFAC pre-designates CIPS semiconductor clearing as a sanctioned channel, freezing the financial leg before it operationalizes"
+    ],
+    "proposal_id": "d366ab07-a68c-424f-b736-6f0188813278",
+    "persona_id": "persona-pla-political-officer",
+    "parent_proposal_id": "8fb83eb6-75d3-424d-bdda-19f51cd12943",
+    "expansion_axis": "target",
+    "tree_depth": 1,
+    "tier": 1,
+    "tier_surviving": false,
+    "tier_median_plaus": 3.0,
+    "tier_wgen_count": 0
+  }
+]

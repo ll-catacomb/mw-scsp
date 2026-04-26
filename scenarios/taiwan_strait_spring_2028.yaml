@@ -2,6 +2,7 @@ scenario_id: taiwan_strait_spring_2028
 title: Taiwan Strait Crisis, Spring 2028
 red_force: People's Liberation Army (PRC)
 blue_force: Republic of China (Taiwan), with US INDOPACOM support
+lead_branch: USN  # which Blue branch curates the surviving menu (Stage 6)
 timeframe:
   start: 2028-04-01
   decision_horizon_days: 30

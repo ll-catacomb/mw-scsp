@@ -1,0 +1,78 @@
+{
+  "branch": "USN",
+  "preamble": "Taken together, this menu hammers a single seam in 7th Fleet planning: our OPLAN is built to clock and counter a maritime/kinetic Red, and it treats every non-maritime instrument as someone else's problem (Treasury, State, NSC, MARFORPAC). Five of six survivors deliberately deny us the kinetic predicate we need to sortie, consult, and array forces — they shift the operative clock off the spring lift window and onto insurance renewals, prefectural assemblies, equity quarters, and Taiwan's local-election calendar. The one kinetic move (DF-26/mining) is the *easy* one for our staff to play; it's the comfort case. The harder finding: we treat Japan as unitary, the coalition as a negotiable parameter rather than a federated polity with seams Red can pry, and Taiwan itself as a single decision node centered on Taipei. Our planners will resist staging the substrate moves precisely because they generate no maritime tasking on Day 1 — which is exactly why they belong on the floor. The discipline is rating up, not referring away.",
+  "ratings": [
+    {
+      "proposal_id": "18b95972-1f33-4ed3-9e4c-d2fd90670b78",
+      "branch": "USN",
+      "wargame_prep_value": "A",
+      "assumption_it_breaks": "That Red's opening move generates a maritime tasking we can answer at theater command. This move runs entirely on a regulatory clock 7th Fleet has no authorities against.",
+      "cell_to_run_it_against": "N5 Plans cell with N00 political advisor and reach-back to Treasury OFAC liaison; CSG-staff red-team observers",
+      "next_question_for_players": "What does CSG-2 do on Day 5 when there is no kinetic predicate, TSMC's board is lobbying Taipei to stand down, and INDOPACOM has not been tasked?",
+      "nearest_branch_concept_to_check": "DMO force-employment triggers — specifically what authorities and indicators move us from routine forward posture to dispersed wartime laydown absent a kinetic event",
+      "where_it_overstates": "Assumes Washington will actually choose between Taiwan posture and supply chain inside 7 days. Treasury/Commerce counter-instruments and 232/IEEPA reciprocity are faster than Beijing models.",
+      "rationale": "A because our N5 culture will resist this hardest — there is no Navy verb in the first 96 hours and that itself is the lesson. Forces players to hold the line on presence operations while the political-economic clock runs against them. The move our staff most needs to fail at once before they fail at it live.",
+      "refer_to_other_cell": "NSC Asia directorate and Treasury for the counter-instrument leg; rate and stage anyway"
+    },
+    {
+      "proposal_id": "3dab4833-7363-4fa1-ad1e-57570b152005",
+      "branch": "USN",
+      "wargame_prep_value": "A",
+      "assumption_it_breaks": "That Japan is a unitary coalition variable. Our DMO laydown west of Kyushu and our Kadena-dependent ASW/MPRA tempo assume host-nation consent is a national-level binary, not a prefectural-level continuous variable.",
+      "cell_to_run_it_against": "N5 Plans with CNFJ N5 and 5th Air Force liaison; MARFORPAC G-5 observer for MLR sustainment implications",
+      "next_question_for_players": "If Kadena sortie generation is suspended for 90 days by prefectural action, what is the reconstitution path for MPRA, tanker, and AEW coverage of the southern Ryukyus?",
+      "nearest_branch_concept_to_check": "DMO sensor-to-shooter latency under degraded P-8/Triton coverage; CSG dependence on Kadena tanker bridge",
+      "where_it_overstates": "Assumes Tokyo accepts a prefectural veto on Article V-adjacent posture. LDP-Komeito has overridden Okinawan resistance before; Kishida-successor cabinet may accelerate rather than fold.",
+      "rationale": "A. Our players treat Japan access as a planning constant. Staging this forces them to actually price the alternative basing arithmetic — Iwakuni, Misawa, Andersen, Tinian — on a 7-day clock. That arithmetic does not currently close and the staff needs to feel it.",
+      "refer_to_other_cell": "State EAP and OSD-Policy Japan desk for the Article V leg; PACFLT N00J for host-nation consent mechanics"
+    },
+    {
+      "proposal_id": "8fb83eb6-75d3-424d-bdda-19f51cd12943",
+      "branch": "USN",
+      "wargame_prep_value": "A",
+      "assumption_it_breaks": "That Strait transits are a FONOP problem we own. Once Lloyd's reprices and Taiwan-flagged hulls reflag or stop sailing, our transit becomes a sovereignty assertion in a contested legal frame, not a routine presence operation.",
+      "cell_to_run_it_against": "N5 Plans cell with N00J (fleet JAG) leading; PACFLT N3 for transit-decision authority; CTF-70 staff observer",
+      "next_question_for_players": "On Day 4, with insurers having repriced and one Taiwan-flagged hull held in Kaohsiung, does CSG-5 transit the Strait? Under what authority, and what does the second transit look like?",
+      "nearest_branch_concept_to_check": "FONOP doctrine under contested sovereignty claim; CWC boundary conditions when the legal frame, not the EW environment, is the degrading variable",
+      "where_it_overstates": "Assumes Lloyd's reprices on a Beijing-friendly clock. US Treasury counter-guarantee and London market relationships can absorb the declaration; ROC reflagging to Panama/Liberia within a week neutralizes the predicate.",
+      "rationale": "A. This is the move our community is least equipped to play because the contested terrain is JAG and underwriters, not water. Staging it forces N00J forward in the planning cycle and exposes how much of our transit confidence is built on uncontested legal status.",
+      "refer_to_other_cell": "State L (Legal Adviser) and Treasury for the insurer-counter leg"
+    },
+    {
+      "proposal_id": "97a63f2f-e75e-44f5-93d6-5c096fd37c7f",
+      "branch": "USN",
+      "wargame_prep_value": "B",
+      "assumption_it_breaks": "That Red's opening move must be an act we can detect, characterize, and respond to. A loaded-and-aimed regulatory threat with no detonation gives our intel-to-decision pipeline nothing to hold.",
+      "cell_to_run_it_against": "N2 fusion cell with N5 Plans; reach-back to DIA China desk and Treasury for instrument verification",
+      "next_question_for_players": "What Blue act in the first 30 days deliberately tests whether the trigger is real, and who in the chain is authorized to take that act knowing it may execute the cutoff?",
+      "nearest_branch_concept_to_check": "Indications-and-warning frameworks under deliberate Red ambiguity; decision-authority distribution when the trigger is Blue's own act",
+      "where_it_overstates": "Assumes Taiwan's industrial oligarchy lobbies Taipei rather than Beijing. Inverts easily — TSMC has more leverage in Beijing than the move credits, and may extract concessions instead of applying pressure.",
+      "rationale": "B. Genuinely novel and our staff will resist it, but the wargame value is partially captured by Survivor 1 and Survivor 4 doubles back to similar instruments. Stage when the exercise has room; the deferred-trigger logic is worth one syndicate session even if not the headline move.",
+      "refer_to_other_cell": "NSC and Treasury for instrument credibility assessment"
+    },
+    {
+      "proposal_id": "99d46302-1e6c-4339-9daa-3a0489eb3f83",
+      "branch": "USN",
+      "wargame_prep_value": "B",
+      "assumption_it_breaks": "That demonstrative DF-26 fires plus mining of the Miyako/Kerama approaches is an opening of JFSO. Red's framing of it as off-soil shaping forces us to decide whether to read it as Phase 0 or Phase II.",
+      "cell_to_run_it_against": "N3/N5 Plans with PACFLT N3 and CTF-74 (submarines) and CTF-76 MCM observer; PACAF liaison for Kadena",
+      "next_question_for_players": "On Day 3, with mines suspected but not confirmed in Miyako and a DF-26 box live, do we surge MCM forward, hold CSG-2 east of 130°E, or both — and who owns that call?",
+      "nearest_branch_concept_to_check": "MCM forward-presence shortfall in the southern Ryukyus; CSG reinforcement axis vulnerability through chokepoints we do not currently exercise",
+      "where_it_overstates": "Assumes Tokyo restricts Kadena rather than accelerates dispersal and authorizes JMSDF MCM forward. Also assumes our SSN posture cannot detect 093B mine-lay; that's an open question, not a given.",
+      "rationale": "B. This is the move our staff is *most* prepared to play and will most enjoy playing — which is why it's not A. The kinetic comfort case. Worth staging because the MCM shortfall is real and underbriefed, but it does not surface the assumptions the rest of this menu does.",
+      "refer_to_other_cell": null
+    },
+    {
+      "proposal_id": "5c07bac5-91b5-4e0d-9f7d-419e1fafd7c4",
+      "branch": "USN",
+      "wargame_prep_value": "C",
+      "assumption_it_breaks": "That the crisis is a Taipei-Beijing-Washington triangle in which Taiwan speaks with one voice. The move opens a fourth node our planning does not address because it generates no maritime tasking at all.",
+      "cell_to_run_it_against": "N5 political-military cell with AIT liaison and reach-back to State EAP; not a fleet-staff exercise",
+      "next_question_for_players": "If three KMT municipalities sign Compact MOUs by Day 6 while Taipei is still consulting, what does AIT request from 7th Fleet, and what is our answer?",
+      "nearest_branch_concept_to_check": "Coalition cohesion assumptions inside Taiwan; the unstated premise that ROC mobilization timelines are uniform across the island",
+      "where_it_overstates": "Assumes 7th Fleet has any role here at all in the first 7 days. We don't, and that's the point — but it limits the wargame value for this cell specifically.",
+      "rationale": "C honestly. The move is real and the assumption it breaks is real, but the center of gravity is in Taipei domestic politics and AIT, not on the water. Refer it; another cell will get more out of staging it than we will. Note the finding in the after-action regardless.",
+      "refer_to_other_cell": "AIT/State EAP Taiwan desk and NSC; USINDOPACOM J5 political-military division"
+    }
+  ]
+}

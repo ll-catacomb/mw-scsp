@@ -55,6 +55,7 @@ def write_context_packs(
     scenario: dict[str, Any],
     narration: dict[str, Any],
     persona_index: PersonaIndex | None,
+    branch_curation: dict[str, dict[str, Any]] | None = None,
 ) -> list[Path]:
     """Write one markdown context pack per surviving leaf.
 
@@ -93,6 +94,11 @@ def write_context_packs(
             else None
         )
         proposal_judgments = j_by_pid.get(proposal["proposal_id"], [])
+        rating = (
+            branch_curation.get(proposal["proposal_id"])
+            if branch_curation is not None
+            else None
+        )
         md = _render_pack(
             proposal=proposal,
             persona=persona,
@@ -101,6 +107,7 @@ def write_context_packs(
             scenario=scenario,
             narration=narration,
             run_id=run_id,
+            branch_rating=rating,
         )
         slug = _slugify(proposal.get("move_title", "untitled"))
         path = out_dir / f"{slug}-{proposal['proposal_id'][:8]}.md"
@@ -142,6 +149,7 @@ def _render_pack(
     scenario: dict[str, Any],
     narration: dict[str, Any],
     run_id: str,
+    branch_rating: dict[str, Any] | None = None,
 ) -> str:
     """Render one context pack as markdown."""
     lines: list[str] = []
@@ -154,6 +162,27 @@ def _render_pack(
         "wargame moves into player counter-moves."
     )
     lines.append("")
+
+    if branch_rating is not None:
+        branch = branch_rating.get("branch", "?")
+        tier = branch_rating.get("wargame_prep_value", "?")
+        lines.append(f"## Wargame-prep read ({branch}) — tier {tier}")
+        lines.append("")
+        if assumption := branch_rating.get("assumption_it_breaks", "").strip():
+            lines.append(f"- **Assumption it breaks:** {assumption}")
+        if cell := branch_rating.get("cell_to_run_it_against", "").strip():
+            lines.append(f"- **Cell to run it against:** {cell}")
+        if question := branch_rating.get("next_question_for_players", "").strip():
+            lines.append(f"- **Question for players:** {question}")
+        if concept := branch_rating.get("nearest_branch_concept_to_check", "").strip():
+            lines.append(f"- **Branch concept stressed:** {concept}")
+        if overstates := branch_rating.get("where_it_overstates", "").strip():
+            lines.append(f"- **Where it overstates:** {overstates}")
+        if rationale := branch_rating.get("rationale", "").strip():
+            lines.append(f"- **Curator's rationale:** {rationale}")
+        if refer := (branch_rating.get("refer_to_other_cell") or "").strip():
+            lines.append(f"- **Refer to other cell:** {refer}")
+        lines.append("")
 
     # ---- Persona ----
     if persona is not None:
