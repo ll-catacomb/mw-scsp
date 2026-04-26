@@ -312,14 +312,20 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
             modal_moves, scenario, run_id, embedder=embed, store=store
         )
 
-        # Stage 4 — off-distribution proposals.
-        proposals = await generate_off_distribution(
-            narration, scenario, run_id, embedder=embed, store=store
-        )
-
-        # Stage 5 — judge pool.
-        judgments = await judge_proposals(
-            proposals, scenario, run_id, embedder=embed, store=store
+        # Stages 4 + 5 — off-distribution proposals with INTERLEAVED judging.
+        # Each tier prunes via the strict TIER_PLAUS_FLOOR / TIER_WGEN_CEIL filter
+        # (default: median>=4 AND wgen<=1) so only "truly avant-garde + named
+        # leverage + low judge familiarity" survivors get expanded into the next
+        # tree layer. This is the actual tree-search mechanism per Brenner et al.
+        # 2026 §2.2 — the verifier pruning at every layer is what makes it a tree
+        # search rather than parallel-generation-and-pass-everything.
+        # When judge_fn is provided, generate_off_distribution returns BOTH the
+        # proposals and the per-tier judgments as a tuple, and we skip the
+        # separate Stage-5 call.
+        proposals, judgments = await generate_off_distribution(
+            narration, scenario, run_id,
+            embedder=embed, store=store,
+            judge_fn=judge_proposals,
         )
 
         menu_md, menu_dict = build_menu(proposals, judgments)
@@ -352,6 +358,30 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
         (out_dir / "menu.json").write_text(
             json.dumps(menu_dict, indent=2, ensure_ascii=False), encoding="utf-8"
         )
+
+        # Per-leaf context packs: one self-contained markdown per surviving
+        # proposal. Re-feedable to a new model instance to continue the option's
+        # reasoning when the wargame moves into player counter-moves. Lives at
+        # data/runs/{run_id}/context_packs/{slug}-{short_id}.md.
+        try:
+            from src.personas.index import load_index as load_persona_index
+            from src.pipeline.context_pack import write_context_packs
+            persona_index = load_persona_index()
+            written = write_context_packs(
+                run_id=run_id, run_dir=out_dir,
+                proposals=proposals, judgments=judgments,
+                scenario=scenario, narration=narration,
+                persona_index=persona_index,
+            )
+            if written:
+                print(
+                    f"context packs: {len(written)} surviving leaves exported to "
+                    f"{out_dir}/context_packs/"
+                )
+        except Exception as e:  # noqa: BLE001 — context-pack export is non-fatal
+            # Don't fail the run for an export issue; log and continue.
+            import sys as _sys
+            print(f"context_pack export failed: {e}", file=_sys.stderr)
 
         _mark_run_complete(run_id, status="complete")
     except Exception:

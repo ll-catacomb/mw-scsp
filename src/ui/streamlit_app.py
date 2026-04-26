@@ -688,13 +688,21 @@ def _do_rerun(run: dict) -> list[dict]:
 
     base_run_id = run["run_id"]
     rerun_run_id = f"{base_run_id}_rerun_{int(time.time())}"
-    proposals = asyncio.run(
+    # generate_off_distribution returns (proposals, judgments) when invoked with
+    # judge_fn; without judge_fn it returns (proposals, []). The "live re-run"
+    # button uses the no-judge_fn path so it's fast and the user sees fresh
+    # candidates without re-judging.
+    result = asyncio.run(
         generate_off_distribution(
             convergence_summary=run.get("convergence") or {},
             scenario=run.get("scenario") or {},
             run_id=rerun_run_id,
         )
     )
+    if isinstance(result, tuple) and len(result) == 2:
+        proposals, _judgments = result
+    else:
+        proposals = result  # legacy single-value return shape, just in case
     if not isinstance(proposals, list):
         raise RuntimeError(
             f"generate_off_distribution returned {type(proposals).__name__}, expected list."

@@ -120,6 +120,108 @@ class TreeSearchConfig:
         return leaves
 
 
+# ---- Building blocks for the round-based pipeline (adversarial.py owns the loop) ----
+
+
+async def generate_roots(
+    personas: list[Persona],
+    scenario: dict[str, Any],
+    convergence_summary: dict[str, Any],
+    run_id: str,
+    *,
+    embed: Callable[..., np.ndarray],
+    store: MemoryStore,
+    init_k: int,
+) -> tuple[list[dict[str, Any]], dict[str, RedPlanner]]:
+    """Round-1 generation. Each persona produces up to `init_k` root proposals.
+
+    Returns (roots, planners) — planners are kept by the caller so subsequent
+    sibling-expansion rounds can reuse the same RedPlanner instance per persona
+    (preserving its memory accumulation across the run).
+
+    Failures in any single persona's generation degrade gracefully; the round
+    proceeds with whatever survived. Use `return_exceptions=True` so one
+    persona's refusal/parse-fail doesn't cancel the rest.
+    """
+    planners = {p.id: RedPlanner(persona=p, embed=embed, store=store) for p in personas}
+    tasks = [
+        planners[p.id].propose_initial(
+            scenario=scenario,
+            convergence_summary=convergence_summary,
+            run_id=run_id,
+            k=init_k,
+        )
+        for p in personas
+    ]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    roots: list[dict[str, Any]] = []
+    for persona, batch in zip(personas, results, strict=True):
+        if isinstance(batch, BaseException):
+            logger.warning(
+                "persona %s root generation failed: %s",
+                persona.id, batch, exc_info=batch,
+            )
+            continue
+        for prop in batch:
+            prop.setdefault("tier", 0)
+        roots.extend(batch)
+    return roots, planners
+
+
+async def generate_siblings_for_survivors(
+    survivors: list[dict[str, Any]],
+    planners: dict[str, RedPlanner],
+    scenario: dict[str, Any],
+    run_id: str,
+    *,
+    expand_k: int,
+    depth: int,
+) -> list[dict[str, Any]]:
+    """Expansion round. For each surviving parent, generate `expand_k` siblings
+    along an axis (cycled per parent index for axis-coverage diversity).
+
+    Returns the flat list of expansions; each carries `tier=depth`.
+    """
+    tasks = []
+    parent_refs: list[dict[str, Any]] = []
+    for i, parent in enumerate(survivors):
+        planner = planners.get(parent.get("persona_id", ""))
+        if planner is None:
+            continue
+        axis_name, axis_description = EXPANSION_AXES[
+            (i + depth) % len(EXPANSION_AXES)
+        ]
+        tasks.append(
+            planner.propose_siblings(
+                parent_proposal=parent,
+                axis_name=axis_name,
+                axis_description=axis_description,
+                scenario=scenario,
+                run_id=run_id,
+                k=expand_k,
+                sibling_history=[],
+            )
+        )
+        parent_refs.append(parent)
+
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    siblings: list[dict[str, Any]] = []
+    for parent, batch in zip(parent_refs, results, strict=True):
+        if isinstance(batch, BaseException):
+            logger.warning(
+                "expansion of parent %s (persona %s) failed: %s",
+                parent.get("proposal_id"),
+                parent.get("persona_id"),
+                batch,
+                exc_info=batch,
+            )
+            continue
+        for prop in batch:
+            prop.setdefault("tier", depth)
+        siblings.extend(batch)
+    return siblings
+
+
 async def grow_persona_tree(
     personas: list[Persona],
     scenario: dict[str, Any],
