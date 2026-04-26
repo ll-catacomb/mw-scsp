@@ -361,13 +361,23 @@ def _menu_from_artifacts(
         rationales = [str(r.get("rationale") or "") for r in rows]
         median = _median(ratings) if ratings else c.get("median_plausibility", 0)
         wgc = sum(1 for w in would if w)
-        surviving = c.get("surviving")
-        if surviving is None and ratings:
-            surviving = (median >= 3) and (wgc < (len(ratings) + 1) // 2)
+        # Prefer the strict round-based-tree flag when present; that's the filter
+        # the orchestrator actually applied. Fall back to the explicit `surviving`
+        # key, then to the legacy med≥3+wgen-minority computation. Same precedence
+        # as build_menu so menu.json, branch_curation.json, and the UI all agree.
+        if "tier_surviving" in c and c["tier_surviving"] is not None:
+            surviving = bool(c["tier_surviving"])
+        else:
+            surviving = c.get("surviving")
+            if surviving is None and ratings:
+                surviving = (median >= 3) and (wgc < (len(ratings) + 1) // 2)
         rejection = c.get("rejection_reason")
         if rejection is None and surviving is False and ratings:
-            if median < 3:
-                rejection = f"PLAUS<3 (median {median:.1f})"
+            tier_floor = 4 if c.get("tier_surviving") is False else 3
+            if median < tier_floor:
+                rejection = f"PLAUS<{tier_floor} (median {median:.1f})"
+            elif wgc > 0 and c.get("tier_surviving") is False:
+                rejection = f"WGEN>0 ({wgc}/{len(ratings)} modal)"
             elif wgc >= (len(ratings) + 1) // 2:
                 rejection = f"WGEN≥{(len(ratings) + 1) // 2} ({wgc}/{len(ratings)} modal)"
 

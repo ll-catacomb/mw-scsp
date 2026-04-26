@@ -185,6 +185,50 @@ def test_compute_survival_boundary_exactly_3_median_passes():
     assert surviving is True
 
 
+def test_build_menu_prefers_tier_surviving_over_legacy():
+    """build_menu must use the strict round-based tree filter (`tier_surviving`)
+    when annotated, not the legacy med≥3+wgen<ceil(N/2) compute_survival call.
+
+    Regression: a Taiwan run produced 13 by legacy and 11 by tier_surviving,
+    so menu.json said 13, branch_curation.json rated 13, but context_packs/
+    only wrote 11. The three artifacts have to agree.
+    """
+    from src.pipeline.orchestrator import build_menu
+
+    def _j(pid: str, plaus: int, wgen: bool, idx: int) -> dict:
+        return {
+            "proposal_id": pid,
+            "judge_id": f"judge_{idx}",
+            "judge_family": "test",
+            "plausibility": plaus,
+            "would_have_generated": wgen,
+            "rationale": "",
+        }
+
+    # P1: tier says yes, legacy would say yes too — not the test case but here for sanity.
+    p1 = {"proposal_id": "p1", "move_title": "P1", "tier_surviving": True}
+    j1 = [_j("p1", 5, False, i) for i in range(5)]
+    # P2: tier says NO (med=3 < TIER_PLAUS_FLOOR=4 default), legacy says yes.
+    p2 = {"proposal_id": "p2", "move_title": "P2", "tier_surviving": False}
+    j2 = [_j("p2", 3, False, i) for i in range(5)]
+    # P3: tier says NO (wgen=1 > TIER_WGEN_CEIL=0 default), legacy says yes.
+    p3 = {"proposal_id": "p3", "move_title": "P3", "tier_surviving": False}
+    j3 = [_j("p3", 4, True, 0)] + [_j("p3", 4, False, i) for i in range(1, 5)]
+    # P4: no tier_surviving annotation — legacy fallback applies; med=4 wgen=0 → True.
+    p4 = {"proposal_id": "p4", "move_title": "P4"}
+    j4 = [_j("p4", 4, False, i) for i in range(5)]
+
+    _md, menu = build_menu([p1, p2, p3, p4], j1 + j2 + j3 + j4)
+    surviving_ids = {e["proposal"]["proposal_id"] for e in menu["surviving"]}
+    rejected_ids = {e["proposal"]["proposal_id"] for e in menu["rejected"]}
+    assert surviving_ids == {"p1", "p4"}, (
+        f"expected {{p1, p4}} surviving; got {surviving_ids}. "
+        "tier_surviving=False must override the legacy filter; "
+        "tier_surviving=missing falls back to legacy."
+    )
+    assert rejected_ids == {"p2", "p3"}
+
+
 # --- 3. architectural: adversarial.py is doctrine-free -----------------------
 
 

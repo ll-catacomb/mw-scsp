@@ -187,7 +187,13 @@ def build_menu(
     rejected_entries: list[dict[str, Any]] = []
     for p in proposals:
         plist = by_proposal.get(p["proposal_id"], [])
-        med, wgc, surviving = compute_survival(plist)
+        med, wgc, legacy_surviving = compute_survival(plist)
+        # Prefer the strict round-based-tree flag when present (this is the
+        # filter the orchestrator actually applied at every tier). Fall back
+        # to the legacy med≥3+wgen<ceil(N/2) only when tier_surviving wasn't
+        # annotated — keeps test fixtures + older runs working.
+        ts = p.get("tier_surviving")
+        surviving = bool(ts) if ts is not None else legacy_surviving
         entry = {
             "proposal": p,
             "judgments": plist,
@@ -201,8 +207,8 @@ def build_menu(
     md_parts: list[str] = ["# Survival menu\n"]
     md_parts.append(
         f"**{len(surviving_entries)} surviving** of {len(proposals)} proposals "
-        f"(median plausibility ≥ 3 AND fewer than half of judges said "
-        f"\"I would have generated this\").\n"
+        f"(strict tier filter: median plausibility ≥ TIER_PLAUS_FLOOR "
+        f"AND would-have-generated count ≤ TIER_WGEN_CEIL).\n"
     )
 
     if surviving_entries:
