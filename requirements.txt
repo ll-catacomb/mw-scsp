@@ -1,0 +1,17 @@
+# Streamlit Cloud reads requirements.txt directly.
+# Mirrors pyproject.toml [project.dependencies]. Demo deploy needs the
+# UI + data-read path only (loader / run_loader); model-call path is
+# guarded by DEMO_MODE=1 so anthropic/openai are still imported but
+# never invoked. They stay listed for import-time satisfaction.
+anthropic>=0.39
+openai>=1.55
+tenacity>=9.0
+sentence-transformers>=3.3
+pydantic>=2.9
+python-dotenv>=1.0
+pyyaml>=6.0
+numpy>=1.26
+scikit-learn>=1.5
+streamlit>=1.40
+plotly>=5.24
+tomli-w>=1.0

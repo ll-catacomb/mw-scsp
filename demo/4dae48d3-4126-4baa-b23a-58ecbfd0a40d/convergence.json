@@ -1,0 +1,80 @@
+{
+  "convergence_summary": "The ensemble locked onto the identical two-variant playbook observed across all prior runs: 'hostage-and-ransom coercive diplomacy' below the Joint Firepower Strike threshold, paired with a 30-day conditional offer tied to suspending Taiwan's referendum and resuming cross-strait dialogue under a 1992-Consensus framework. The provider split is exact. Anthropic's four moves (claude-sonnet-4-6) execute a helicopter/PLAN Marine seizure of Dongsha/Pratas's ~200-person ROC Coast Guard garrison plus a 50nm MEZ, citing pla-outlying-island-seizure, pla-df-26-anti-access, and pla-joint-firepower-strike. OpenAI's four moves (gpt-5.5) layer or substitute a CCG/MSA-led declared customs-and-safety quarantine around Keelung/Taichung/Kaohsiung/Hualien with PLAN overwatch, citing jp3-0-phasing-model and pla-joint-island-landing-campaign; three of the four OpenAI moves combine quarantine with Pratas seizure. Shared mechanics: PLARF dispersal without launches, SSF cyber confined to C2/port logistics/customs (sparing hospitals and grid), explicit avoidance of first contact with US/Japanese hulls, back-channel messaging to Washington, and ASEAN/Global South outreach to fracture coalition. No opening strikes on Taiwan proper, no decapitation, no submarine ambush of approaching CSG.",
+  "clusters": [
+    {
+      "cluster_id": 1,
+      "theme": "Pratas-only outlying-island fait accompli (Anthropic)",
+      "member_move_ids": [
+        "ce795afe-39a8-4c17-8966-6053ac574a1a",
+        "3e7af16e-1ff7-43a8-b841-c75977738f93",
+        "ea014a05-ef19-476d-80c8-8dc956f84644",
+        "8c70c3f5-ff68-41f3-a6ca-f1f8da94a2ca"
+      ],
+      "representative_actions": [
+        "Helicopter/PLAN Marine assault to seize Dongsha garrison within 24-48 hours",
+        "Establish 50nm PLAN maritime exclusion zone around the atoll",
+        "Volt-Typhoon-class cyber activation against Taiwan C2/grid SCADA at low intensity",
+        "MFA conditional 30-day withdrawal offer tied to 1992 Consensus dialogue"
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "theme": "CCG-led declared customs quarantine + Pratas pressure-multiplier (OpenAI)",
+      "member_move_ids": [
+        "5b92fe0c-3eb2-49f6-8c07-2eac2b792083",
+        "859cf921-3d6d-4b5b-947d-44676caa56e1",
+        "1e840a45-5303-40d8-b40d-0641226f81f5",
+        "2ef0ba8c-dec1-4e0b-b102-72626d22a527"
+      ],
+      "representative_actions": [
+        "Declare 7-30 day 'joint customs and safety inspection' regime around Keelung/Taichung/Kaohsiung/Hualien",
+        "CCG cutters and maritime militia conduct selective board-and-divert with PLAN over-the-horizon overwatch",
+        "Stage Fujian/Zhejiang amphibious and RoRo shipping visibly without full embarkation",
+        "Phased suspension of inspections offered in exchange for cross-strait talks"
+      ]
+    }
+  ],
+  "notable_absences": [
+    {
+      "absence": "PRC State Council declares the waters between Taiwan and the mainland 'internal waters' under a revised 1958 territorial-sea declaration, instructing CCG to enforce PRC fisheries and customs law against Taiwan-flagged vessels in the Strait — a lawfare move designed to make any USN transit a violation of PRC sovereignty rather than a freedom-of-navigation issue.",
+      "why_it_might_be_proposed": "It converts the legal predicate for US convoy escort from a clean FONOP into a contested sovereignty claim, splits maritime law scholars and insurers, and creates a permanent ratchet that survives even a tactical climbdown.",
+      "why_the_ensemble_missed_it": "All eight moves anchor on jp3-0-phasing-model and pla-outlying-island-seizure, both kinetic-coded; none reach into UNCLOS-adjacent lawfare or the 1958 declaration as an instrument. The ensemble treats 'law-enforcement framing' as a narrative wrapper for kinetic action rather than as a standalone legal-warfare move."
+    },
+    {
+      "absence": "PLAN Yuan-class SSK conducts a deliberate, surfaced, photographed transit inside Japan's Senkaku 12nm contiguous zone simultaneous with Pratas seizure, with MFA framing it as 'routine patrol of Diaoyu waters' — splitting Japanese cabinet attention between Article V Taiwan consultations and a Senkaku sovereignty incident.",
+      "why_it_might_be_proposed": "It directly attacks the Anthropic moves' flagged risk that Japan grants expanded Kadena/Iwakuni access by Day 5; forcing a two-front political crisis on Tokyo is the cheapest way to delay that authorization.",
+      "why_the_ensemble_missed_it": "Every move treats Japan as a passive coalition variable to be managed via 'avoid first contact with US/Japanese hulls.' None operationalize a deliberate Senkaku-axis distractor, because the ensemble's risk register frames Japanese involvement as something to avoid triggering rather than something to preempt with a parallel provocation."
+    },
+    {
+      "absence": "PLA Strategic Support Force conducts a co-orbital rendezvous-and-proximity operation against a US SBIRS or NRO ISR satellite supporting INDOPACOM, with MFA describing it as a 'space debris inspection mission' — degrading Blue's missile-warning and maritime-domain-awareness picture without kinetic ASAT.",
+      "why_it_might_be_proposed": "It would blind the very ISR feeds the ensemble's risk registers repeatedly cite (NRO detection of RoRo loading, attribution of Volt-Typhoon, exclusion-zone monitoring) while staying below the Rendulic-rules kinetic threshold the ensemble polices.",
+      "why_the_ensemble_missed_it": "SSF cyber is consistently scoped to terrestrial C2/port logistics; the space-counter-space lever is absent from every doctrine citation. The ensemble's mental model of SSF stops at cyber/EW and omits the orbital-warfare brigade entirely."
+    },
+    {
+      "absence": "PRC Ministry of Commerce announces an immediate 90-day export licensing requirement on gallium, germanium, and refined rare-earth oxides bound for any firm participating in 'Taiwan Strait military activities,' explicitly listing TSMC, ASML's Taiwan operations, and named US defense primes.",
+      "why_it_might_be_proposed": "It weaponizes an asymmetric chokehold the ensemble already accepts PRC holds, generates immediate equity-market pressure on Blue defense industrials, and creates a coercion vector that runs on a different clock than the 30-day political offer.",
+      "why_the_ensemble_missed_it": "All eight moves are operationally framed (CMC, Eastern Theater, PLARF, SSF) and treat economic actions only as inducements (resumed agricultural imports). MOFCOM as a coercive lever is doctrinally invisible because the ensemble's doctrine corpus is military, not industrial-policy."
+    },
+    {
+      "absence": "PLA Airborne Corps drops a reinforced battalion onto Itu Aba (Taiping Island) in the Spratlys instead of (or in addition to) Dongsha, seizing Taiwan's only South China Sea runway and presenting Hanoi/Manila with a fait accompli that fragments the ASEAN diplomatic outreach the ensemble relies on.",
+      "why_it_might_be_proposed": "Itu Aba is more strategically valuable than Dongsha (1200m runway, deep-water access), garrisoned by a smaller ROC Marine detachment, and seizure simultaneously coerces Taipei and forecloses Vietnamese/Philippine alignment with Blue by surfacing competing SCS claims.",
+      "why_the_ensemble_missed_it": "Doctrine citation pla-outlying-island-seizure has been mentally bound to Dongsha across every prior run; the ensemble has never disambiguated 'outlying island' to include Itu Aba, Kinmen, Matsu, or the Penghu group as alternative or additional targets."
+    },
+    {
+      "absence": "Beijing orchestrates a coordinated United Front mobilization of KMT-aligned local officials in Kinmen and Matsu to publicly request 'temporary PRC humanitarian administration' during the crisis, with CCG ferrying supplies — manufacturing a political-legitimacy fait accompli on islands 2-10km from the mainland.",
+      "why_it_might_be_proposed": "It exploits Kinmen/Matsu's existing economic dependence on Xiamen, generates the domestic-political-fracture effect the ensemble repeatedly seeks, and is genuinely below any plausible Blue kinetic response threshold.",
+      "why_the_ensemble_missed_it": "The ensemble treats United Front Work Department as an information-operations actor amplifying KMT voices in Taipei, never as the lead instrument of a territorial action. Kinmen/Matsu are doctrinally invisible because they don't fit the 'outlying island seizure' template, which assumes contested rather than co-opted local administration."
+    },
+    {
+      "absence": "PLAN Coast Guard executes a deliberate ramming-and-sinking of a Taiwan-flagged fishing vessel inside the declared inspection zone with full surviving-crew rescue and televised humane treatment, then offers compensation — a calibrated atrocity-substitute designed to demonstrate quarantine credibility without producing martyrs.",
+      "why_it_might_be_proposed": "It resolves the central credibility problem the OpenAI moves' own risk registers flag: 'if shippers route around inspections, the quarantine fails to generate pressure within 30 days.' One televised, survivable enforcement event would change insurer behavior overnight.",
+      "why_the_ensemble_missed_it": "The ensemble's law-enforcement framing requires zero kinetic enforcement to preserve narrative coherence; it cannot model a deliberate, rehearsed, casualty-free coercive incident as distinct from either restraint or escalation. The Rendulic-rules discipline collapses the middle of the spectrum."
+    }
+  ],
+  "cross_run_observations": [
+    "This is the eighth consecutive run in which the ensemble produces the identical Anthropic-Pratas-seizure / OpenAI-customs-quarantine split with a 30-day 1992-Consensus offer. The convergence is no longer a finding — it is the equilibrium, and further sampling at current temperatures is unlikely to surface new patterns.",
+    "The provider axis is now perfectly predictive of variant: 4/4 Anthropic moves anchor on pla-outlying-island-seizure as primary; 4/4 OpenAI moves anchor on jp3-0-phasing-model with pla-joint-island-landing-campaign as the ladder threat. Doctrine-corpus conditioning, not temperature, is driving the split.",
+    "The absence categories surfaced in prior runs (lawfare/internal-waters declaration, Senkaku distractor, space counter-space, MOFCOM rare-earth coercion, alternative-island targeting, United Front territorial co-option) remain absent in this run. The ensemble is not learning across runs because each run is independent; the Stage 4 planner should treat these as durable structural blind spots, not sampling noise.",
+    "Every run's risk registers flag the same five collapse conditions (US convoy run, Japan Article V activation, ROC garrison resistance, public Volt-Typhoon attribution, KMT-DPP unity) but no move proposes preemptive countermeasures against them — suggesting the ensemble can identify failure modes but cannot operationalize hedges within a single move's action list."
+  ]
+}

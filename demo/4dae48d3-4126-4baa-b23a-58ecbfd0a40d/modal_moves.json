@@ -1,0 +1,552 @@
+[
+  {
+    "move_title": "Dongsha Seizure with Conditional Offer to Freeze Kinetic Operations",
+    "summary": "PLAN marine forces seize Dongsha (Pratas) Atoll on Day 1–2 behind a PLARF demonstration salvo against uninhabited reef features and a coordinated Volt-Typhoon activation degrading Taiwan's C2 nodes. By Day 3, Beijing publicly offers a 30-day freeze on further action contingent on Taipei entering cross-strait dialogue. The seizure is militarily cheap, politically load-bearing, and structured to make Blue's kinetic response appear disproportionate.",
+    "actions": [
+      {
+        "actor": "PLA Strategic Support Force / Volt-Typhoon pre-positioned implants",
+        "action": "Activate pre-positioned cyber implants targeting Taiwan MND C2 networks, undersea cable repeaters, and civilian power distribution nodes in Kaohsiung and Taichung",
+        "target": "Taiwan Ministry of National Defense networks, Chunghwa Telecom submarine cable landing stations, Taiwan Power grid SCADA",
+        "timeline_days": 0,
+        "purpose": "Degrade Taiwan's situational awareness and inter-service coordination ahead of kinetic action; suppress early warning reporting to AIT advisors"
+      },
+      {
+        "actor": "PLARF DF-16 SRBM brigades (Fujian garrison)",
+        "action": "Fire 6–8 DF-16 rounds against uninhabited reef features south of Dongsha and a declared live-fire zone in the South China Sea; broadcast coordinates 48 hours in advance as 'scheduled exercise'",
+        "target": "Pre-announced uninhabited reef coordinates, South China Sea exercise zone",
+        "timeline_days": 1,
+        "purpose": "Demonstrate PLARF precision and willingness to strike; normalize the kinetic environment before the island seizure; test Blue ISR and response timelines without triggering ROE for a strike on Taiwan proper"
+      },
+      {
+        "actor": "PLAN Marine Corps Brigade (South Sea Fleet, Zhanjiang)",
+        "action": "Helicopter-assault and fast-boat landing to seize Dongsha Atoll; neutralize ROC Coast Guard garrison (~200 personnel) with non-lethal priority; establish PLAAF forward observation post",
+        "target": "Dongsha Atoll (Pratas Island), ROC Coast Guard garrison",
+        "timeline_days": "1-2",
+        "purpose": "Create physical fait accompli before US CSG can reposition; establish hostage-and-ransom political dynamic; demonstrate amphibious reach without crossing the threshold of attacking Taiwan proper"
+      },
+      {
+        "actor": "PLAN surface action group (South Sea Fleet)",
+        "action": "Deploy 4–6 surface combatants plus submarine screen to establish a 50 nm exclusion zone around Dongsha; intercept and turn back any ROC Coast Guard or civilian resupply vessel",
+        "target": "South China Sea approaches to Dongsha, ROC Coast Guard vessels",
+        "timeline_days": 2,
+        "purpose": "Consolidate the seizure against ROC counteraction; prevent Taiwan from framing any relief mission as a humanitarian corridor; signal resolve to US CSG without firing on USN assets"
+      },
+      {
+        "actor": "PRC State Council / MFA",
+        "action": "Issue public statement offering 30-day operational freeze and safe passage for Dongsha garrison personnel contingent on Taipei entering formal cross-strait dialogue under 1992 Consensus framework; simultaneously brief non-aligned UN Security Council members",
+        "target": "Taipei, Washington, UN Security Council non-aligned members (Indonesia, Brazil, UAE)",
+        "timeline_days": 3,
+        "purpose": "Shift the political frame from 'PRC aggression' to 'PRC restraint offer'; fragment potential allied coalition by giving fence-sitters a face-saving reason to counsel Taipei toward dialogue rather than resistance"
+      },
+      {
+        "actor": "PLAAF J-16 and H-6K units (Eastern Theater Command)",
+        "action": "Begin sustained ADIZ incursions at elevated tempo on Taiwan's northeast sector; conduct live-fire exercises in waters east of Taiwan to complicate US CSG approach vectors",
+        "target": "Taiwan ADIZ northeast sector, Philippine Sea approach corridors",
+        "timeline_days": "3-7",
+        "purpose": "Raise the operational cost of US CSG forward positioning; signal that escalation to Taiwan proper is available but withheld; keep Blue in a reactive posture during the political offer window"
+      }
+    ],
+    "intended_effect": "Force Taipei and Washington into a dilemma: accept dialogue (legitimizing PRC coercion) or mount a kinetic response to retake a 1.7 km² atoll that Beijing has already offered to vacate conditionally, making Blue's response appear disproportionate and fracturing allied political consensus.",
+    "risks_red_accepts": [
+      "If the US CSG repositions within strike range before Day 3 and the ROC garrison resists with casualties, the 'restraint offer' narrative collapses and Beijing is politically forced into a harder escalatory posture before it is logistically ready for a JILC.",
+      "If Japan invokes Article V and offers Okinawa-based P-1 maritime patrol aircraft to support a ROC relief mission before Day 4, the exclusion zone becomes a direct US-Japan-PRC confrontation at sea, collapsing the 30-day political window.",
+      "If Volt-Typhoon activation is forensically attributed to PRC within 48 hours by US Cyber Command and publicly disclosed, the 'exercise framing' of the PLARF salvo loses credibility and the entire operation is reframed as a coordinated attack, strengthening allied cohesion rather than fracturing it.",
+      "If the ROC garrison on Dongsha conducts a successful armed defense that inflicts visible PLAN Marine casualties before being overrun, the domestic PRC narrative of a 'frictionless demonstration' is damaged and leadership faces pressure to escalate rather than offer a freeze.",
+      "If non-aligned UNSC members decline to shield the PRC from a resolution vote and the operation is formally branded 'aggression' before the political offer lands, the conditional dialogue offer is read as coerced capitulation bait and Taipei's domestic politics make acceptance impossible within the 30-day window."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "pla-joint-firepower-strike",
+      "jp3-0-phasing-model"
+    ],
+    "move_id": "ce795afe-39a8-4c17-8966-6053ac574a1a",
+    "instance_idx": 0,
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "temperature": 0.8886418232264883
+  },
+  {
+    "move_title": "Pratas Seizure with Conditional Withdrawal Offer",
+    "summary": "PLA seizes Dongsha (Pratas) Atoll on Day 1–2 using helicopter-borne marines from civilian vessel cover, then immediately issues a public political offer: PRC will withdraw within 30 days if Taipei suspends a planned referendum and accepts cross-strait dialogue under the 1992 Consensus framework. The move is calibrated to be militarily cheap, politically load-bearing, and structurally difficult for Blue to reverse without appearing disproportionate.",
+    "actions": [
+      {
+        "actor": "PLAN Marine Corps helicopter-assault element (~1 battalion) + PLARF information-operations cell",
+        "action": "Conduct pre-dawn helicopter assault from Type 071 LPDs repositioned under cover of 'routine exercise' in South China Sea, simultaneously jamming Taiwan coast-guard communications on Dongsha",
+        "target": "Dongsha (Pratas) Atoll — ROC Coast Guard garrison ~200 personnel",
+        "timeline_days": 1,
+        "purpose": "Seize the atoll before Taiwan can reinforce; neutralize the garrison with minimum casualties to preserve the 'coercive-not-kinetic' framing"
+      },
+      {
+        "actor": "PRC Ministry of Foreign Affairs + Taiwan Affairs Office",
+        "action": "Issue simultaneous public statement framing seizure as 'temporary administrative exercise of sovereignty' and announcing 30-day conditional withdrawal offer",
+        "target": "Taipei, Washington, and non-aligned international audience",
+        "timeline_days": 1,
+        "purpose": "Reframe the military fait accompli as a negotiating structure rather than an act of war; force Taipei to publicly accept or reject terms, splitting DPP/KMT domestic coalition"
+      },
+      {
+        "actor": "PLAAF + PLARF conventional missile brigades",
+        "action": "Surge alert posture — move DF-16 SRBM launchers to coastal deployment sites, increase PLAAF combat air patrols across ADIZ — without firing",
+        "target": "Taiwan's air-defense awareness picture and US CSG operational calculus",
+        "timeline_days": "1-3",
+        "purpose": "Signal that escalation to JFSO is available without triggering it; raise the cost of Blue military response to Pratas without crossing kinetic threshold against Taiwan proper"
+      },
+      {
+        "actor": "PLA Strategic Support Force (cyber/space)",
+        "action": "Execute selective Volt-Typhoon-class pre-positioned access activation against Taiwan power-grid supervisory systems — degrade but do not collapse; deny attribution",
+        "target": "Taiwan grid SCADA nodes in Penghu and southern Taiwan",
+        "timeline_days": "2-4",
+        "purpose": "Demonstrate coercive reach below the threshold of armed attack; complicate Taiwan's military mobilization without providing casus belli for US kinetic response"
+      },
+      {
+        "actor": "PLAN surface action group (2× Type 055 DDG + 4× Type 052D DDG)",
+        "action": "Establish maritime exclusion corridor around Pratas at 50nm radius, intercepting commercial resupply but allowing humanitarian vessels after inspection",
+        "target": "Taiwan Coast Guard and any ROCN surface vessels attempting relief of Pratas garrison",
+        "timeline_days": "2-7",
+        "purpose": "Consolidate hold on atoll, block military resupply, and force Blue to decide whether to run the blockade — making the first kinetic escalation Blue's choice"
+      },
+      {
+        "actor": "PRC State Council economic policy apparatus",
+        "action": "Announce suspension of cross-strait trade penalties and resume agricultural imports from Taiwan as 'goodwill gesture' concurrent with political offer",
+        "target": "Taiwan business community and KMT-aligned electorate",
+        "timeline_days": "3-5",
+        "purpose": "Cleave Taiwan's domestic political response; reduce DPP's ability to rally unified public support for military resistance"
+      }
+    ],
+    "intended_effect": "Deliver a militarily secured fait accompli at the lowest rung of the escalation ladder, then recast it as a diplomatic initiative. Force Taipei into a binary that splits its domestic coalition, makes US military response appear disproportionate to a 1.7 km² atoll, and buys Beijing negotiating leverage without triggering the JFSO threshold that would crystallize US/Japan Article V coordination.",
+    "risks_red_accepts": [
+      "If USS CSG commander interprets the maritime exclusion zone as a blockade of a US treaty partner's territory and orders a freedom-of-navigation transit through the corridor before Day 7, PRC must either fire on US naval vessels (crossing the kinetic threshold with the US) or back down publicly, collapsing the coercive credibility of the entire operation.",
+      "If Taiwan's DPP government immediately rejects the conditional offer and Japan invokes pre-crisis Article V consultations with the US within 72 hours, the 30-day political window collapses and PRC faces a choice between humiliating withdrawal and escalating to JFSO — the exact binary Red sought to impose on Taipei now imposed on Beijing.",
+      "If civilian RoRo and Type 071 repositioning is detected by US NRO/allied ISR 96+ hours before D-Day and leaked publicly, the 'surprise' that makes the fait accompli politically manageable evaporates; Taiwan reinforces Pratas and PRC must either abort (strategic humiliation) or assault a defended position (casualties that break the 'coercive-not-kinetic' frame).",
+      "If PLSSF cyber action against Taiwan grid is attributed publicly and rapidly (within 48 hours) by NSA/CISA, it hands the US administration the legal and political predicate for offensive cyber retaliation and coalition-building that PRC is specifically trying to prevent in the first 30 days.",
+      "If the KMT, rather than splitting from DPP, publicly endorses military resistance to the seizure, the domestic political fracture Red is counting on does not materialize, and Beijing's conditional offer is framed globally as a failed coercion attempt — degrading deterrence credibility for any future crisis window.",
+      "If PLAN surface action group fires on a ROC Coast Guard vessel attempting Pratas resupply, the incident reframes the operation internationally from 'territorial dispute' to 'armed attack,' triggering AIT advisor consultations and potentially the Taiwan Relations Act threshold before PRC's political offer has time to gain traction."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "pla-joint-firepower-strike",
+      "pla-df-26-anti-access"
+    ],
+    "move_id": "3e7af16e-1ff7-43a8-b841-c75977738f93",
+    "instance_idx": 1,
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "temperature": 0.9285007999227057
+  },
+  {
+    "move_title": "Dongsha Seizure with Conditional Withdrawal Offer",
+    "summary": "PLA seizes Dongsha (Pratas) Atoll on Day 1–2 using air-mobile and maritime special operations forces, then immediately issues a public conditional withdrawal offer tied to Taipei accepting a cross-strait dialogue framework. The move presents Taiwan and the US with a fait accompli on militarily cheap terrain while packaging it as a diplomatic opening, structuring the crisis to make kinetic recapture look disproportionate.",
+    "actions": [
+      {
+        "actor": "PLA Eastern Theater Command / PLAAF special operations aviation + PLAN marine commandos",
+        "action": "Air-mobile assault and maritime special operations seizure of Dongsha Atoll; ROC Coast Guard garrison (~200) detained, facilities secured",
+        "target": "Dongsha (Pratas) Atoll, South China Sea",
+        "timeline_days": 1,
+        "purpose": "Establish physical control of the atoll before Taiwan or US can reinforce; exploit small garrison and geographic isolation to minimize kinetic resistance and casualty optics"
+      },
+      {
+        "actor": "PRC State Council / MFA",
+        "action": "Issue formal public statement declaring Dongsha under PRC administrative control; simultaneously transmit private diplomatic channel message to Taipei offering conditional withdrawal within 30 days if cross-strait dialogue framework is accepted",
+        "target": "Taipei, Washington DC, international community",
+        "timeline_days": 1,
+        "purpose": "Shift the crisis from military to political framing immediately; deny Blue a clean narrative of unprovoked aggression by coupling seizure with a dialogue offer"
+      },
+      {
+        "actor": "PLAN South Sea Fleet surface and submarine elements",
+        "action": "Establish maritime exclusion zone around Dongsha; PLAN SSKs deploy to deny approach corridors; PLAN surface combatants with HHQ-9 SAM coverage establish air-denial bubble over atoll",
+        "target": "South China Sea approaches to Dongsha; any ROC or US naval surface movement toward the atoll",
+        "timeline_days": "1-2",
+        "purpose": "Raise the cost of recapture to a level that makes the military option politically difficult for Taipei and Washington; signal that any approach will be contested"
+      },
+      {
+        "actor": "PLA Rocket Force",
+        "action": "Surge DF-21D and DF-16 launchers to dispersed field positions in Fujian and Guangdong; conduct highly visible but non-firing readiness exercises",
+        "target": "PLAN CSG operating in Western Pacific; ROC air bases",
+        "timeline_days": "2-3",
+        "purpose": "Signal counter-intervention capability without firing; impose planning uncertainty on INDOPACOM without crossing the kinetic threshold that would trigger Article V discussions with Japan or formal US war authorities"
+      },
+      {
+        "actor": "PLA Strategic Support Force / cyber and information operations",
+        "action": "Execute targeted information operations amplifying KMT political voices within Taiwan calling for dialogue; conduct measured disruption of ROC military logistics communications (below attribution threshold)",
+        "target": "Taiwan domestic political discourse; ROC military C2 networks",
+        "timeline_days": "2-4",
+        "purpose": "Widen the KMT-DPP political fracture over the appropriate response; buy time for the conditional offer to generate internal Taiwanese debate that constrains Tsai-successor government's military options"
+      },
+      {
+        "actor": "MFA / PRC diplomatic mission network",
+        "action": "Brief non-aligned states (ASEAN members, Gulf states, Global South partners) that the PRC action is a limited administrative measure with a diplomatic off-ramp; circulate the withdrawal offer terms",
+        "target": "ASEAN, African Union, Arab League diplomatic channels",
+        "timeline_days": "3-5",
+        "purpose": "Prevent crystallization of a unified international coalition by framing the crisis as a bilateral dispute with an active diplomatic solution; exploit the 30-day window before any UNSC resolution framework could mature"
+      }
+    ],
+    "intended_effect": "Force Taipei and Washington into a political dilemma: accept dialogue terms (legitimizing PRC leverage) or mount military recapture of a tiny atoll at the cost of appearing to prefer war over diplomacy, while the conditional offer fractures allied consensus and buys time across the spring amphibious window.",
+    "risks_red_accepts": [
+      "If the US immediately repositions the available CSG to within strike range of Dongsha before Day 3, the PLAN exclusion zone becomes visibly untenable and Red must either fire first (crossing the US kinetic threshold) or withdraw under naval pressure, destroying coercive credibility.",
+      "If ROC ground forces on Dongsha mount sufficient resistance to produce PLA casualties that become public before Day 2, the optics of the 'limited administrative measure' framing collapse and the conditional offer reads as a cover for an assault, stiffening rather than fracturing Taiwan's political response.",
+      "If Japan invokes its own security concerns and grants INDOPACOM expanded basing authorities at Okinawa and Miyako before Day 5, the counter-intervention posture Red relies on to deter recapture becomes less credible and the 30-day diplomatic window shortens to a recapture timeline.",
+      "If the conditional withdrawal offer is publicly rejected by Taipei within 72 hours and that rejection receives unified allied endorsement, Red has no face-saving mechanism short of escalation to JILC-scale operations or a humiliating unilateral withdrawal.",
+      "If PLAN SSK operations near Dongsha result in a collision or incident with a US or Japanese ASW asset before Day 7, the incident reframes the crisis as a direct US-PRC naval confrontation, collapsing the political-dispute framing and accelerating US war-authority decisions.",
+      "If civilian RoRo mobilization signals detected by NRO or allied ISR assets leak publicly before Day 4, the 'limited seizure' narrative is undercut by visible invasion-preparation indicators, triggering early CSG reinforcement and allied coordination that forecloses the diplomatic window."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "pla-joint-firepower-strike",
+      "pla-df-26-anti-access"
+    ],
+    "move_id": "ea014a05-ef19-476d-80c8-8dc956f84644",
+    "instance_idx": 2,
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "temperature": 0.923178172218544
+  },
+  {
+    "move_title": "Dongsha Seizure with Conditional Political Offer",
+    "summary": "PLA seizes Dongsha (Pratas) Atoll on Day 1 using helicopter-borne marines and coast guard vessels, isolating the ~200-person ROC Coast Guard garrison. Simultaneously, Beijing announces a public offer to withdraw within 30 days if Taipei accepts a cross-strait dialogue framework. The move is calibrated to fall below the threshold of attacking Taiwan proper while creating a hostage-and-ransom political dynamic that fractures Blue coalition decision-making.",
+    "actions": [
+      {
+        "actor": "PLAN Marine Corps / PLA Coast Guard",
+        "action": "Helicopter-borne assault and surface vessel cordon to seize and secure atoll",
+        "target": "Dongsha (Pratas) Atoll garrison (~200 ROC Coast Guard personnel)",
+        "timeline_days": 1,
+        "purpose": "Establish physical control at minimal kinetic cost; present fait accompli before Blue CSG can reposition"
+      },
+      {
+        "actor": "PLA Strategic Support Force (cyber/EW)",
+        "action": "Suppress ROC garrison communications and jam ISR feeds over Dongsha during assault window",
+        "target": "ROC Coast Guard comms nodes and Taiwan ADIZ surveillance sensors covering South China Sea approach",
+        "timeline_days": 1,
+        "purpose": "Reduce warning time to Blue; prevent real-time imagery from driving premature US escalation decision"
+      },
+      {
+        "actor": "PLARF (DF-21D / DF-26 units at garrison readiness)",
+        "action": "Elevate readiness posture and conduct publicized launcher dispersal without firing",
+        "target": "US CSG operating in Western Pacific and Kadena / Andersen basing infrastructure",
+        "timeline_days": "1-3",
+        "purpose": "Raise cost calculus for US CSG intervention without crossing kinetic threshold; signal counter-intervention envelope is armed and ready"
+      },
+      {
+        "actor": "PRC Ministry of Foreign Affairs / State Council Taiwan Affairs Office",
+        "action": "Issue formal public statement offering 30-day conditional withdrawal with explicit political terms",
+        "target": "Taipei government, US policymakers, ASEAN non-aligned bloc, and international media",
+        "timeline_days": 2,
+        "purpose": "Reframe the military seizure as a negotiating instrument; make Blue military response look disproportionate to 1.7 km² atoll; divide allied coalition on appropriate response"
+      },
+      {
+        "actor": "PLAN surface action group (destroyer/frigate screen)",
+        "action": "Establish maritime exclusion cordon around Dongsha at 50 nm radius",
+        "target": "ROC Navy and any Blue resupply or extraction attempt",
+        "timeline_days": "2-4",
+        "purpose": "Prevent Taiwan from retaking or resupplying the atoll; sustain the hostage dynamic that gives the political offer leverage"
+      },
+      {
+        "actor": "PRC diplomatic channel (back-channel via third parties)",
+        "action": "Communicate privately to Washington that PRC does not intend to attack Taiwan proper and will not fire on US forces that remain outside the 50 nm cordon",
+        "target": "US NSC / INDOPACOM command authority",
+        "timeline_days": "2-5",
+        "purpose": "Create ambiguity about whether this is a strategic opening move or a terminal coercive gambit; buy time by splitting US decision-making between military planners (who see it as Phase II) and political leadership (who face domestic pressure to avoid war over an atoll)"
+      }
+    ],
+    "intended_effect": "Force Taipei and Washington into a lose-lose political choice: accept dialogue terms (a political concession) or attempt military retaking of a minimally defensible atoll at risk of direct US-PRC kinetic exchange, while Beijing holds the initiative and the 30-day clock.",
+    "risks_red_accepts": [
+      "If US CSG Commander receives authorization to enter the 50 nm cordon before Day 4, the PLAN surface screen must either engage or withdraw, collapsing the non-kinetic framing of the operation and triggering escalation Red sought to avoid.",
+      "If Japan invokes Treaty obligations and offers basing for a Taiwan extraction operation by Day 5, the coalition-fragmentation effect fails and Red faces a unified allied response with forward logistics it cannot suppress without crossing the JFSO kinetic threshold.",
+      "If ROC ground forces on Dongsha mount sustained resistance and imagery of PLA personnel killing ROC Coast Guard goes global within Day 1, the political-offer framing is overwritten by a war-crimes narrative that hardens US domestic opinion and accelerates Congressional authorization for direct intervention.",
+      "If Taiwan government publicly rejects the conditional offer within 48 hours and frames it as unconditional surrender, the 30-day clock becomes a liability — Red must either escalate to invasion or accept a negotiated withdrawal that reads domestically as a failed coercive gambit.",
+      "If PLAN maritime cordon is penetrated by a US submarine that surfaces publicly within the exclusion zone, the exclusion zone's credibility collapses without Red having fired a shot, undermining the deterrent posture of the entire operation."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "pla-df-26-anti-access"
+    ],
+    "move_id": "8c70c3f5-ff68-41f3-a6ca-f1f8da94a2ca",
+    "instance_idx": 3,
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "temperature": 0.9269154356877152
+  },
+  {
+    "move_title": "Seven-Day Joint Quarantine Demonstration",
+    "summary": "Open with a coercive quarantine rather than an invasion or missile salvo: declare inspection zones, use CCG and maritime militia as the forward edge, place PLAN/PLAAF/PLARF in visible support, disrupt Taiwan’s mobilization information environment, and stage amphibious logistics as a threat-in-being.",
+    "actions": [
+      {
+        "actor": "PRC State Council, Taiwan Affairs Office, Ministry of Transport, Maritime Safety Administration",
+        "action": "Announce a 7-day “joint customs, quarantine, and anti-smuggling enforcement operation” requiring advance PRC clearance for vessels and aircraft bound for major Taiwan ports and airports; publish temporary exercise and inspection zones around approaches to Keelung, Taipei/Taoyuan, Taichung, Kaohsiung, and Hualien.",
+        "target": "Commercial maritime and air traffic serving Taiwan",
+        "timeline_days": 0,
+        "purpose": "Frame the operation as law-enforcement and sovereignty enforcement rather than an invasion, forcing Blue to decide whether to challenge inspections militarily."
+      },
+      {
+        "actor": "China Coast Guard, Maritime Militia, Eastern Theater Command liaison cells",
+        "action": "Surge China Coast Guard cutters and maritime militia to inspection stations outside Taiwan’s main port approaches, prioritizing board-and-divert actions against selected Taiwan-flagged and third-country commercial vessels while avoiding fires unless fired upon.",
+        "target": "Inbound merchant shipping to Taiwan’s principal ports",
+        "timeline_days": "1-2",
+        "purpose": "Create immediate economic and psychological pressure while keeping the first visible contact below a PLA-on-ROC kinetic threshold."
+      },
+      {
+        "actor": "PLAN Eastern Theater Navy with Southern and Northern Theater augmentation",
+        "action": "Establish PLAN outer screens east and west of Taiwan using destroyers, frigates, submarines, maritime patrol aircraft, and UAVs; maintain separation between CCG boarding forces and US/Japanese units while shadowing any escort groups.",
+        "target": "Taiwan Strait, Bashi Channel, Miyako approaches, and eastern Taiwan sea lanes",
+        "timeline_days": "1-7",
+        "purpose": "Backstop the quarantine, deter Taiwan naval intervention, and complicate US escort operations without initiating strikes."
+      },
+      {
+        "actor": "PLAAF Eastern Theater Command Air Force",
+        "action": "Fly continuous PLAAF combat air patrols, AEW&C, electronic warfare, and UAV orbits around Taiwan’s ADIZ margins, with limited median-line crossings but no first use of weapons; hold H-6 and fighter-bomber packages visibly on alert at coastal airfields.",
+        "target": "Airspace around Taiwan, especially northern and southwestern approaches",
+        "timeline_days": "1-7",
+        "purpose": "Demonstrate air superiority potential, stress Taiwan readiness, and signal that any attempt to break the quarantine can be escalated quickly."
+      },
+      {
+        "actor": "PLA Rocket Force, Eastern Theater Command joint fires cell",
+        "action": "Disperse PLARF conventional missile brigades and conduct non-impact live-fire or test launches into preannounced sea exercise boxes away from populated areas, while publicly warning external forces not to interfere.",
+        "target": "Declared maritime exercise areas around Taiwan and the wider first island chain",
+        "timeline_days": "2-4",
+        "purpose": "Hold Taiwan bases and regional intervention nodes at risk without opening with a land-attack salvo against Taiwan, Japan, Guam, or US naval forces."
+      },
+      {
+        "actor": "PLA Strategic Support Force and United Front information organs",
+        "action": "Execute reversible cyber and information operations: degrade selected Taiwan government mobilization portals, push surrender-cost messaging, amplify shipping-insurance and market uncertainty, and avoid attacks on hospitals, power grids, or foreign corporate systems.",
+        "target": "Taiwan public communications environment, mobilization information systems, and commercial risk perceptions",
+        "timeline_days": "1-7",
+        "purpose": "Magnify coercive effect of the quarantine while preserving a public claim of restraint and minimizing coalition-hardening collateral damage."
+      },
+      {
+        "actor": "Eastern Theater Command, PLAN amphibious forces, Joint Logistic Support Force, mobilized civilian sealift operators",
+        "action": "Stage amphibious shipping, RoRo ferries, and logistics stocks in Fujian and Zhejiang under exercise cover, but do not begin full embarkation; keep the force positioned as a follow-on threat if Taipei refuses talks.",
+        "target": "Fujian and Zhejiang embarkation ports opposite Taiwan",
+        "timeline_days": "3-7",
+        "purpose": "Preserve escalation leverage toward blockade expansion or landing preparations without paying the full visibility and economic cost of an invasion mobilization on Day 1."
+      }
+    ],
+    "intended_effect": "Coerce Taipei toward talks by making normal trade and mobilization unreliable, while delaying US/Japan authorization for direct kinetic response and preserving PLA options for blockade expansion, fires, or landing preparations.",
+    "risks_red_accepts": [
+      "If the US Navy organizes an escorted convoy into Kaohsiung or Keelung by Day 5, Red must either allow the convoy through and lose coercive credibility or order CCG/PLAN obstruction that could trigger direct US-PLA contact.",
+      "If Taiwan fires on or captures a CCG boarding team, Beijing’s law-enforcement framing breaks and Red must choose between a punitive strike package and accepting a visible tactical defeat.",
+      "If Japan publicly authorizes US combat operations from Kadena, Iwakuni, and Yokosuka before Day 7, the move accelerates rather than delays coalition formation.",
+      "If major shipping lines continue service through eastern Taiwan ports under US or Japanese insurance guarantees, the quarantine fails to generate decisive economic pressure within the 30-day window.",
+      "If cyber effects spill into hospitals, semiconductor production, or foreign-owned networks, Red loses the restraint narrative and invites sanctions and allied counter-cyber operations."
+    ],
+    "doctrine_cited": [
+      "jp3-0-phasing-model",
+      "pla-joint-island-landing-campaign"
+    ],
+    "move_id": "5b92fe0c-3eb2-49f6-8c07-2eac2b792083",
+    "instance_idx": 4,
+    "provider": "openai",
+    "model": "gpt-5.5",
+    "temperature": 1.0
+  },
+  {
+    "move_title": "Pratas Quarantine Bargain",
+    "summary": "Open below the threshold of a main-island attack: seize Dongsha/Pratas, pair it with a conditional withdrawal offer, and impose selective maritime inspections around Taiwan. Use CCG and militia visibly, with PLAN/PLAAF/PLARF overwatch, to coerce Taipei while complicating US-allied escalation decisions.",
+    "actions": [
+      {
+        "actor": "Central Military Commission, Taiwan Affairs Office, China Coast Guard",
+        "action": "Announce a seven-day “joint maritime safety and anti-smuggling inspection” exercise covering waters around Dongsha/Pratas and selected approaches to Taiwan, while declaring that no strikes on Taiwan proper are planned if Taipei avoids military resistance.",
+        "target": "Taipei leadership, commercial shipping, US/Japan/Philippines decision-makers",
+        "timeline_days": 0,
+        "purpose": "Frame the move as law enforcement and crisis management rather than the opening of an invasion, complicating Blue escalation authorities."
+      },
+      {
+        "actor": "China Coast Guard, People’s Armed Forces Maritime Militia, PLAN Southern Theater Command, PLAAF",
+        "action": "Surround Dongsha/Pratas with China Coast Guard cutters and maritime militia, with PLAN Southern Theater Command surface combatants positioned over the horizon and PLAAF patrols providing air cover.",
+        "target": "ROC Coast Guard garrison and sea approaches to Dongsha/Pratas",
+        "timeline_days": "0-1",
+        "purpose": "Isolate the garrison, prevent reinforcement, and keep the visible lead in gray-zone forces while retaining military overwatch."
+      },
+      {
+        "actor": "PLAN Marine Corps, PLA special operations detachments, Strategic Support Force support elements",
+        "action": "Conduct a limited, casualty-minimizing seizure of Dongsha/Pratas using PLAN Marine Corps and special operations elements after communications suppression and a surrender demand.",
+        "target": "Dongsha/Pratas airstrip, pier, communications node, and ROC Coast Guard facilities",
+        "timeline_days": "1-2",
+        "purpose": "Create a tangible bargaining chip without striking Taiwan proper or committing scarce cross-strait amphibious lift."
+      },
+      {
+        "actor": "State Council Taiwan Affairs Office, Ministry of Foreign Affairs, PLA spokespersons",
+        "action": "Publicly offer to withdraw from Dongsha/Pratas within 30 days if Taipei accepts renewed cross-strait talks, suspends any sovereignty referendum language, and reaffirms opposition to formal independence.",
+        "target": "Taiwan electorate, opposition parties, regional governments, international media",
+        "timeline_days": "2-3",
+        "purpose": "Turn the seizure into a political ransom problem and make an immediate Blue kinetic response appear disproportionate."
+      },
+      {
+        "actor": "China Coast Guard, Maritime Safety Administration, maritime militia with PLAN overwatch",
+        "action": "Begin selective maritime inspections by China Coast Guard of Taiwan-bound vessels carrying dual-use or military cargo, while allowing food, medical, and routine commercial traffic to proceed after delay.",
+        "target": "Approaches to Kaohsiung, Keelung, Taichung, and eastern Taiwan sea lanes",
+        "timeline_days": "3-7",
+        "purpose": "Demonstrate capacity for isolation of Taiwan while avoiding a total blockade that would more readily unify US allies."
+      },
+      {
+        "actor": "PLA Rocket Force, Eastern Theater Command, Strategic Support Force",
+        "action": "Place PLARF conventional missile brigades and Eastern Theater air/naval forces on visible alert but withhold strikes against Taiwan, Japan, Guam, or US naval forces unless attacked.",
+        "target": "US and allied forward bases, deployed naval forces, Taiwan command authorities",
+        "timeline_days": "0-7",
+        "purpose": "Hold counter-intervention options in reserve and deter Blue from treating the Pratas operation as a free recapture opportunity."
+      }
+    ],
+    "intended_effect": "Seize a low-cost bargaining chip, fracture Blue consensus over proportional response, and demonstrate Taiwan’s vulnerability while preserving escalation control and avoiding an immediate US-China kinetic exchange.",
+    "risks_red_accepts": [
+      "If ROC naval or air forces attempt an immediate armed recapture of Dongsha/Pratas, Red must choose between striking Taiwan military assets and accepting a visible contested lodgment.",
+      "If the US organizes a multinational escorted convoy through the inspection areas by Day 5, the China Coast Guard lead may lose credibility unless PLAN units confront allied warships.",
+      "If Japan grants expanded combat support from Ryukyu bases before Day 7, the crisis shifts from a Taiwan coercion problem to a broader alliance confrontation Red sought to avoid.",
+      "If Taipei refuses talks and successfully frames the move as hostage-taking, Red holds Dongsha/Pratas without extracting political concessions and faces pressure to escalate or withdraw.",
+      "If commercial insurers classify the inspection regime as a blockade, shipping disruptions could impose immediate costs on PRC coastal trade and harden regional economic opposition."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "jp3-0-phasing-model"
+    ],
+    "move_id": "859cf921-3d6d-4b5b-947d-44676caa56e1",
+    "instance_idx": 5,
+    "provider": "openai",
+    "model": "gpt-5.5",
+    "temperature": 1.0
+  },
+  {
+    "move_title": "Pratas Hostage Quarantine",
+    "summary": "Red opens with a law-enforcement-style quarantine of Taiwan and a rapid seizure of Pratas, while withholding missile strikes on Taiwan, Japan, or US forces. The move creates a hostage, disrupts Taiwan’s economy and mobilization, and offers withdrawal in exchange for political concessions, aiming to keep Blue trapped below a clear war threshold.",
+    "actions": [
+      {
+        "actor": "Central Military Commission, State Council, Taiwan Affairs Office, China Coast Guard",
+        "action": "Announce a 30-day “Joint Customs and Safety Inspection” around Taiwan, publish exercise boxes east and west of the island, and state that force will be used only against vessels or aircraft refusing inspection.",
+        "target": "Taiwan-bound maritime and air traffic; international political audience",
+        "timeline_days": "Day 1",
+        "purpose": "Frame the operation as law enforcement and crisis management rather than an invasion, forcing Blue to decide whether to break the cordon first."
+      },
+      {
+        "actor": "PLA Strategic Support Force and Eastern Theater Command information operations elements",
+        "action": "Begin reversible cyber, electronic-warfare, and information operations against Taiwan government messaging, port scheduling, logistics databases, and public warning channels while avoiding mass-casualty infrastructure effects.",
+        "target": "Taiwan command-information environment and civil logistics coordination",
+        "timeline_days": "Days 1-7",
+        "purpose": "Slow Taiwan’s mobilization, amplify uncertainty, and support the narrative that Taipei cannot guarantee normal commerce without talks with Beijing."
+      },
+      {
+        "actor": "Eastern Theater Command Navy, China Coast Guard, Maritime Militia, PLAAF",
+        "action": "Deploy China Coast Guard cutters, maritime militia, PLAN surface combatants over the horizon, UAV ISR, and PLAAF combat air patrols to create inspection lanes near Taiwan’s major approaches.",
+        "target": "Sea and air approaches to Keelung, Taipei, Taichung, Kaohsiung, and eastern Taiwan ports",
+        "timeline_days": "Days 1-7",
+        "purpose": "Establish a coercive quarantine without immediately conducting missile strikes or landing on Taiwan proper."
+      },
+      {
+        "actor": "Southern Theater Command, PLAN Marine Corps detachment, China Coast Guard, PLAN South Sea Fleet",
+        "action": "Seize Dongsha/Pratas with a Coast Guard-fronted landing supported by a PLAN Marine detachment, helicopters, UAV overwatch, and Southern Theater naval units; capture the garrison intact and broadcast humane treatment.",
+        "target": "Dongsha/Pratas Island ROC Coast Guard garrison, airstrip, pier, communications node",
+        "timeline_days": "Day 2",
+        "purpose": "Create a tangible hostage and demonstration of resolve while keeping the fight geographically away from Taiwan proper and US/Japan bases."
+      },
+      {
+        "actor": "PLA Rocket Force, Eastern Theater Command, Southern Theater Command",
+        "action": "Disperse selected PLARF conventional missile brigades and place anti-ship and theater-strike forces on visible alert, but withhold fires unless US or Japanese forces attack PRC units.",
+        "target": "US and allied forward intervention posture in the First and Second Island Chains",
+        "timeline_days": "Days 2-7",
+        "purpose": "Hold intervention forces at risk and deter a forced-entry convoy while preserving escalation control."
+      },
+      {
+        "actor": "Ministry of Foreign Affairs, Taiwan Affairs Office, United Front Work Department",
+        "action": "Offer public withdrawal from Pratas and relaxation of inspections if Taipei accepts immediate cross-strait talks, suspends independence-related legislative moves, and acknowledges a one-China dialogue formula.",
+        "target": "Taipei leadership, Taiwan electorate, Japan, Philippines, Australia, United States",
+        "timeline_days": "Days 3-7",
+        "purpose": "Convert the military fait accompli into a political bargaining problem and complicate allied consensus for kinetic response."
+      }
+    ],
+    "intended_effect": "Create a controlled fait accompli and coercive quarantine that pressures Taipei politically, demonstrates PLA capability, and delays US-led coalition consolidation without opening with mass strikes on Taiwan, Japan, or US forces.",
+    "risks_red_accepts": [
+      "If a US CSG or allied escort force deliberately pushes a convoy through an inspection lane before Day 7, Red must choose between backing down, boarding under US protection, or firing on US-linked vessels.",
+      "If Taiwan’s defenders on Pratas hold out long enough for live media and US ISR exploitation, the operation shifts from clean fait accompli to visible amphibious assault with higher pressure for Blue military response.",
+      "If Japan grants expanded strike and logistics access from Nansei, Kyushu, and Honshu bases immediately after the Pratas seizure, the coalition-hardening effect may outweigh Red’s attempt to localize the crisis.",
+      "If Taiwan uses Hsiung Feng missiles, mines, or air strikes against Coast Guard or PLAN quarantine units and causes major casualties, Red’s limited ROE becomes politically unsustainable inside Beijing.",
+      "If cyber or electronic effects spill into hospitals, power distribution, or foreign commercial systems, Blue can frame the operation as indiscriminate infrastructure attack rather than calibrated coercion.",
+      "If commercial insurers and shippers treat the quarantine as a general war risk for PRC ports as well as Taiwan, Beijing faces immediate economic blowback before political concessions materialize."
+    ],
+    "doctrine_cited": [
+      "pla-outlying-island-seizure",
+      "pla-joint-island-landing-campaign",
+      "jp3-0-phasing-model"
+    ],
+    "move_id": "1e840a45-5303-40d8-b40d-0641226f81f5",
+    "instance_idx": 6,
+    "provider": "openai",
+    "model": "gpt-5.5",
+    "temperature": 1.0
+  },
+  {
+    "move_title": "Seven-Day Reversible Maritime Quarantine",
+    "summary": "Red opens below the threshold of full invasion or missile salvo by declaring a reversible maritime quarantine around Taiwan, enforced first by coast guard and maritime militia with PLAN, PLAAF, and PLARF overwatch. The move pressures Taiwan’s economy and politics, complicates US rules of engagement, and preserves a credible transition to blockade, strikes, or landing preparations if Blue challenges the cordon.",
+    "actions": [
+      {
+        "actor": "CMC, State Council, Taiwan Affairs Office, Ministry of Transport",
+        "action": "Announce a temporary “joint customs and safety inspection” regime around Taiwan, with declared inspection boxes near major ports, humanitarian corridors, and a public offer to suspend inspections if Taipei opens cross-strait talks.",
+        "target": "Taiwan-bound commercial shipping and insurers",
+        "timeline_days": "Day 0",
+        "purpose": "Frame the operation as law-enforcement coercion rather than war, force Taipei and Washington to decide whether to break a quarantine, and create a reversible political off-ramp."
+      },
+      {
+        "actor": "China Coast Guard, Maritime Safety Administration, maritime militia under Eastern Theater coordination",
+        "action": "Deploy China Coast Guard cutters, Maritime Safety Administration vessels, and maritime militia to inspect, delay, or turn back selected Taiwan-bound merchant traffic outside port approaches while avoiding initial use of lethal force.",
+        "target": "Approaches to Keelung, Taichung, Kaohsiung, and Hualien",
+        "timeline_days": "Days 1-2",
+        "purpose": "Impose visible economic pressure while preserving plausible non-war framing and complicating Blue rules of engagement."
+      },
+      {
+        "actor": "PLAN Eastern Theater Navy and Southern Theater supporting units",
+        "action": "Establish PLAN outer cover east and west of Taiwan, keeping major combatants outside the inspection line but ready to intervene if ROC Navy or USN units attempt to remove CCG vessels.",
+        "target": "Taiwan Strait, Bashi Channel, waters east of Taiwan",
+        "timeline_days": "Days 1-7",
+        "purpose": "Deter armed interference with the quarantine without making PLAN warships the first-contact force."
+      },
+      {
+        "actor": "PLAAF and PLAN Aviation under Eastern Theater Command",
+        "action": "Conduct continuous air and ISR patrols around Taiwan, including median-line crossings and combat air patrols over declared exercise areas, while withholding strikes on Taiwan proper.",
+        "target": "Airspace around Taiwan and declared exercise zones",
+        "timeline_days": "Days 1-7",
+        "purpose": "Stress Taiwan’s air defenses, demonstrate air superiority ambitions, and provide overwatch for maritime enforcement without crossing the threshold of a joint firepower strike."
+      },
+      {
+        "actor": "PLA Rocket Force",
+        "action": "Disperse selected PLARF conventional missile brigades and publicize readiness drills for DF-21D and DF-26 units, with no launches against US, Japanese, or Taiwanese bases during the opening week.",
+        "target": "US and allied intervention posture in the first and second island chains",
+        "timeline_days": "Days 1-7",
+        "purpose": "Hold US carrier and forward-base intervention options at risk while preserving escalation control and avoiding immediate direct kinetic conflict with the United States or Japan."
+      },
+      {
+        "actor": "PLA Strategic Support Force and United Front information organs",
+        "action": "Apply reversible information and electronic pressure: selective interference with maritime tracking, port logistics messaging, and public warning broadcasts, paired with propaganda emphasizing inspection compliance and safe corridors.",
+        "target": "Taiwan maritime logistics, shipping firms, and domestic audiences",
+        "timeline_days": "Days 2-7",
+        "purpose": "Increase commercial uncertainty, slow Taiwan’s logistics response, and reinforce the narrative that compliance prevents escalation."
+      },
+      {
+        "actor": "Eastern Theater Command logistics elements, PLAN amphibious units, requisitioned civilian shipping authorities",
+        "action": "Stage amphibious and civilian roll-on/roll-off shipping visibly at Fujian and Zhejiang ports without full embarkation, accompanied by live-fire exercise notices near but outside main invasion routes.",
+        "target": "Taiwan military mobilization system and Blue intelligence indicators",
+        "timeline_days": "Days 3-7",
+        "purpose": "Create invasion ambiguity, fix Taiwan’s reserves, and pressure Blue decision-makers while avoiding the detectable commitment of a full Joint Island Landing Campaign."
+      },
+      {
+        "actor": "Taiwan Affairs Office and PRC diplomatic channels",
+        "action": "Open a controlled negotiation channel offering phased suspension of inspections in exchange for Taipei accepting a cross-strait dialogue framework and pausing independence-coded political actions during the crisis.",
+        "target": "Taiwan presidency, major parties, and foreign mediators",
+        "timeline_days": "Days 4-7",
+        "purpose": "Convert maritime pressure into political concessions before US reinforcement timelines mature."
+      }
+    ],
+    "intended_effect": "Force Taipei into a political concession or talks under economic pressure while delaying US-led coalition formation, preserving escalation control, and keeping invasion or strike options available if the quarantine is challenged.",
+    "risks_red_accepts": [
+      "If USN and ROC Navy form an escorted convoy into a declared inspection box before Day 7, Red must either let the convoy pass and lose coercive credibility or risk a direct naval incident.",
+      "If Japan grants expanded US strike, ISR, and logistics use from bases and publicly defines the quarantine as an armed blockade, Red’s coalition-fragmentation premise fails.",
+      "If Taiwan sustains port operations through rerouting, stockpiles, and emergency airlift for the first week, the quarantine may not generate political pressure before a second US carrier arrives.",
+      "If a CCG or maritime militia vessel collides with or fires on a neutral-flagged merchant ship, the law-enforcement narrative collapses and sanctions momentum accelerates.",
+      "If ROC forces capture a CCG crew or militia vessel, Beijing faces a domestic credibility problem that may force premature PLAN escalation.",
+      "If PLARF readiness signaling is misread as imminent strikes on Japan or Guam, Blue may disperse and harden faster than Red’s coercive timeline assumes."
+    ],
+    "doctrine_cited": [
+      "jp3-0-phasing-model",
+      "pla-joint-island-landing-campaign",
+      "pla-df-26-anti-access"
+    ],
+    "move_id": "2ef0ba8c-dec1-4e0b-b102-72626d22a527",
+    "instance_idx": 7,
+    "provider": "openai",
+    "model": "gpt-5.5",
+    "temperature": 1.0
+  }
+]

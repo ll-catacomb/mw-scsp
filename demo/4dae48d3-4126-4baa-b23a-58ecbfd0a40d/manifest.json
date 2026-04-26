@@ -1,0 +1,68 @@
+{
+  "run_id": "4dae48d3-4126-4baa-b23a-58ecbfd0a40d",
+  "started_at": "2026-04-26T18:28:47.782497+00:00",
+  "scenario": {
+    "scenario_id": "taiwan_strait_spring_2028",
+    "title": "Taiwan Strait Crisis, Spring 2028",
+    "red_force": "People's Liberation Army (PRC)",
+    "blue_force": "Republic of China (Taiwan), with US INDOPACOM support",
+    "lead_branch": "USN",
+    "timeframe": {
+      "start": "2028-04-01",
+      "decision_horizon_days": 30,
+      "rationale": "Spring (March\u2013May) is one of two annual windows in which sea-state and weather conditions across the Taiwan Strait are compatible with large-scale amphibious operations. The other window is fall (September\u2013October). Beyond these windows the monsoon and typhoon seasons make crossings operationally prohibitive. This timing constraint is well-attested in open-source PLA-watcher analysis.\n"
+    },
+    "situation": "By Spring 2028, PRC strategic patience with Taiwan's domestic political trajectory has eroded. Routine PLA exercises around Taiwan have escalated in frequency and proximity over the preceding 18 months. Taiwan is in the middle of its electoral cycle. US force posture in INDOPACOM has been partially reconstituted post-Ukraine but remains stretched across multiple theaters. Allied positioning (Japan, Australia, Philippines) is more forward-leaning than in previous decades but is not unified on red lines.\n",
+    "red_strategic_goals": [
+      "Achieve unification with Taiwan on terms acceptable to Beijing",
+      "Avoid sustained direct kinetic conflict with US forces if possible",
+      "Prevent crystallization of a durable anti-PRC coalition during the crisis",
+      "Demonstrate PLA capability sufficient to deter future Taiwanese independence trajectories regardless of immediate outcome"
+    ],
+    "red_resources_and_constraints": {
+      "capability_summary": "PLA Navy is the world's largest by hull count; PLA Rocket Force has extensive conventional missile inventory ranging across the first and second island chains; PLA Air Force has significant 4th- and 5th-gen fighter inventories; PLA Strategic Support Force capable in space and cyber domains. Joint logistics and joint command-and-control across services remain the historical weak point.\n",
+      "constraints": [
+        "Amphibious lift remains the binding constraint on a full invasion; civilian RoRo fleet partially compensates but introduces visibility",
+        "Cross-strait operations are detectable weeks in advance via satellite",
+        "Domestic economic costs of full mobilization are material",
+        "Escalation thresholds with US/Japan are uncertain to PRC planners"
+      ]
+    },
+    "blue_posture": "US naval and air forces in the Western Pacific in routine forward posture; one CSG in vicinity, second redeployable in 2\u20133 weeks; Marine Littoral Regiment forward in First Island Chain; Japan / Philippines basing access active; Taiwan ground forces partially mobilized; AIT advisors present.\n",
+    "historical_analogies_to_flag": [
+      "1996 Taiwan Strait Crisis (likely over-cited by modal ensemble)",
+      "2022 Pelosi visit response (likely over-cited)"
+    ],
+    "historical_analogies_to_exclude": [
+      "WWII Pacific island-hopping (genre-incorrect for modern PRC planning)"
+    ],
+    "red_team_question": "Propose Red's opening move for the first 7 days of the crisis. Be specific about action, units, timeline, and intended effect. Cite the doctrine passages that informed your choice.\n"
+  },
+  "config": {
+    "modal_claude_model": "claude-sonnet-4-6",
+    "modal_gpt_model": "gpt-5.5",
+    "heavy_claude_model": "claude-opus-4-7",
+    "judge_claude_model": "claude-sonnet-4-6",
+    "judge_gpt_model": "gpt-5",
+    "embedding_model": "BAAI/bge-base-en-v1.5",
+    "doctrine_top_k": 6,
+    "modal_ensemble_n": 8,
+    "off_dist_k": 3,
+    "tier": 2
+  },
+  "config_hash": "2abd6e5bc4e15db9eadac52755a3a61df9427da91d07f360ffce7603b9b04a50",
+  "prompt_versions": {
+    "agent_summary.md": "8b0b4137db3e75c53262053261ebd4f63f7b7ab6",
+    "blue_curator.md": "6e93f5036902408e36cc486784583eecf7a63e08",
+    "convergence_summary.md": "fe66609c30aaa2a375934f6ccab29f38194ad295",
+    "importance_score.md": "edb222d0a909f7696ea14901f23a9d39b0805b61",
+    "judge_off_dist_check.md": "e39e0fe581272ccbee0ac9ddcdf5d1cf41b57737",
+    "judge_plausibility.md": "6e96d77ffbb28a6b265804d5a62f6a71312ddce7",
+    "modal_red.md": "dea36ef5c760536dffa9f33dfd6c2157f8678817",
+    "off_distribution.md": "b086c5ea23d0efe53d6c6630b55ac18d5c7224c6",
+    "red_planner_persona.md": "47603b3aae8f20d0e4f7e5af9c1c92285067c5c6",
+    "reflection_insights.md": "9622757c6f6eae5cc96ab16689cfeeb8de0caf62",
+    "reflection_questions.md": "a8c494010f30f6c8f76b9f95ab91fbb7cb5736a0",
+    "sibling_expansion.md": "8e6c9866bcb1f4e1bd00d00e055d8127cddf64df"
+  }
+}

@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import time
 from collections import Counter
 from pathlib import Path
@@ -1823,7 +1824,14 @@ def _render_rerun_button(run: dict | None) -> None:
     Uses the loaded run's Stage-3 convergence summary as input, calls
     `src.pipeline.adversarial.generate_off_distribution`, and stores the
     resulting proposals in `st.session_state` so they survive reruns.
+
+    Hidden in DEMO_MODE — the public Streamlit Cloud deploy has no API keys
+    and must not call out to model providers. The button being absent is the
+    affordance: viewers can read the run, the audit log, and the curator
+    output, but cannot mutate state.
     """
+    if _is_demo_mode():
+        return
     rerun_col, status_col = st.columns([1, 4])
     with rerun_col:
         clicked = st.button(
@@ -2015,7 +2023,32 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 _PAGE_ICON_PATH = _REPO_ROOT / "src" / "public" / "cube.png"
 
 
+def _is_demo_mode() -> bool:
+    """Demo mode = no live API calls, read from tracked demo/ artifacts.
+
+    Set DEMO_MODE=1 (or any truthy value) to enable. Used by the public
+    Streamlit Cloud deploy. Side effects:
+      - Re-run button is hidden (no API keys exposed at runtime).
+      - RUN_ARTIFACTS_DIR points at demo/ with one tracked run.
+      - MEMORY_DB_PATH points at demo/audit_excerpt.db (one run's calls).
+    """
+    val = os.environ.get("DEMO_MODE", "")
+    return val.lower() in ("1", "true", "yes", "on")
+
+
+def _apply_demo_paths() -> None:
+    """Re-route the loader to demo/ artifacts. Call once at app start."""
+    demo_runs = _REPO_ROOT / "demo"
+    demo_db = _REPO_ROOT / "demo" / "audit_excerpt.db"
+    if demo_runs.exists():
+        os.environ.setdefault("RUN_ARTIFACTS_DIR", str(demo_runs))
+    if demo_db.exists():
+        os.environ.setdefault("MEMORY_DB_PATH", str(demo_db))
+
+
 def main() -> None:
+    if _is_demo_mode():
+        _apply_demo_paths()
     icon = str(_PAGE_ICON_PATH) if _PAGE_ICON_PATH.exists() else None
     st.set_page_config(
         page_title="Adversarial-Distribution Red Team",
