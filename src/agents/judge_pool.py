@@ -332,9 +332,25 @@ def _coerce_parsed(result: dict[str, Any], schema: type[BaseModel]) -> Any:
 def _format_proposal(proposal: dict[str, Any]) -> str:
     """Render a proposal dict for inclusion in a judge prompt.
 
-    Strip the synthetic `proposal_id` key — the judge does not need it and it adds noise.
+    Strip system-level metadata that biases the judge:
+      - `proposal_id` (synthetic uuid; pure noise)
+      - `persona_id` (which Red planner authored it — judge would otherwise know
+        whether the move came from rocket-force-doctrinaire vs political-officer
+        and anchor on persona stereotype)
+      - `parent_proposal_id` / `expansion_axis` / `tree_depth` (tree-search
+        metadata — telling the judge "this is an actor-axis sibling at depth 1"
+        biases the gambit-level analysis the off-dist check is supposed to do)
+    The judge sees only the move *content* — title, summary, actions, justification —
+    and rates from there.
     """
-    redacted = {k: v for k, v in proposal.items() if k != "proposal_id"}
+    REDACTED_KEYS = {
+        "proposal_id",
+        "persona_id",
+        "parent_proposal_id",
+        "expansion_axis",
+        "tree_depth",
+    }
+    redacted = {k: v for k, v in proposal.items() if k not in REDACTED_KEYS}
     return json.dumps(redacted, indent=2, sort_keys=True, default=str)
 
 

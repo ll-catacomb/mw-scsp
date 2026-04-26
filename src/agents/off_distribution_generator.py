@@ -122,6 +122,12 @@ class OffDistributionGenerator(GenerativeAgent):
             data = json.loads(result["raw_text"])
             proposals = OffDistributionProposals.model_validate(data).proposals
 
+        # Defensive truncation: the prompt asks for K, but the schema has no
+        # max-length and a model that overshoots silently 5×s downstream judge
+        # cost (5 judges × 2 questions per extra proposal). The contract is "k
+        # is an upper bound" — enforce it here.
+        proposals = proposals[:k]
+
         out: list[dict[str, Any]] = []
         for p in proposals:
             d = p.model_dump()

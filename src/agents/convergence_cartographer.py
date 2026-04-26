@@ -119,9 +119,28 @@ class ConvergenceCartographer(GenerativeAgent):
 
     @staticmethod
     def _scenario_query(scenario: dict[str, Any]) -> str:
+        """Build the BGE-embedded recall query.
+
+        Mirrors `src/pipeline/modal_ensemble.py::_build_doctrine_query` — the
+        scenario YAMLs use `situation` / `red_team_question` / `red_strategic_goals` /
+        `red_force` (verified across both shipped scenarios), NOT `summary` /
+        `description`. The previous title-only query degraded recall discrimination
+        on multi-variant scenario corpora (e.g. multiple PLA-titled scenarios), which
+        is exactly the pre-demo prep PROJECT_SPEC.md §13.1 directs. Concatenating the
+        substantive scenario tokens lands PLA / Taiwan / amphibious / IRGC / Hezbollah
+        keywords into the embedding so cross-run reflection retrieval can discriminate.
+        """
         title = scenario.get("title") or scenario.get("scenario_id") or "scenario"
-        summary = scenario.get("summary") or scenario.get("description") or ""
-        return f"Convergence patterns relevant to {title}. {summary}".strip()
+        parts: list[str] = [f"Convergence patterns relevant to {title}."]
+        if situation := (scenario.get("situation") or "").strip():
+            parts.append(situation)
+        if rtq := (scenario.get("red_team_question") or "").strip():
+            parts.append(rtq)
+        if goals := scenario.get("red_strategic_goals"):
+            parts.append("Red strategic goals: " + "; ".join(str(g) for g in goals))
+        if red_force := (scenario.get("red_force") or "").strip():
+            parts.append(f"Red force: {red_force}")
+        return "\n\n".join(parts)
 
 
 def _format_moves(modal_moves: list[dict[str, Any]]) -> str:

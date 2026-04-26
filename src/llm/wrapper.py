@@ -46,6 +46,7 @@ from openai import RateLimitError as OpenAIRateLimitError
 from pydantic import BaseModel, ValidationError
 from tenacity import (
     AsyncRetrying,
+    retry_if_exception,
     retry_if_exception_type,
     stop_after_attempt,
     wait_random_exponential,
@@ -151,14 +152,48 @@ def _prompt_hash(system: str, user: str) -> str:
     return h.hexdigest()
 
 
+# Conservative fallback rate for models not in PRICE_TABLE — the highest entry
+# (Opus 4.7 input / GPT-5.5 output). Cost-cap enforcement uses this so an
+# unvendored / mistyped / future-snapshot model id can't silently bypass the
+# safety net. Real cost may be lower; this errs in favour of flagging early.
+_FALLBACK_RATE_IN_PER_1M = 5.00
+_FALLBACK_RATE_OUT_PER_1M = 30.00
+
+# Cap how often we warn per process so a runaway loop on an unpriced model
+# doesn't drown the audit log; one warning is enough for the operator to act.
+_unpriced_warned: set[str] = set()
+
+
 def _price(model: str, input_tokens: int | None, output_tokens: int | None) -> float | None:
-    """USD cost for a call. Returns None if model isn't priced or tokens unknown."""
+    """USD cost for a call.
+
+    Returns None only when token counts are missing (refusals, malformed responses).
+    For models missing from PRICE_TABLE — typically an unvendored snapshot id, a
+    mistyped HEAVY_*_MODEL env var, or a future model that hasn't been added —
+    we WARN and fall back to a conservative high rate so the cost-cap stays
+    load-bearing. SQL `SUM(cost_usd)` skips NULL rows entirely (the COALESCE
+    in `_check_cost_cap` only handles the all-NULL case, not per-row NULLs),
+    so silently returning None here would let unpriced calls accumulate
+    against $0 — the exact failure mode the cap exists to prevent.
+    """
     if input_tokens is None or output_tokens is None:
         return None
     rates = PRICE_TABLE.get(model)
     if rates is None:
-        return None
-    rin, rout = rates
+        if model not in _unpriced_warned:
+            _unpriced_warned.add(model)
+            logger.warning(
+                "model %r not in PRICE_TABLE; using conservative fallback "
+                "(%s/%s per 1M tokens). Add the model to PRICE_TABLE to "
+                "restore exact accounting; cost cap remains enforced via the "
+                "fallback.",
+                model,
+                _FALLBACK_RATE_IN_PER_1M,
+                _FALLBACK_RATE_OUT_PER_1M,
+            )
+        rin, rout = _FALLBACK_RATE_IN_PER_1M, _FALLBACK_RATE_OUT_PER_1M
+    else:
+        rin, rout = rates
     return (input_tokens * rin + output_tokens * rout) / 1_000_000
 
 
@@ -199,6 +234,32 @@ def _is_retryable_status(exc: Exception) -> bool:
     code = getattr(exc, "status_code", None)
     if isinstance(code, int) and code in _RETRYABLE_STATUS:
         return True
+    return False
+
+
+def _is_retryable_anthropic(exc: BaseException) -> bool:
+    """Predicate for tenacity: retry transient Anthropic errors only.
+
+    Includes RateLimitError / APITimeoutError / APIConnectionError unconditionally
+    (these are by-construction transient), and APIStatusError ONLY when the HTTP
+    status is in the retryable set (429 + 5xx). Without the per-call status check,
+    `retry_if_exception_type(AnthropicAPIStatusError)` would retry 6× on 401
+    (auth), 403 (forbidden), 422 (unprocessable), and other client-side bugs —
+    masking real config errors as transient outages.
+    """
+    if isinstance(exc, _ANTHROPIC_RETRYABLE):
+        return True
+    if isinstance(exc, AnthropicAPIStatusError):
+        return _is_retryable_status(exc)
+    return False
+
+
+def _is_retryable_openai(exc: BaseException) -> bool:
+    """Same predicate as _is_retryable_anthropic, for the OpenAI exception family."""
+    if isinstance(exc, _OPENAI_RETRYABLE):
+        return True
+    if isinstance(exc, OpenAIAPIStatusError):
+        return _is_retryable_status(exc)
     return False
 
 
@@ -261,31 +322,25 @@ async def _call_anthropic(
         common_kwargs["temperature"] = temperature
 
     async for attempt in AsyncRetrying(
-        retry=retry_if_exception_type(_ANTHROPIC_RETRYABLE)
-        | retry_if_exception_type(AnthropicAPIStatusError),
+        retry=retry_if_exception(_is_retryable_anthropic),
         wait=wait_random_exponential(multiplier=2, min=4, max=60),
         stop=stop_after_attempt(6),
         reraise=True,
     ):
         with attempt:
-            try:
-                if response_format is not None:
-                    # SDK helper: parse() converts the Pydantic model to a JSON Schema, sends
-                    # output_config, and parses the result back into the model.
-                    resp = await client.messages.parse(
-                        **common_kwargs,
-                        output_format=response_format,
-                    )
-                    # parsed_output is set when stop_reason='end_turn' and parsing succeeded.
-                    parsed = getattr(resp, "parsed_output", None)
-                    text = parsed.model_dump_json() if parsed else _join_anthropic_text(resp)
-                else:
-                    resp = await client.messages.create(**common_kwargs)
-                    text = _join_anthropic_text(resp)
-            except AnthropicAPIStatusError as e:
-                if not _is_retryable_status(e):
-                    raise
-                raise
+            if response_format is not None:
+                # SDK helper: parse() converts the Pydantic model to a JSON Schema, sends
+                # output_config, and parses the result back into the model.
+                resp = await client.messages.parse(
+                    **common_kwargs,
+                    output_format=response_format,
+                )
+                # parsed_output is set when stop_reason='end_turn' and parsing succeeded.
+                parsed = getattr(resp, "parsed_output", None)
+                text = parsed.model_dump_json() if parsed else _join_anthropic_text(resp)
+            else:
+                resp = await client.messages.create(**common_kwargs)
+                text = _join_anthropic_text(resp)
 
     refusal = None
     stop_reason = getattr(resp, "stop_reason", None)
@@ -336,34 +391,28 @@ async def _call_openai(
         common_kwargs["temperature"] = temperature
 
     async for attempt in AsyncRetrying(
-        retry=retry_if_exception_type(_OPENAI_RETRYABLE)
-        | retry_if_exception_type(OpenAIAPIStatusError),
+        retry=retry_if_exception(_is_retryable_openai),
         wait=wait_random_exponential(multiplier=1, min=2, max=60),
         stop=stop_after_attempt(6),
         reraise=True,
     ):
         with attempt:
-            try:
-                if response_format is not None:
-                    resp = await client.chat.completions.parse(
-                        **common_kwargs,
-                        response_format=response_format,
-                    )
-                    msg = resp.choices[0].message
-                    if msg.refusal:
-                        return "", str(msg.refusal), None, None
-                    parsed = getattr(msg, "parsed", None)
-                    text = parsed.model_dump_json() if parsed else (msg.content or "")
-                else:
-                    resp = await client.chat.completions.create(**common_kwargs)
-                    msg = resp.choices[0].message
-                    if msg.refusal:
-                        return "", str(msg.refusal), None, None
-                    text = msg.content or ""
-            except OpenAIAPIStatusError as e:
-                if not _is_retryable_status(e):
-                    raise
-                raise
+            if response_format is not None:
+                resp = await client.chat.completions.parse(
+                    **common_kwargs,
+                    response_format=response_format,
+                )
+                msg = resp.choices[0].message
+                if msg.refusal:
+                    return "", str(msg.refusal), None, None
+                parsed = getattr(msg, "parsed", None)
+                text = parsed.model_dump_json() if parsed else (msg.content or "")
+            else:
+                resp = await client.chat.completions.create(**common_kwargs)
+                msg = resp.choices[0].message
+                if msg.refusal:
+                    return "", str(msg.refusal), None, None
+                text = msg.content or ""
 
     usage = getattr(resp, "usage", None)
     in_tok = getattr(usage, "prompt_tokens", None) if usage else None
@@ -532,6 +581,10 @@ def _persist(
     in_tok: int | None, out_tok: int | None, latency_ms: int, cost_usd: float | None,
     db_path: Path | None,
 ) -> None:
+    # CRITICAL: split persistence and cap-check into two separate transactions.
+    # If they share a single `with connect()` block, raising CostCapExceeded inside
+    # the block causes the context manager to roll back the row that triggered the
+    # cap — destroying the audit trail of *which call* blew the budget.
     with connect(db_path) as conn:
         conn.execute(
             """
@@ -550,4 +603,13 @@ def _persist(
                 datetime.now(timezone.utc).isoformat(),
             ),
         )
+    # Row is committed. Now check the cap in a fresh transaction; if this raises,
+    # the audit row above is preserved.
+    # NOTE on concurrency (#5 in the second cloud review): the cost-cap check is
+    # against persisted rows only; in-flight concurrent calls are not counted.
+    # Per-provider semaphores in the wrapper bound the actual fan-out (Anthropic=8,
+    # OpenAI=16), so the worst-case overshoot per cycle is bounded by
+    # max_concurrency × max_call_cost. Set RUN_COST_CAP_USD with this headroom
+    # in mind; the cap is best-effort, not transactional.
+    with connect(db_path) as conn:
         _check_cost_cap(conn, run_id)

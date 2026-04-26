@@ -23,10 +23,13 @@ from src.memory.store import connect, init_db
 from src.pipeline.schemas import ModalMoveSchema
 
 # Path resolved from this file's location so the module works regardless of cwd.
+# Pass the absolute path to logged_completion — relative paths fail prompt-version
+# hashing (records `missing:modal_red.md` in prompt_version) when the orchestrator
+# is invoked from a directory other than the repo root.
 _PROMPT_PATH = (
     Path(__file__).resolve().parents[1] / "prompts" / "modal_red.md"
 )
-_PROMPT_PATH_STR = str(_PROMPT_PATH.relative_to(Path(__file__).resolve().parents[2]))
+_PROMPT_PATH_STR = str(_PROMPT_PATH)
 
 # Match the frontmatter delimiters used by every prompt file in src/prompts/.
 _FRONTMATTER_RE = re.compile(r"\A---\s*\n.*?\n---\s*\n", re.DOTALL)

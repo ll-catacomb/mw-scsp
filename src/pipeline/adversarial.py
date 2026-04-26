@@ -29,6 +29,7 @@ call agent) directly.
 from __future__ import annotations
 
 import json
+import logging
 import os
 from typing import Any, Callable
 
@@ -38,6 +39,8 @@ from src.memory.store import MemoryStore, connect, init_db
 from src.personas.index import load_index as load_persona_index
 from src.personas.select import select_for_scenario
 from src.pipeline.tree_search import TreeSearchConfig, grow_persona_tree
+
+logger = logging.getLogger(__name__)
 
 
 async def generate_off_distribution(
@@ -104,10 +107,24 @@ async def generate_off_distribution(
             _persist_proposals(proposals, run_id)
             return proposals
 
-    # Fallback: legacy single-call OffDistributionGenerator (Tier 2 default before personas).
+    # Fallback: legacy single-call OffDistributionGenerator. Reached when:
+    #  (a) PERSONA_K=0 was set explicitly (escape hatch), OR
+    #  (b) the persona corpus failed to load, OR
+    #  (c) no persona is tagged `applies-to: <scenario_id>` for the active scenario.
+    # Default OFF_DIST_K is 3, NOT 10 — TASK_LEDGER documents that K=10 with Opus
+    # 4.7 reasoning-mode hangs past tenacity's 12-min retry window. Setting 3 keeps
+    # the fallback functional out-of-the-box; operators can crank via env var.
     from src.agents.off_distribution_generator import OffDistributionGenerator
 
-    fallback_k = k if k is not None else int(os.environ.get("OFF_DIST_K", "10"))
+    fallback_k = k if k is not None else int(os.environ.get("OFF_DIST_K", "3"))
+    logger.warning(
+        "off-distribution: persona path skipped (PERSONA_K=%s, eligible=0); "
+        "falling back to legacy single-call OffDistributionGenerator with k=%d. "
+        "Add a persona file with applies-to: %s to use the persona path.",
+        os.environ.get("PERSONA_K", "6"),
+        fallback_k,
+        scenario_id,
+    )
     generator = OffDistributionGenerator(embed=embed, store=mem)
     proposals = await generator.propose(
         convergence_summary=convergence_summary,

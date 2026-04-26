@@ -107,7 +107,7 @@ def _pipeline_config() -> dict:
         "embedding_model": _embedding_model_id(),
         "doctrine_top_k": 6,
         "modal_ensemble_n": 8,
-        "off_dist_k": int(os.environ.get("OFF_DIST_K", "10")),
+        "off_dist_k": int(os.environ.get("OFF_DIST_K", "3")),
         "tier": 2,
     }
 
@@ -331,9 +331,17 @@ async def run_pipeline(scenario_path: str, run_id: str | None = None) -> str:
         (out_dir / "convergence.md").write_text(
             _format_convergence_md(narration), encoding="utf-8"
         )
-        (out_dir / "clusters.json").write_text(
-            json.dumps(narration, indent=2, ensure_ascii=False), encoding="utf-8"
-        )
+        # convergence.json is the canonical Tier-2 artifact the UI loader reads first
+        # (run_loader.py:225). The Cartographer's full ConvergenceNarration shape
+        # lives here. clusters.json was written here historically with the same
+        # content; the UI falls through to fixtures.MOCK_CONVERGENCE when this file
+        # is missing because clusters.json shape (Tier-1 raw) doesn't match
+        # ConvergenceNarration's keys.
+        narration_json = json.dumps(narration, indent=2, ensure_ascii=False)
+        (out_dir / "convergence.json").write_text(narration_json, encoding="utf-8")
+        # Keep clusters.json as a back-compat alias so any older artifact reader
+        # (or post-mortem scripts pointed at older runs) still finds the data.
+        (out_dir / "clusters.json").write_text(narration_json, encoding="utf-8")
         (out_dir / "candidates.json").write_text(
             json.dumps(proposals, indent=2, ensure_ascii=False), encoding="utf-8"
         )

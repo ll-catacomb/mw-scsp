@@ -17,12 +17,20 @@ from pydantic import BaseModel, Field
 
 
 class ModalAction(BaseModel):
-    """One discrete action in a modal Red move's execution plan."""
+    """One discrete action in a modal Red move's execution plan.
+
+    `timeline_days` is `int | str`: the prompt asks for an integer day offset, but
+    Anthropic and OpenAI both routinely emit natural-language ranges like
+    "1-7", "T+72h", "Day 4". Strict `int` would fail Stage-2 parsing on those
+    outputs. The Cartographer and judges read this field for context, not
+    arithmetic, so accepting strings preserves audit fidelity at the cost of
+    one downstream coercion if anyone needs the integer form.
+    """
 
     actor: str
     action: str
     target: str
-    timeline_days: int
+    timeline_days: int | str
     purpose: str
 
 
