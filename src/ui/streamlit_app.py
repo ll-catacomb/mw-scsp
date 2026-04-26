@@ -14,11 +14,20 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import sys
 import time
 from collections import Counter
 from pathlib import Path
 from statistics import median
 from typing import Any
+
+# Streamlit Cloud runs this file with cwd = repo root but does NOT add the
+# root to sys.path, so `from src.ui.run_loader import ...` fails with
+# ModuleNotFoundError. Prepend the repo root before the package imports so
+# the same code runs locally (`uv run streamlit run ...`) and on cloud.
+_REPO_ROOT_FOR_PATH = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT_FOR_PATH) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT_FOR_PATH))
 
 import plotly.express as px
 import plotly.graph_objects as go
