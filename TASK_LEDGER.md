@@ -17,6 +17,38 @@ End-to-end pipeline shipped: Stage 3 (Cartographer narration) → Stage 4 (off-d
 **Tier 2 environment notes:**
 - Bumping `RUN_COST_CAP_USD` to ~2.50 for the run is necessary; default 1.10 is below the spec's expected ~$1.00–1.50 plus headroom.
 - `default_embedder()` lives in `orchestrator.py`; lazy-loads `BAAI/bge-base-en-v1.5` and applies the BGE asymmetric query prefix only for `is_query=True`. Override the model id via `MEMORY_EMBEDDING_MODEL`.
+- **Use `HEAVY_CLAUDE_MODEL=claude-sonnet-4-6`, NOT the spec default `claude-opus-4-7`**, until extended-thinking config is wired up. Opus 4.7 reasoning-mode generates K=10 structured proposals so slowly the request hangs past tenacity's 12-min retry window. Sonnet finishes the same call in <60s. The spec's stated preference for Opus on hard stages is a future Tier 3 question — see open question below.
+- **Use `OFF_DIST_K=3`, NOT default 10**, for the demo runs that landed. K=10 with the existing prompt repeatedly stalled (could not isolate whether token volume or schema shape; K=3 lands cleanly in <5min). The brief flagged K=10 might not surface enough outliers anyway, so 3 is a sane demo default until the prompt + schema get tuned. Knob is env-driven.
+- **`judge_pool.py` `max_tokens=4096`, NOT 512.** GPT-5 reasoning tokens consumed all 512 of the original budget on the first run, returning 0 content and a `LengthFinishReasonError`. Same issue as Opus — reasoning models need headroom or they emit empty completions. Fixed. Note this also affects future judges if the model changes.
+
+## Tier 2 runs that landed (squash-merge fingerprint)
+
+End-to-end on the live system, all artifacts present, all 27 tests green:
+
+| run_id | scenario | survivors / K | cost | notes |
+|---|---|---|---|---|
+| `f0e61815-…` | taiwan_strait_spring_2028 | 3/3 | $0.95 | Tier-2 first complete end-to-end |
+| `f137c64d-…` | israel_me_cascade_2026 | 2/3 | $1.025 | RA-4 scenario — works as authored |
+| `499d1ed1-…` | taiwan_strait_spring_2028 | 3/3 | $0.935 | 2nd Taiwan; Cartographer recall returned 0 cross-run because filter was `memory_types=["reflection"]` and reflection isn't built yet |
+| `7ce1d69b-…` | taiwan_strait_spring_2028 | 3/3 | $0.986 | 4th run, after loosening Cartographer recall to `memory_types=None` — `cross_run_observations` now populates with 5 substantive cross-run patterns. **This is the demo moment per PROJECT_SPEC §13.2.** |
+
+Per-run stage counts match the spec exactly: `modal_ensemble=8`, `3_convergence=1`, `off_distribution=1`, `5_judging=30` (3 proposals × 5 judges × 2 questions). Plus per-run `memory_creation` rows from importance scoring (one per agent observation) and `doctrine-router` only when modal-grounding pass-1 returns <2 hits.
+
+The 4th-run cross-run-observations content (verbatim, abridged) shows the Cartographer surfacing a **provider-family distributional split** as a stable cross-run pattern: Claude instances converge on Dongsha-seizure-with-conditional-withdrawal, GPT instances converge on CCG-law-enforcement-quarantine. Plus four more patterns: kinetic-first openings systematically avoided; cyber/space subordinated to maritime framing; specific recurring absences (decapitation, Kinmen/Matsu primary, economic warfare, nuclear signaling); conditional-withdrawal-tied-to-dialogue is anchored in specific training-data literature (an *interpretive* claim, worth flagging in demo register).
+
+Total Tier-2 spend: ~$3.90 across 4 runs + ~$0.62 across early failed runs = ~$4.5.
+
+## Tier 2 follow-ups (post-merge)
+
+### From `feature/pipeline` Tier 2
+
+- **Reflection module not yet shipped.** `feature/memory` owns this. Until then, `convergence_cartographer.narrate_convergence` retrieves `memory_types=None` (both observations and reflections) so cross-run patterns surface from raw observations. When reflection lands, consider tightening the filter back to `["reflection"]` only, OR keep it permissive and let Park et al. importance weighting do the prioritization.
+- **K=3 vs K=10.** Demo runs use K=3. K=10 hung repeatedly on the off_distribution call; couldn't isolate whether the SDK's parse() implementation gets stuck on large nested-list structured outputs, whether tenacity's retry hides a real schema-validation failure, or whether the timeout itself needs to grow past 120s. Worth investigating once feature/memory and feature/doctrine are merged so the off_distribution prompt itself can be iterated. Knob: `OFF_DIST_K`.
+- **HEAVY_CLAUDE_MODEL=claude-sonnet-4-6 in practice, not opus-4-7.** Opus-4-7 reasoning-mode hangs on K-multi structured output. To restore the spec's preference for Opus on hard stages, the wrapper would need to pass an `extended_thinking` budget config (Anthropic SDK supports it) so Opus can complete its internal reasoning within the timeout. Out of scope for Tier 2; flagged for Tier 3 demo-prep.
+- **Bridge agents in `src/agents/`.** `OffDistributionGenerator` and `JudgePool` were authored in this worktree because `feature/memory`'s versions were stubs. Interfaces match the memory worktree's brief; on merge, take feature/memory's version. Pipeline-side imports remain unchanged.
+- **Wrapper edits authorized by Tier 2** (parallel to Tier 1's OpenAI patch): Anthropic Opus-4-7 added to a no-temperature allowlist; APIConnectionError added to retryable types. See "Cross-worktree footprint" at top of file. Both edits are in service of long-pipeline reliability and are safe to keep on merge.
+- **convergence_cartographer.py edits authorized by Tier 2**: `_Cluster.member_move_ids: list[Any] → list[str]` (Anthropic strict JSON schema rejects `Any`); narration `max_tokens` 2048→4096; recall filter loosened (see first bullet). Owned nominally by feature/memory; merge-time conflict resolution should keep these fixes regardless of which side wins on the surrounding code.
+- **judge_pool max_tokens 512→4096.** GPT-5 reasoning consumed all of 512 on the first run, returning empty content. Worth verifying the same headroom is used if a different judge model is configured — particularly on the cheap-Haiku side.
 
 ## Current Tier: 2 (Tier 1 squash-merged: memory 504e3b3, doctrine fdcefe6, pipeline 66c72d7, ui 73eb290)
 

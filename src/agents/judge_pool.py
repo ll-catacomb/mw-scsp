@@ -129,7 +129,7 @@ class JudgePool(GenerativeAgent):
             system=plaus_system,
             user=plaus_user,
             temperature=temperature,
-            max_tokens=512,
+            max_tokens=4096,
             prompt_path=plaus_path,
             response_format=PlausibilityRating,
         )
@@ -141,7 +141,7 @@ class JudgePool(GenerativeAgent):
             system=check_system,
             user=check_user,
             temperature=temperature,
-            max_tokens=512,
+            max_tokens=4096,
             prompt_path=check_path,
             response_format=WouldHaveGenerated,
         )
