@@ -147,8 +147,15 @@ class RedPlanner(GenerativeAgent):
         # parse failure after one retry; ProviderRefusal on refusal). Don't second-guess.
         parsed: _PersonaProposals = result["parsed"]
         assert parsed is not None, "logged_completion returned parsed=None despite response_format"
+        # Defensive truncation: schema has no max-length on `proposals`, and Opus 4.7
+        # has been observed padding with a placeholder entry ({"summary": "disregard",
+        # "intended_effect": "x", actions=[]}) when its first K-1 proposals were
+        # strong but it felt obligated to return K. The contract is "k is an upper
+        # bound" — enforce here so the placeholder doesn't become a leaf and ride
+        # to the judges (5 × 2 = 10 wasted LLM calls per spurious leaf).
+        proposals = parsed.proposals[:k]
         out: list[dict[str, Any]] = []
-        for p in parsed.proposals:
+        for p in proposals:
             d = p.model_dump()
             d["proposal_id"] = str(uuid.uuid4())
             d["persona_id"] = self.persona.id
@@ -208,8 +215,10 @@ class RedPlanner(GenerativeAgent):
         parsed: _SiblingProposals = result["parsed"]
         assert parsed is not None, "logged_completion returned parsed=None despite response_format"
         parent_depth = int(parent_proposal.get("tree_depth", 0))
+        # Defensive truncation — same rationale as propose_initial.
+        siblings = parsed.siblings[:k]
         out: list[dict[str, Any]] = []
-        for s in parsed.siblings:
+        for s in siblings:
             d = s.model_dump()
             d["proposal_id"] = str(uuid.uuid4())
             d["persona_id"] = self.persona.id
