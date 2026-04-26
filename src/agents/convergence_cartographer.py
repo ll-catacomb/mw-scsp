@@ -105,7 +105,9 @@ class ConvergenceCartographer(GenerativeAgent):
             system=system,
             user=user,
             temperature=0.4,
-            max_tokens=4096,
+            # Opus 4.7 narrations of 8 modal moves with notable_absences + cross_run
+            # blocks routinely exceed 4096; saw EOF-mid-string at column 10712.
+            max_tokens=16384,
             prompt_path=path,
             response_format=ConvergenceNarration,
         )

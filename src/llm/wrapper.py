@@ -210,8 +210,32 @@ _ANTHROPIC_NO_TEMPERATURE = frozenset({
 })
 
 
+# OpenAI reasoning models reject any `temperature` other than 1.0 ("400: Unsupported
+# value: 'temperature' does not support N with this model. Only the default (1) value is
+# supported."). Pipeline's modal_ensemble._pick_temperature handles this for the modal
+# path by pinning instance>=4 to 1.0; this set lets the wrapper enforce the constraint
+# globally so other call sites (judges, the off-distribution generator) don't have to
+# re-discover it. Add new reasoning-mode OpenAI models to the set as they ship.
+_OPENAI_NO_TEMPERATURE = frozenset({
+    "gpt-5",
+    "gpt-5.5",
+    "gpt-5.5-pro",
+    "gpt-5-mini",
+    "o1",
+    "o1-mini",
+    "o3",
+    "o3-mini",
+    "o4",
+    "o4-mini",
+})
+
+
 def _anthropic_accepts_temperature(model: str) -> bool:
     return model not in _ANTHROPIC_NO_TEMPERATURE
+
+
+def _openai_accepts_temperature(model: str) -> bool:
+    return model not in _OPENAI_NO_TEMPERATURE
 
 
 async def _call_anthropic(
@@ -301,6 +325,16 @@ async def _call_openai(
         {"role": "user", "content": user},
     ]
 
+    # GPT-5/5.5/o-series reject any `temperature` other than 1.0. Skip the param entirely
+    # when the model can't accept the caller's requested value; SDK defaults to 1.0.
+    common_kwargs: dict[str, Any] = {
+        "model": model,
+        "messages": messages,
+        "max_completion_tokens": max_tokens,
+    }
+    if _openai_accepts_temperature(model):
+        common_kwargs["temperature"] = temperature
+
     async for attempt in AsyncRetrying(
         retry=retry_if_exception_type(_OPENAI_RETRYABLE)
         | retry_if_exception_type(OpenAIAPIStatusError),
@@ -312,10 +346,7 @@ async def _call_openai(
             try:
                 if response_format is not None:
                     resp = await client.chat.completions.parse(
-                        model=model,
-                        messages=messages,
-                        temperature=temperature,
-                        max_completion_tokens=max_tokens,
+                        **common_kwargs,
                         response_format=response_format,
                     )
                     msg = resp.choices[0].message
@@ -324,12 +355,7 @@ async def _call_openai(
                     parsed = getattr(msg, "parsed", None)
                     text = parsed.model_dump_json() if parsed else (msg.content or "")
                 else:
-                    resp = await client.chat.completions.create(
-                        model=model,
-                        messages=messages,
-                        temperature=temperature,
-                        max_completion_tokens=max_tokens,
-                    )
+                    resp = await client.chat.completions.create(**common_kwargs)
                     msg = resp.choices[0].message
                     if msg.refusal:
                         return "", str(msg.refusal), None, None

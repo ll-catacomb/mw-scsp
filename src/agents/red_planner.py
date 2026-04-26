@@ -135,7 +135,7 @@ class RedPlanner(GenerativeAgent):
             system=system,
             user=user,
             temperature=self.temperature,
-            max_tokens=4096,
+            max_tokens=16384,  # Opus + multi-proposal JSON outgrows 4096 (saw EOF mid-string)
             prompt_path=path,
             response_format=_PersonaProposals,
         )
@@ -185,7 +185,7 @@ class RedPlanner(GenerativeAgent):
             system=system,
             user=user,
             temperature=self.temperature,
-            max_tokens=4096,
+            max_tokens=16384,  # Opus + multi-proposal JSON outgrows 4096 (saw EOF mid-string)
             prompt_path=path,
             response_format=_SiblingProposals,
         )
