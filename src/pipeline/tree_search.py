@@ -26,6 +26,7 @@ parent) keep the tree small. Configurable via env vars:
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -35,6 +36,8 @@ import numpy as np
 from src.agents.red_planner import RedPlanner
 from src.memory.store import MemoryStore
 from src.personas.index import Persona
+
+logger = logging.getLogger(__name__)
 
 
 # Negative-prompting axes. Each expansion round picks one axis; the persona
@@ -139,7 +142,10 @@ async def grow_persona_tree(
 
     planners = {p.id: RedPlanner(persona=p, embed=embed, store=store) for p in personas}
 
-    # Phase 1: initial generation, parallel across personas.
+    # Phase 1: initial generation, parallel across personas. Use return_exceptions so a
+    # single persona's failure (refusal, parse error after retry, transient SDK fault)
+    # does not cancel the rest of the layer. Failures are logged and the tree continues
+    # with whatever survived. This is the architectural commitment: degrade gracefully.
     initial_tasks = [
         planners[p.id].propose_initial(
             scenario=scenario,
@@ -149,22 +155,32 @@ async def grow_persona_tree(
         )
         for p in personas
     ]
-    initial_results = await asyncio.gather(*initial_tasks)
+    initial_results = await asyncio.gather(*initial_tasks, return_exceptions=True)
     all_proposals: list[dict[str, Any]] = []
-    for batch in initial_results:
+    for persona, batch in zip(personas, initial_results, strict=True):
+        if isinstance(batch, BaseException):
+            # Persona failed mid-batch — log and continue. Pipeline orchestrator's
+            # audit log already captures the wrapper's call-level rows; this is the
+            # tree-level summary.
+            logger.warning(
+                "persona %s phase-1 failed: %s",
+                persona.id,
+                batch,
+                exc_info=batch,
+            )
+            continue
         all_proposals.extend(batch)
 
     if cfg.tree_depth <= 1:
         return all_proposals
 
     # Phase 2: expansion. For each root, pick an axis (cycle through EXPANSION_AXES)
-    # and generate siblings along it. Tracks sibling history per parent so the
-    # negative-prompting "do not duplicate" works.
+    # and generate siblings along it. Same return_exceptions=True policy as phase 1.
     current_layer = list(all_proposals)
     for depth in range(1, cfg.tree_depth):
         next_layer_tasks = []
+        next_layer_parents: list[dict[str, Any]] = []  # parallel to next_layer_tasks
         sibling_histories: dict[str, list[dict[str, Any]]] = {}
-        axis_pick: dict[str, tuple[str, str]] = {}
 
         for i, parent in enumerate(current_layer):
             persona_id = parent["persona_id"]
@@ -175,7 +191,6 @@ async def grow_persona_tree(
             axis_name, axis_description = EXPANSION_AXES[
                 (i + depth) % len(EXPANSION_AXES)
             ]
-            axis_pick[parent["proposal_id"]] = (axis_name, axis_description)
             sibling_histories[parent["proposal_id"]] = []
 
             next_layer_tasks.append(
@@ -190,11 +205,22 @@ async def grow_persona_tree(
                     sibling_history=sibling_histories[parent["proposal_id"]],
                 )
             )
+            next_layer_parents.append(parent)
 
-        # Run all expansions for this depth concurrently.
-        layer_results = await asyncio.gather(*next_layer_tasks)
+        # Run all expansions for this depth concurrently. Failures degrade gracefully
+        # — a parent whose expansion fails simply contributes no siblings.
+        layer_results = await asyncio.gather(*next_layer_tasks, return_exceptions=True)
         next_layer: list[dict[str, Any]] = []
-        for batch in layer_results:
+        for parent, batch in zip(next_layer_parents, layer_results, strict=True):
+            if isinstance(batch, BaseException):
+                logger.warning(
+                    "persona %s expansion of parent %s failed: %s",
+                    parent.get("persona_id"),
+                    parent.get("proposal_id"),
+                    batch,
+                    exc_info=batch,
+                )
+                continue
             next_layer.extend(batch)
         all_proposals.extend(next_layer)
         current_layer = next_layer

@@ -14,6 +14,7 @@ Two methods:
 from __future__ import annotations
 
 import json
+import logging
 import os
 import uuid
 from typing import Any
@@ -26,6 +27,8 @@ from src.llm.wrapper import logged_completion
 from src.memory.retrieval import Memory
 from src.memory.store import MemoryStore
 from src.personas.index import Persona
+
+logger = logging.getLogger(__name__)
 
 AGENT_ROLE = "Red-side planner (persona)"
 
@@ -139,9 +142,11 @@ class RedPlanner(GenerativeAgent):
             prompt_path=path,
             response_format=_PersonaProposals,
         )
-        parsed: _PersonaProposals = result["parsed"] or _PersonaProposals.model_validate(
-            json.loads(result["raw_text"])
-        )
+        # logged_completion's contract: when response_format is set, parsed is either a
+        # validated pydantic instance or the call raised (StructuredOutputParseError on
+        # parse failure after one retry; ProviderRefusal on refusal). Don't second-guess.
+        parsed: _PersonaProposals = result["parsed"]
+        assert parsed is not None, "logged_completion returned parsed=None despite response_format"
         out: list[dict[str, Any]] = []
         for p in parsed.proposals:
             d = p.model_dump()
@@ -151,7 +156,16 @@ class RedPlanner(GenerativeAgent):
             d["expansion_axis"] = None
             d["tree_depth"] = 0
             out.append(d)
-            await self.observe(_proposal_memory_text(d), source_run_id=run_id)
+            # observe() runs the importance-score LLM call. Failure there must NOT
+            # discard the proposal — the proposal is the load-bearing artifact;
+            # importance is metadata for cross-run reflection. Log and continue.
+            try:
+                await self.observe(_proposal_memory_text(d), source_run_id=run_id)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning(
+                    "observe() failed for persona %s proposal %s: %s",
+                    self.persona.id, d["proposal_id"], exc,
+                )
         return out
 
     async def propose_siblings(
@@ -189,9 +203,10 @@ class RedPlanner(GenerativeAgent):
             prompt_path=path,
             response_format=_SiblingProposals,
         )
-        parsed: _SiblingProposals = result["parsed"] or _SiblingProposals.model_validate(
-            json.loads(result["raw_text"])
-        )
+        # See contract note in propose_initial — `parsed` is always a validated instance
+        # when response_format is set or the wrapper raised already.
+        parsed: _SiblingProposals = result["parsed"]
+        assert parsed is not None, "logged_completion returned parsed=None despite response_format"
         parent_depth = int(parent_proposal.get("tree_depth", 0))
         out: list[dict[str, Any]] = []
         for s in parsed.siblings:
@@ -202,7 +217,14 @@ class RedPlanner(GenerativeAgent):
             d["expansion_axis"] = axis_name
             d["tree_depth"] = parent_depth + 1
             out.append(d)
-            await self.observe(_proposal_memory_text(d), source_run_id=run_id)
+            # See note in propose_initial — observe failure must not drop the proposal.
+            try:
+                await self.observe(_proposal_memory_text(d), source_run_id=run_id)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning(
+                    "observe() failed for persona %s sibling %s: %s",
+                    self.persona.id, d["proposal_id"], exc,
+                )
         return out
 
     @staticmethod

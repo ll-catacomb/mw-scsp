@@ -304,6 +304,43 @@ def test_red_planner_does_not_import_doctrine_retrieve():
             )
 
 
+def test_off_distribution_stage_has_no_doctrine_imports_anywhere():
+    """The architectural commitment in PROJECT_SPEC.md §5 is that the off-distribution
+    *stage as a whole* — not just one file — does not retrieve doctrine. A future edit
+    that adds `from src.doctrine.retrieve import ...` to a sibling module would silently
+    break the epistemological claim. This test walks every file in the off-distribution
+    stage so the per-file AST checks above can't be circumvented by routing the import
+    through a sibling.
+    """
+    import ast
+    import pathlib
+
+    src_root = pathlib.Path(__file__).resolve().parents[1] / "src"
+    files_in_off_distribution_stage = [
+        src_root / "pipeline" / "adversarial.py",
+        src_root / "agents" / "red_planner.py",
+        src_root / "pipeline" / "tree_search.py",
+    ]
+    for src_path in files_in_off_distribution_stage:
+        assert src_path.exists(), f"expected file is missing: {src_path}"
+        tree = ast.parse(src_path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom):
+                module = node.module or ""
+                assert "doctrine" not in module.lower(), (
+                    f"{src_path.relative_to(src_root)} imports from {module!r}; "
+                    "the off-distribution stage as a whole must not retrieve doctrine "
+                    "(PROJECT_SPEC.md §5)."
+                )
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    assert "doctrine" not in alias.name.lower(), (
+                        f"{src_path.relative_to(src_root)} imports {alias.name!r}; "
+                        "the off-distribution stage as a whole must not retrieve doctrine "
+                        "(PROJECT_SPEC.md §5)."
+                    )
+
+
 # ---- expected leaf-count math -------------------------------------------------
 
 
