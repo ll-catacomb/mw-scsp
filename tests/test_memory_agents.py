@@ -193,10 +193,18 @@ async def test_judge_pool_runs_five_judges_with_independent_calls(
     fake = _make_router(
         {
             "5_judge_plausibility": _PlausibilityRating(
-                plausibility=4, rationale="defensible move"
+                adjacency_found=True,
+                adjacency_evidence="2024 PLA cross-strait exercise pattern",
+                leverage_named=True,
+                leverage_instrument="DF-26 brigade and named target list",
+                plausibility=4,
+                rationale="defensible move",
             ),
             "5_judge_off_dist_check": _OffDistCheck(
-                would_have_generated=False, rationale="outside default set"
+                central_gambit="decapitation feint via SOF on the southern coast",
+                central_gambit_in_my_default_set=False,
+                would_have_generated=False,
+                rationale="outside default set",
             ),
             "memory_creation": ImportanceRating(rating=4),
         }
@@ -248,9 +256,19 @@ async def test_judge_pool_family_rotation_on_odd_proposal_index(
     """
     fake = _make_router(
         {
-            "5_judge_plausibility": _PlausibilityRating(plausibility=3, rationale="ok"),
+            "5_judge_plausibility": _PlausibilityRating(
+                adjacency_found=True,
+                adjacency_evidence="generic PLA pattern",
+                leverage_named=True,
+                leverage_instrument="generic named instrument",
+                plausibility=3,
+                rationale="ok",
+            ),
             "5_judge_off_dist_check": _OffDistCheck(
-                would_have_generated=True, rationale="modal"
+                central_gambit="modal move",
+                central_gambit_in_my_default_set=True,
+                would_have_generated=True,
+                rationale="modal",
             ),
             "memory_creation": ImportanceRating(rating=3),
         }

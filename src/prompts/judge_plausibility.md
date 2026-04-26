@@ -63,7 +63,16 @@ Return strictly JSON conforming to the schema the caller specifies. Do not prefa
 
 ## Task
 
-Return a JSON object:
+Return a JSON object with these fields, **in this order** (the structured fields commit you to the calibration matrix BEFORE the score):
 
-- `plausibility` (integer, 1–5): your rating.
-- `rationale` (string, ≤ 100 words): the most important reason for this rating. Be specific to the move and the scenario; do not restate the rubric. **Your rationale must name BOTH (a) the operational adjacency you found, OR explicitly state "no adjacency found", AND (b) the specific leverage instrument named in the move, OR explicitly state "leverage hand-waved" if the move's central instrument is not named at the level of a specific identifiable thing.** If you rated 1 or 2, the rationale must name the specific capability/goal/constraint the move violates OR the specific reason for "no adjacency + hand-waved leverage." If you rated 4 or 5, the rationale must name the specific feature of Red's calculus the move matches.
+- `adjacency_found` (boolean): True iff Red has done anything within 1–2 doctrinal degrees of separation from this move. Set False for genuinely exotic moves; do not stretch to find an adjacency.
+- `adjacency_evidence` (string, ≤ 60 words): If adjacency_found=True, name the precedent — a public exercise pattern, a documented past operation, a named doctrinal concept Red has operationalized. If False, state `"no adjacency found"` and one sentence on why (what Red has *not* done that this move is asking it to do).
+- `leverage_named` (boolean): True iff the move's central instrument is named at the level of a specific identifiable thing (a named law, a named contract, a named electoral mechanism, a named financial instrument, a named unit, a named site). False if the leverage is hand-waved (`"UFWD pressure"`, `"BRI debt"`, `"lawfare"`, `"cyber attack"`, `"coalition fragmentation"` alone, with no specifics).
+- `leverage_instrument` (string, ≤ 60 words): If leverage_named=True, quote or paraphrase the specific instrument the move identifies. If False, state `"leverage hand-waved"` and one sentence on what was missing.
+- `plausibility` (integer, 1–5): your rating, **derived from the matrix**:
+  - adjacency YES + leverage YES → **3 or 4** (4 if adjacency is direct/recent)
+  - adjacency YES + leverage NO → **2** (the move is internally coherent but unbriefable as written)
+  - adjacency NO + leverage YES → **3** (genuinely exotic but unusually well-specified)
+  - adjacency NO + leverage NO → **1 or 2** (cannot be briefed)
+  - 5 is reserved for **modal** moves only — moves the ensemble would routinely propose.
+- `rationale` (string, ≤ 80 words): synthesis. Do NOT restate the rubric or the matrix. Explain what your specific findings of adjacency + leverage mean for THIS move and THIS scenario. If you rated 1 or 2, name the specific capability/goal/constraint the move violates OR the specific reason "no adjacency + hand-waved leverage" is fatal. If 4 or 5, name the specific feature of Red's calculus the move matches.

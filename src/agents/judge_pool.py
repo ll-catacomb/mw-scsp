@@ -36,13 +36,86 @@ JUDGE_ROLE = "Calibrated judge in adversarial-distribution red team"
 
 
 class _PlausibilityRating(BaseModel):
-    plausibility: int = Field(ge=1, le=5)
-    rationale: str
+    """Structured plausibility judgment.
+
+    The judge must commit to two boolean checks (adjacency + leverage rigor) and
+    name the supporting evidence BEFORE scoring. This forces the calibration matrix
+    in `judge_plausibility.md` to actually run rather than being implicit prose
+    that the LLM can flatline at plaus=3 with vague "I can imagine a justification"
+    reasoning. The persistence layer collapses these fields into a structured
+    rationale string the audit panel can read.
+    """
+
+    adjacency_found: bool = Field(
+        description="True iff Red has done anything within 1-2 doctrinal degrees of "
+        "this move. Set False for genuinely exotic moves; do not stretch to find an "
+        "adjacency."
+    )
+    adjacency_evidence: str = Field(
+        description="If adjacency_found=True: name the precedent (a public exercise "
+        "pattern, a documented past operation, a written doctrinal concept Red has "
+        "operationalized). If False: state 'no adjacency found' and explain why."
+    )
+    leverage_named: bool = Field(
+        description="True iff the move's central instrument is named at the level of "
+        "a specific identifiable thing (a named law, a named contract, a named "
+        "electoral mechanism, a named financial instrument, a named unit, a named "
+        "site). False if the leverage is hand-waved ('UFWD pressure', 'BRI debt', "
+        "'lawfare', 'cyber attack', 'coalition fragmentation' alone)."
+    )
+    leverage_instrument: str = Field(
+        description="If leverage_named=True: quote or paraphrase the specific "
+        "instrument the move identifies. If False: state 'leverage hand-waved' and "
+        "describe what was missing."
+    )
+    plausibility: int = Field(
+        ge=1,
+        le=5,
+        description="Per the calibration matrix: adjacency YES + leverage YES = 3-4; "
+        "adjacency YES + leverage NO = 2; adjacency NO + leverage YES = 3; "
+        "adjacency NO + leverage NO = 1-2.",
+    )
+    rationale: str = Field(
+        description="≤80 words synthesizing the two checks above into the bin. "
+        "Do not restate the rubric; explain what your specific findings of "
+        "adjacency and leverage mean for THIS move."
+    )
 
 
 class _OffDistCheck(BaseModel):
-    would_have_generated: bool
-    rationale: str
+    """Structured would-have-generated judgment.
+
+    The 'central gambit' check is the load-bearing piece — judges keep collapsing
+    "would I have generated this" into "do half its actions look familiar," which
+    flips the answer to YES on most moves and dissolves the survival filter. By
+    requiring the judge to identify the move's CENTRAL gambit (actor + instrument
+    + intended effect) and commit to whether THAT specific construction is in
+    their default set, we keep the would_have_generated answer anchored to the
+    right level of analysis.
+    """
+
+    central_gambit: str = Field(
+        description="≤30 words naming the move's CENTRAL gambit: actor + instrument + "
+        "intended effect. Not a list of every action; the load-bearing operational "
+        "concept. Example: 'CCG-led law-enforcement quarantine framing of cross-"
+        "strait traffic to coerce 1992 Consensus offer.'"
+    )
+    central_gambit_in_my_default_set: bool = Field(
+        description="True iff the CENTRAL gambit (not the actions, not the framing, "
+        "not the rhetorical posture — the gambit) is one you would have proposed "
+        "yourself. A move that adds a third-state proxy, inverts a sequencing "
+        "assumption, uses a non-default instrument, or shifts the operative clock "
+        "is a False even if half its actions look familiar."
+    )
+    would_have_generated: bool = Field(
+        description="The output signal. Should equal central_gambit_in_my_default_set "
+        "in nearly all cases — if you find them disagreeing, you are letting "
+        "action-level familiarity override gambit-level distinctiveness."
+    )
+    rationale: str = Field(
+        description="≤80 words. Name the actor, instrument, sequencing choice, or "
+        "framing that drove your judgment. Do not say 'it felt familiar/unfamiliar.'"
+    )
 
 
 def _default_judge_claude_model() -> str:
@@ -144,20 +217,46 @@ class _JudgeInstance(GenerativeAgent):
         off = _coerce_parsed(off_result, _OffDistCheck)
 
         proposal_id = proposal.get("proposal_id", "unknown")
+
+        # Fold the structured calibration fields into the rationale string so the
+        # SQL judgments table and the UI audit panel see *why* the bin was chosen
+        # — not just the synthesis prose. The structured booleans are the load-
+        # bearing piece; the original string rationale is the (now-shorter)
+        # synthesis on top of them.
+        plaus_rationale = (
+            f"adjacency: {'YES — ' + plaus.adjacency_evidence if plaus.adjacency_found else 'NO — ' + plaus.adjacency_evidence}\n"
+            f"leverage: {'NAMED — ' + plaus.leverage_instrument if plaus.leverage_named else 'HAND-WAVED — ' + plaus.leverage_instrument}\n"
+            f"synthesis: {plaus.rationale}"
+        )
+        off_rationale = (
+            f"central gambit: {off.central_gambit}\n"
+            f"in my default set: {'YES' if off.central_gambit_in_my_default_set else 'NO'}\n"
+            f"rationale: {off.rationale}"
+        )
+
         judgment = {
             "judgment_id": str(uuid.uuid4()),
             "proposal_id": proposal_id,
             "judge_id": self.agent_id,
             "plausibility": int(plaus.plausibility),
-            "rationale": plaus.rationale,
+            "rationale": plaus_rationale,
             "would_have_generated": bool(off.would_have_generated),
+            # Extra structured fields surfaced to the UI / menu builder. Not
+            # persisted to the judgments SQL table (schema unchanged); the
+            # llm_calls audit row has the full pydantic dump in parsed_output.
+            "off_dist_rationale": off_rationale,
+            "central_gambit": off.central_gambit,
+            "adjacency_found": bool(plaus.adjacency_found),
+            "leverage_named": bool(plaus.leverage_named),
         }
 
         calibration_text = (
             f"{self.agent_id} ({self.family}) rated proposal {proposal_id} "
-            f"plausibility={judgment['plausibility']}, "
+            f"plausibility={judgment['plausibility']} "
+            f"(adjacency={'Y' if plaus.adjacency_found else 'N'}, "
+            f"leverage={'Y' if plaus.leverage_named else 'N'}), "
             f"would_have_generated={judgment['would_have_generated']}. "
-            f"Plausibility rationale: {plaus.rationale}"
+            f"Central gambit: {off.central_gambit}"
         )
         await self.observe(calibration_text, source_run_id=run_id)
         return judgment

@@ -42,7 +42,9 @@ Return strictly JSON. Do not preface with prose.
 
 ## Task
 
-Return a JSON object:
+Return a JSON object with these fields, **in this order** (the structured fields commit you to the gambit-level analysis BEFORE the boolean answer):
 
-- `would_have_generated` (boolean): true if you would have proposed this move yourself, false otherwise.
-- `rationale` (string, ≤ 80 words): one or two sentences naming the specific feature of the move that placed it inside or outside your default set. Name the actor, instrument, sequencing choice, or framing that drove your judgment — not "it felt familiar/unfamiliar."
+- `central_gambit` (string, ≤ 30 words): name the move's CENTRAL gambit — the load-bearing operational concept = actor + instrument + intended effect. NOT a list of every action; the single conceit on which the move depends. Example: `"CCG-led law-enforcement quarantine framing of cross-strait traffic to coerce a 1992 Consensus offer"`.
+- `central_gambit_in_my_default_set` (boolean): True iff the central gambit you just named — actor + instrument + intended effect *together* — is one you would have proposed yourself. A move that adds a third-state proxy, inverts a sequencing assumption, uses a non-default instrument, or shifts the operative clock is **False** even if half its actions look familiar. Action-level overlap is not gambit-level inclusion.
+- `would_have_generated` (boolean): the output signal. **Should equal `central_gambit_in_my_default_set` in nearly all cases.** If you find them disagreeing, you are letting action-level familiarity override gambit-level distinctiveness — re-anchor on the gambit.
+- `rationale` (string, ≤ 80 words): one or two sentences naming the specific feature of the move (actor, instrument, sequencing choice, or framing) that placed the gambit inside or outside your default set. Do not say `"it felt familiar/unfamiliar"`.
