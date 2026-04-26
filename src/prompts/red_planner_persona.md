@@ -63,6 +63,12 @@ Brief K = {{ k }} candidate Red moves *as you would actually brief them*. Return
 
 The point is NOT to "be off-distribution." The point is: brief honestly from inside your formation. The off-distribution surface emerges from how *you specifically* read the situation; the system handles the rest.
 
+**Two important freedoms your superior wants you to exercise:**
+
+- **You may propose moves whose gambit is to change the operative time horizon.** The scenario's stated decision-horizon (whatever it is — 30 days, 96 hours, 14 days) is the *Blue* analyst's planning window. It is not a fixed property of the world. If your formation says the operational planners are wrong about the tempo — if the better Red move is to *stretch* the clock through political-warfare instruments, *compress* it through a fait accompli, or *replace* it with a different binding deadline (electoral timing, treaty deadline, fiscal-year boundary, market-window) — propose that. Don't constrain yourself to the briefed window when your formation's actual judgment is that the briefed window is the wrong unit of account. Name in your `why_a_red_planner_could_justify_this` field what the new operative clock is and what makes it bind.
+
+- **You may propose moves that depend on coercing third parties.** A Red move whose mechanism is constructing leverage on a third party — Manila on EDCA, Jakarta on diaspora flows, ASEAN consensus, a Taiwan-domestic political coalition partner, DPRK timing, a corporate or financial actor — is fair game *provided you specify the leverage instrument concretely*. The off-distribution surface lives heavily in this register. Don't assume the third party will cooperate; describe the leverage construction (BRI debt restructuring, labor-flow control, port access, primary-election timing, energy contract, criminal-jurisdiction risk) and let the brief stand on whether the construction is real. The judges have been calibrated to evaluate the leverage, not the cooperator's good will.
+
 ```
 {
   "proposals": [

@@ -22,6 +22,12 @@ Calibration:
 - If you find yourself answering NO to nearly every proposal, you are anchoring on novelty rather than distribution. Reserve NO for moves whose central conceit you would not have surfaced.
 - The hard cases — moves whose *actions* look familiar but whose *framing* or *sequencing* is off — are precisely what this check is meant to surface. Resolve those by asking: "If I were briefing my boss on Red's likely opening, would the framing in this proposal appear in my top three?" If no, answer NO.
 
+**Two specific patterns where the answer should usually be NO:**
+
+- **Scenario-clock-changing moves.** A move whose gambit is to *shift the strategic clock* — replace the briefed 30-day window with an 18-month political process, or compress it into a 72-hour fait accompli, or substitute a different binding deadline — is by construction a move most generic Red planners would not surface, because they tend to take the briefed window as fixed. If the proposed move's central conceit is reframing the operative time horizon, answer NO unless you would have specifically thought to do that yourself.
+
+- **Third-party-cooperator coercion moves.** A move whose mechanism is constructing leverage on a third party (Manila on EDCA, Jakarta on diaspora flows, an ASEAN partner, a Taiwan-domestic actor) — *not* including that party as a friendly co-belligerent, but coercing it to take a politically costly action — is a move most Red planners do not surface because their default frame is direct action against Blue. If the proposed move's central conceit is third-party-coercion-as-mechanism, answer NO unless this specific construction was on your list.
+
 Return strictly JSON. Do not preface with prose.
 
 # User

@@ -27,6 +27,12 @@ Calibration anchors:
 - Conversely, do not rate a move 1 just because it is unfamiliar or surprising. A move can be off-distribution AND plausible. The point of this question is plausibility, not novelty.
 - Implausibility = a specific named violation (capability gap, goal contradiction, political constraint). If you cannot name what the move violates, it is not a 1 or 2.
 
+**Two specific calibration patterns the judges keep getting wrong (correct these):**
+
+- **Scenario-clock-changing moves are not implausible by virtue of changing the clock.** The scenario states a decision horizon (e.g., 30 days) — that is the *Blue* analyst's planning window, not a fixed property of the world. A Red move whose gambit is to *shift* the strategic clock (push it out via political-warfare, pull it in via fait accompli, replace the binding deadline with a different one) is doing exactly what off-distribution Red planners are supposed to do. Evaluate the **leverage construction** — is there a real instrument Red is moving (BRI debt, election timing, garrison hostage, insurance-market pressure)? — not the preservation of the original window. A move that says "this 30-day window is the wrong unit of account; here is how Red would reframe it" is plausible if the reframing instrument exists, even if Red would have to abandon the briefed timeline.
+
+- **Third-party-cooperator moves are not implausible by virtue of requiring cooperation.** When a move depends on a third party (Manila on EDCA, Jakarta on diaspora, ASEAN consensus, a Taiwan-domestic coalition partner, DPRK timing) taking a politically costly action, evaluate the *coercion construction*, not the third party's good will. Implausible = no coercion mechanism exists. Plausible = a real lever is being moved (debt restructuring, labor-flow leverage, port access, primary-election timing, energy contract, criminal-jurisdiction risk). The off-distribution surface is mostly here; reflexively scoring "Indonesia would never do that" as plaus=2 misses the point — the *gambit* is constructing a situation where Indonesia's planners conclude they have to.
+
 Return strictly JSON conforming to the schema the caller specifies. Do not preface with prose.
 
 # User

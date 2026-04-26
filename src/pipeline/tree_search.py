@@ -38,39 +38,55 @@ from src.personas.index import Persona
 
 
 # Negative-prompting axes. Each expansion round picks one axis; the persona
-# generates siblings of the parent that differ specifically along it.
+# generates siblings of the parent that differ specifically along it. Descriptions
+# are tightened with bright-line tests after the Tier-2.5 smoke test surfaced
+# loose interpretations (e.g. a `domain`-axis sibling that stayed kinetic but
+# shifted target — that's the `target` axis, not `domain`).
 EXPANSION_AXES: list[tuple[str, str]] = [
     (
         "actor",
-        "Substitute the principal actor or instrument. If the original used a "
-        "primary force (e.g. PLAN surface, IRGC missiles), use a different "
-        "actor entirely (CCG, civilian fleet, third-state proxy, non-state "
-        "ally). Don't keep the same actor with a different unit — change the "
-        "category of actor.",
+        "Substitute the *category* of actor or instrument — not just the unit. "
+        "If the original used a primary military force (PLAN surface, PLARF, "
+        "IRGC missiles), use a different category entirely: CCG, maritime "
+        "militia, civilian fleet (RoRo, COSCO), third-state proxy, non-state "
+        "ally, commercial entity, intelligence service (MSS / MOIS / UFWD), "
+        "diplomatic apparatus. Bright-line: swapping one PLA brigade for "
+        "another PLA brigade is NOT an actor-axis shift; swapping PLAN for "
+        "CCG IS.",
     ),
     (
         "timing",
-        "Invert the sequencing or timing. If the original was a fast opening "
-        "salvo, propose a slow-burn variant. If the original telegraphed in "
-        "advance, propose a no-warning variant — and vice versa. If the "
-        "original committed early, propose a hold-position variant. The "
-        "*shape* of the operation in time should differ.",
+        "Invert the *temporal shape* of the operation. Bright-line: a faster "
+        "or slower version of the same shape is NOT a timing shift; the shape "
+        "itself must change. Examples of real shape changes: fast single-pulse "
+        "→ sustained slow burn; telegraphed-before-action → no-warning "
+        "execute; single-decision-point → cascade-of-windows; opening-move → "
+        "deferred-trigger waiting for a Blue commitment; immediate-kinetic → "
+        "long political process that re-frames the deadline itself.",
     ),
     (
         "domain",
-        "Move to a different operational domain. If the original was kinetic, "
-        "propose a non-kinetic variant (cyber-on-substrate, lawfare, "
-        "information operations, financial/insurance market, attribution "
-        "engineering). If the original was non-kinetic, propose a kinetic "
-        "alternative that produces the same effect through different means.",
+        "Cross the **kinetic ↔ non-kinetic** boundary. Bright-line: a kinetic "
+        "move with a different target is NOT a domain shift. The domain axis "
+        "is specifically about whether the operation is fires/maneuver/landing "
+        "vs. cyber-on-substrate / lawfare / information operations / financial "
+        "or insurance-market manipulation / attribution engineering / supply-"
+        "chain coercion. If the original was kinetic, the sibling must produce "
+        "its strategic effect through a non-kinetic mechanism. If the original "
+        "was non-kinetic, the sibling must reach the same goal through kinetic "
+        "means — same goal, different domain of action.",
     ),
     (
         "target",
-        "Shift the primary target. If the original targeted the adversary's "
-        "main forces, target the connective tissue (logistics, command, "
-        "political coalition, third-party leverage). If the original "
-        "targeted the operational system, target a decisive point the "
-        "adversary's planning hasn't articulated.",
+        "Shift from the adversary's main forces to the *connective tissue* — "
+        "or vice versa. Bright-line: same domain, same actor category, but "
+        "what is being *acted upon* changes function. Examples: from carrier "
+        "battle group → US-Philippines basing access politics; from Taiwan's "
+        "armed forces → Taiwan's energy supply contracts; from PLA Rocket "
+        "Force inventory → PLA Rocket Force command authorities; from "
+        "Hezbollah's PGM stockpile → Lebanon's banking system. The sibling "
+        "must hit a *decisive point the adversary's planning has not "
+        "articulated*, not a different unit of the same target class.",
     ),
 ]
 

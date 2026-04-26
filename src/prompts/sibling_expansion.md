@@ -49,12 +49,23 @@ These are sibling moves your colleagues (other personas, or earlier siblings of 
 
 {{ axis_description }}
 
+### Bright-line self-check
+
+Before you finalize each sibling, run this check on it:
+
+- **`actor` axis:** "Have I changed the *category* of actor (PLAN surface → CCG / civilian fleet / third-state proxy / non-state ally / commercial entity), or only swapped one unit of the same category for another?" If only the unit changed, the sibling does not satisfy the actor axis.
+- **`timing` axis:** "Have I inverted the *temporal shape* of the operation (fast→slow, telegraphed-before→no-warning, single-pulse→sustained, opening-move→delayed-trigger)? A move that compresses or extends within the same shape is NOT a timing shift — the shape itself must change."
+- **`domain` axis:** "Have I shifted the operational domain across the **kinetic ↔ non-kinetic** line — to or from cyber-on-substrate, lawfare, information operations, financial / insurance market, attribution engineering? **A kinetic strike with a different target is NOT a domain shift.** A non-kinetic move with a different target is NOT a domain shift either. Domain shifts cross the kinetic boundary specifically."
+- **`target` axis:** "Have I shifted from the adversary's main forces to the *connective tissue* (logistics, command, political coalition, third-party leverage, decisive points the adversary's planning hasn't articulated)? Same domain, same actor, different *function* of what is being acted upon."
+
+If your sibling fails the check for the assigned axis, discard it and produce a different one — even if it is a strong move along a *different* axis. The point of the round is to surface the option space along this specific dimension.
+
 ## Task
 
 Generate K = {{ k }} sibling proposals that:
 
 1. Pursue the same general strategic goal as the original.
-2. Differ from the original specifically along the axis named above.
+2. Differ from the original specifically along the axis named above (and pass the bright-line self-check above).
 3. Differ from each other along the same axis.
 4. Are still defensible from your own formation (not pure provocation).
 
