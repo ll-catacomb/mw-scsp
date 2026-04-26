@@ -12,5 +12,6 @@ Outputs from the eight parallel research agents defined in `/RESEARCH_PROMPTS.md
 | `ra6-cross-family-api.md` | Current model ids, pricing, structured-output | `.env.example`, `pyproject.toml`, cost cap config |
 | `ra7-chroma-rag.md` | Working ChromaDB / sentence-transformers config | `src/doctrine/ingest.py`, `src/doctrine/retrieve.py` |
 | `ra8-multi-agent-frameworks.md` | Framework survey (justify rolling our own) | Tier 1 architecture sanity-check |
+| `ra9-plan-blue-curator-and-presentation.md` | Plan: Blue interpretive curator stage + SCSP Boston demo prep | /ultraplan input, demo prep, post-demo extension |
 
 Read these before iterating prompts in `src/prompts/` or scenario YAMLs. Treat as authoritative for the topics they cover; flag disagreements in `TASK_LEDGER.md` rather than silently overriding.

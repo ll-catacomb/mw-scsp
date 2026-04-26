@@ -236,6 +236,16 @@ def load_run(run_id: str) -> dict:
     if not menu:
         menu = list(fixtures.MOCK_MENU)
 
+    branch_curation = _read_json(run_path / "branch_curation.json") or {}
+    if branch_curation:
+        ratings_by_pid = {
+            r.get("proposal_id"): r for r in branch_curation.get("ratings", [])
+        }
+        for entry in menu:
+            rating = ratings_by_pid.get(entry.get("proposal_id"))
+            if rating:
+                entry["branch_rating"] = rating
+
     menu_md = _read_text(run_path / "menu.md")
 
     calls = _llm_calls_for(run_id)
@@ -257,6 +267,7 @@ def load_run(run_id: str) -> dict:
         "judgments": judgments,
         "menu": menu,
         "menu_md": menu_md,
+        "branch_curation": branch_curation,
         "llm_calls": calls,
         "is_real": is_real,
     }

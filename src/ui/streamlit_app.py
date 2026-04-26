@@ -535,16 +535,41 @@ def _render_proposal_card(proposal: dict, idx: int, expanded: bool = False) -> N
     surviving = bool(proposal.get("surviving"))
     surv_marker = "✓ surviving" if surviving else "✗ rejected"
     rejection = proposal.get("rejection_reason") or ""
+    branch_rating = proposal.get("branch_rating") or {}
 
     title = proposal.get("move_title", "(untitled)")
+    branch_prefix = ""
+    if branch_rating:
+        branch = branch_rating.get("branch", "?")
+        tier = branch_rating.get("wargame_prep_value", "?")
+        branch_prefix = f"[{branch} · {tier}] "
     header = (
-        f"**{title}** · median plaus {med:.1f} · {wgc}/{n_judges} would-have-generated"
+        f"{branch_prefix}**{title}** · median plaus {med:.1f} · {wgc}/{n_judges} would-have-generated"
         f" · {surv_marker}"
     )
     if rejection and not surviving:
         header += f" · _{rejection}_"
 
     with st.expander(header, expanded=expanded):
+        if branch_rating:
+            branch = branch_rating.get("branch", "?")
+            tier = branch_rating.get("wargame_prep_value", "?")
+            st.markdown(f"**Wargame-prep read ({branch}) — tier {tier}**")
+            for label, key in [
+                ("Assumption it breaks", "assumption_it_breaks"),
+                ("Cell to run it against", "cell_to_run_it_against"),
+                ("Question for players", "next_question_for_players"),
+                ("Branch concept stressed", "nearest_branch_concept_to_check"),
+                ("Where it overstates", "where_it_overstates"),
+                ("Curator's rationale", "rationale"),
+            ]:
+                val = (branch_rating.get(key) or "").strip()
+                if val:
+                    st.markdown(f"- *{label}:* {val}")
+            refer = (branch_rating.get("refer_to_other_cell") or "").strip()
+            if refer:
+                st.markdown(f"- *Refer to other cell:* {refer}")
+            st.markdown("---")
         st.markdown(proposal.get("summary", ""))
 
         if pattern := proposal.get("which_convergence_pattern_it_breaks"):
@@ -603,6 +628,7 @@ def render_menu_section(run: dict | None) -> None:
     menu = (run or {}).get("menu") or []
     surviving = [p for p in menu if p.get("surviving")]
     rejected = [p for p in menu if not p.get("surviving")]
+    branch_curation = (run or {}).get("branch_curation") or {}
 
     with st.expander(f"4 — Menu ({len(surviving)} surviving / {len(menu)} candidates)", expanded=True):
         st.caption(
@@ -610,6 +636,13 @@ def render_menu_section(run: dict | None) -> None:
             "judges said they would have generated the move themselves. "
             "These are the candidates the modal didn't reach."
         )
+
+        if branch_curation:
+            preamble = (branch_curation.get("preamble") or "").strip()
+            branch = branch_curation.get("branch", "?")
+            if preamble:
+                st.markdown(f"**Curator's read ({branch})**")
+                st.markdown(f"> {preamble}")
 
         _render_rerun_button(run)
 

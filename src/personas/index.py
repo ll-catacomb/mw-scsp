@@ -229,6 +229,11 @@ def load_index(root: Path | None = None, *, strict: bool = False) -> PersonaInde
     for path in sorted(base.rglob("*.md")):
         if path.name == "SCHEMA.md" or path.name.startswith("README"):
             continue
+        # Blue branch curator personas live under data/personas/branches/ and have
+        # a separate schema (no actor/formation/generation). They're loaded by
+        # src.personas.branches; skip them here so the Red loader doesn't trip.
+        if "branches" in path.relative_to(base).parts:
+            continue
         try:
             persona = parse_persona_file(path)
         except PersonaSchemaError as e:
