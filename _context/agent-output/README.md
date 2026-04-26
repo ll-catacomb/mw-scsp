@@ -13,5 +13,6 @@ Outputs from the eight parallel research agents defined in `/RESEARCH_PROMPTS.md
 | `ra7-chroma-rag.md` | Working ChromaDB / sentence-transformers config | `src/doctrine/ingest.py`, `src/doctrine/retrieve.py` |
 | `ra8-multi-agent-frameworks.md` | Framework survey (justify rolling our own) | Tier 1 architecture sanity-check |
 | `ra9-plan-blue-curator-and-presentation.md` | Plan: Blue interpretive curator stage + SCSP Boston demo prep | /ultraplan input, demo prep, post-demo extension |
+| `ra10-presentation-script-drafts.md` | 5-min beat-by-beat presentation script (Problem-First with cold-open LLM-convergence montage) + slide materials prep + Q&A | Demo day; rehearsal; modal-baseline slide content |
 
 Read these before iterating prompts in `src/prompts/` or scenario YAMLs. Treat as authoritative for the topics they cover; flag disagreements in `TASK_LEDGER.md` rather than silently overriding.
