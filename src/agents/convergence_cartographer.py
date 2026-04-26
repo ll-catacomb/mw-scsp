@@ -84,7 +84,12 @@ class ConvergenceCartographer(GenerativeAgent):
         Returns the parsed JSON object.
         """
         query = self._scenario_query(scenario)
-        prior_reflections = self.recall(query, k=8, memory_types=["reflection"])
+        # Tier 2 (pre-reflection): retrieve both observations and reflections so prior-run
+        # convergence summaries surface as cross-run material before feature/memory ships
+        # the reflection module. When reflections exist, they outscore raw observations
+        # via Park et al. importance weighting; until then, observations carry the cross-run
+        # signal on their own.
+        prior_reflections = self.recall(query, k=8, memory_types=None)
 
         path, system, user = load_prompt(
             "convergence_summary.md",

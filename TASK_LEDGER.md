@@ -29,6 +29,36 @@ End-to-end pipeline shipped: Stage 3 (Cartographer narration) → Stage 4 (off-d
 **Tier 2 environment notes:**
 - Bumping `RUN_COST_CAP_USD` to ~2.50 for the run is necessary; default 1.10 is below the spec's expected ~$1.00–1.50 plus headroom.
 - `default_embedder()` lives in `orchestrator.py`; lazy-loads `BAAI/bge-base-en-v1.5` and applies the BGE asymmetric query prefix only for `is_query=True`. Override the model id via `MEMORY_EMBEDDING_MODEL`.
+- **Use `HEAVY_CLAUDE_MODEL=claude-sonnet-4-6`, NOT the spec default `claude-opus-4-7`**, until extended-thinking config is wired up. Opus 4.7 reasoning-mode generates K=10 structured proposals so slowly the request hangs past tenacity's 12-min retry window. Sonnet finishes the same call in <60s. Future Tier-3 work: pass `extended_thinking` budget so Opus can complete reasoning within timeout.
+- **Use `OFF_DIST_K=3`, NOT default 10**, for the legacy single-call fallback path. The Tier-2.5 persona tree handles K via `PERSONA_INIT_K` × `PERSONA_EXPAND_K` instead.
+- **`judge_pool.py` `max_tokens=4096`, NOT 512.** GPT-5 reasoning tokens consumed all 512 of the original budget on the first run, returning empty content and `LengthFinishReasonError`. Reasoning models need output headroom. Fix re-applied to memory's `judge_pool.py` at the Tier-2.5 merge.
+
+## Tier 2 runs that landed on the live system (pre-Tier-2.5)
+
+End-to-end on the live system, all artifacts present, 38 tests green at the time:
+
+| run_id | scenario | survivors / K | cost | notes |
+|---|---|---|---|---|
+| `f0e61815-…` | taiwan_strait_spring_2028 | 3/3 | $0.95 | First complete end-to-end |
+| `f137c64d-…` | israel_me_cascade_2026 | 2/3 | $1.025 | RA-4 scenario — works as authored |
+| `499d1ed1-…` | taiwan_strait_spring_2028 | 3/3 | $0.935 | Cartographer recall returned 0 cross-run because filter was `memory_types=["reflection"]` and reflection isn't built yet |
+| `7ce1d69b-…` | taiwan_strait_spring_2028 | 3/3 | $0.986 | 4th run, after loosening recall to `memory_types=None` — `cross_run_observations` populates with 5 substantive cross-run patterns. **The demo moment per PROJECT_SPEC §13.2.** |
+
+Per-run stage counts match the spec: `modal_ensemble=8`, `3_convergence=1`, `off_distribution=1`, `5_judging=30` (3 proposals × 5 judges × 2 questions).
+
+The 4th-run cross-run observations surfaced a **provider-family distributional split** as a stable pattern: Claude instances converge on Dongsha-seizure-with-conditional-withdrawal, GPT instances converge on CCG-law-enforcement-quarantine. Plus four more patterns: kinetic-first openings systematically avoided; cyber/space subordinated to maritime framing; specific recurring absences (decapitation, Kinmen/Matsu primary, economic warfare, nuclear signaling); conditional-withdrawal-tied-to-dialogue anchoring is interpretive (worth flagging in demo register).
+
+Total pre-Tier-2.5 spend: ~$3.90 across 4 runs + ~$0.62 across early failed runs ≈ $4.5.
+
+The next live smoke test exercises the Tier-2.5 persona tree (default config: 36 leaves vs the K=3 path) — expected ~$2.50–$3.00.
+
+## Tier 2 follow-ups
+
+### From `feature/pipeline` Tier 2 (now resolved or deferred)
+
+- **Reflection module not yet shipped.** `feature/memory` owns this. Until then, `convergence_cartographer.narrate_convergence` retrieves `memory_types=None` (both observations and reflections) so cross-run patterns surface from raw observations. When reflection lands, consider tightening the filter back to `["reflection"]` or keep permissive and let Park et al. importance weighting prioritize.
+- **K-multi structured-output hangs.** Opus-4-7 reasoning-mode hangs on large nested-list structured outputs. The Tier-2.5 persona path sidesteps this by generating only 2-3 proposals per persona call (vs K=10 in one call). If the legacy single-call path is ever needed, run with Sonnet not Opus until extended-thinking is wired.
+- **judge_pool max_tokens 512→4096.** Re-applied to memory's `judge_pool.py` at the Tier-2.5 merge. Worth verifying the same headroom is used if a different judge model is configured — particularly on the cheap-Haiku side.
 
 ## Current Tier: 2 (Tier 1 squash-merged: memory 504e3b3, doctrine fdcefe6, pipeline 66c72d7, ui 73eb290)
 

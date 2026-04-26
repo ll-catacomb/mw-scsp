@@ -119,7 +119,10 @@ class _JudgeInstance(GenerativeAgent):
             system=plaus_sys,
             user=plaus_usr,
             temperature=self.temperature,
-            max_tokens=512,
+            # GPT-5 reasoning models consume the budget on reasoning tokens before
+            # emitting content; 512 returned empty under LengthFinishReasonError.
+            # See feature/pipeline Tier-2 follow-up notes in TASK_LEDGER.
+            max_tokens=4096,
             prompt_path=plaus_path,
             response_format=_PlausibilityRating,
         )
@@ -131,7 +134,7 @@ class _JudgeInstance(GenerativeAgent):
             system=off_sys,
             user=off_usr,
             temperature=self.temperature,
-            max_tokens=512,
+            max_tokens=4096,  # GPT-5 reasoning headroom (see plaus_task above).
             prompt_path=off_path,
             response_format=_OffDistCheck,
         )
