@@ -33,6 +33,22 @@ Calibration anchors:
 
 - **Third-party-cooperator moves are not implausible by virtue of requiring cooperation.** When a move depends on a third party (Manila on EDCA, Jakarta on diaspora, ASEAN consensus, a Taiwan-domestic coalition partner, DPRK timing) taking a politically costly action, evaluate the *coercion construction*, not the third party's good will. Implausible = no coercion mechanism exists. Plausible = a real lever is being moved (debt restructuring, labor-flow leverage, port access, primary-election timing, energy contract, criminal-jurisdiction risk). The off-distribution surface is mostly here; reflexively scoring "Indonesia would never do that" as plaus=2 misses the point — the *gambit* is constructing a situation where Indonesia's planners conclude they have to.
 
+**Anti-flatline calibration: do not default to 3.**
+
+3 is the median bin and easy to drift toward when a move is "internally coherent and briefable." That is not enough for a 3. Before you score, run two specific checks and let the answers fix the bin:
+
+1. **Demonstrated operational adjacency.** Has Red ever done anything within 1–2 doctrinal degrees of separation from this move? Name a precedent — a public exercise pattern, a documented past operation, a written doctrinal concept Red has invested in operationalizing. *No need for a perfect match*; an analogous action against an analogous target counts. If you can name an adjacency, the move floors at 3 (or higher if the adjacency is direct). If you **cannot name any adjacency**, the move is genuinely exotic and should land at 2 unless the leverage construction in (2) below is unusually rigorous.
+
+2. **Leverage-construction rigor.** Is the move's central instrument named at the level of *a specific identifiable thing being moved* (a named law, a named contract, a named electoral mechanism, a named financial instrument, a named unit, a named site)? Or is the leverage hand-waved ("UFWD pressure," "BRI debt," "lawfare," "cyber attack," "coalition fragmentation")? Hand-waved leverage on a clock-changing or third-party-cooperator move is a **named violation** — score 2. Specific leverage on the same move is plausible — score 3 or 4 depending on adjacency.
+
+The two checks combine like this:
+- adjacency YES + leverage rigor YES → 3 or 4 (4 if adjacency is direct/recent)
+- adjacency YES + leverage rigor NO → 2 (the move is internally coherent but unbriefable as written)
+- adjacency NO + leverage rigor YES → 3 (genuinely exotic but unusually well-specified)
+- adjacency NO + leverage rigor NO → 1 or 2 (cannot be briefed)
+
+If you find yourself rating every proposal exactly 3, you are not running these checks — you are anchoring on "anything coherent is plausible." 3 is *plausible-but-non-modal-with-named-leverage-or-named-adjacency*. It is not a default.
+
 Return strictly JSON conforming to the schema the caller specifies. Do not preface with prose.
 
 # User
@@ -50,4 +66,4 @@ Return strictly JSON conforming to the schema the caller specifies. Do not prefa
 Return a JSON object:
 
 - `plausibility` (integer, 1–5): your rating.
-- `rationale` (string, ≤ 100 words): the most important reason for this rating. Be specific to the move and the scenario; do not restate the rubric. If you rated 1 or 2, name the specific capability/goal/constraint the move violates. If you rated 4 or 5, name the specific feature of Red's calculus the move matches.
+- `rationale` (string, ≤ 100 words): the most important reason for this rating. Be specific to the move and the scenario; do not restate the rubric. **Your rationale must name BOTH (a) the operational adjacency you found, OR explicitly state "no adjacency found", AND (b) the specific leverage instrument named in the move, OR explicitly state "leverage hand-waved" if the move's central instrument is not named at the level of a specific identifiable thing.** If you rated 1 or 2, the rationale must name the specific capability/goal/constraint the move violates OR the specific reason for "no adjacency + hand-waved leverage." If you rated 4 or 5, the rationale must name the specific feature of Red's calculus the move matches.
